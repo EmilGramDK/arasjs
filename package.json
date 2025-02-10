@@ -1,6 +1,6 @@
 {
   "name": "arasjs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A JavaScript Library for building Aras Innovator Client Extensions",
   "main": "dist/arasjs.umd.js",
   "module": "dist/arasjs.es.js",
@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "build": "vite build",
-    "release": "npm run build && node ./updateVersion.js && npm publish"
+    "release": "npm run build && npm publish"
   },
   "devDependencies": {
     "tslib": "^2.8.1",
@@ -39,8 +39,7 @@
   "keywords": [
     "aras",
     "aras innovator",
-    "arasjs",
-    "arasjs example app"
+    "arasjs"
   ],
   "publishConfig": {
     "access": "public"
