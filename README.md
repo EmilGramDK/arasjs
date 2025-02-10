@@ -1,4 +1,4 @@
-# ArasJS - Aras Innovator Helper Library
+# ArasJS <a href="https://npmjs.com/package/arasjs"><img src="https://img.shields.io/npm/v/arasjs" alt="npm package"></a>
 
 ArasJS is a Library that make it easy to build Aras Innovator Client Extensions, by providing a lot of helper functions and types for the Aras Client-Side API directly to your editor.
 
@@ -30,7 +30,7 @@ To add the application to the **Table of Contents (TOC)**:
 2. Navigate to **TOC → Administration → Configuration → TOC Editor**.
 3. Add a new page as shown below:
 
-   ![TOC Configuration](https://github.com/EmilGramDK/create-arasjs/blob/81952512dfa8cdfa4951d146d0f88d2ed7e76a75/src/toc.png)
+   ![TOC Configuration](./toc.png)
 
 ### 3️⃣ Setup Aras Proxy
 
@@ -97,23 +97,30 @@ npm i arasjs
 Initialize ArasJS in your main file in your project:
 
 ```sh
+/// <reference types="arasjs-types/globals" />
+import { useArasProvider } from 'arasjs';
+
 useArasProvider().then(() => {
     <App />
 });
 ```
 
-Import the types reference to your main file in your project:
+## Example Usage
 
-```sh
-/// <reference types="arasjs-types/globals" />
-```
-
-## Examples
-
-**React**
+<details>
+  <summary><b>React: </b>main.tsx</summary>
 
 ```typescript
 // main.tsx
+/// <reference types="vite/client" />
+/// <reference types="arasjs-types/globals" />
+
+import "./app.css";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { useArasProvider } from "arasjs";
+import { App } from "./app";
+
 useArasProvider().then(() => {
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
@@ -123,14 +130,23 @@ useArasProvider().then(() => {
 });
 ```
 
-**Angular**
+</details>
+
+<details>
+  <summary><b>Angular: </b>main.ts</summary>
 
 ```typescript
-// main.ts
+import { bootstrapApplication } from "@angular/platform-browser";
+import { appConfig } from "./app/app.config";
+import { AppComponent } from "./app/app.component";
+import { useArasProvider } from "arasjs";
+
 useArasProvider().then(() => {
   bootstrapApplication(AppComponent, appConfig);
 });
 ```
+
+</details>
 
 ## License
 
