@@ -30,7 +30,7 @@ To add the application to the **Table of Contents (TOC)**:
 2. Navigate to **TOC → Administration → Configuration → TOC Editor**.
 3. Add a new page as shown below:
 
-   ![TOC Configuration](./toc.png)
+   ![TOC Configuration](https://github.com/EmilGramDK/arasjs/blob/bb682f1a580568618c196f178241d1baffa3cca8/toc.png)
 
 ### 3️⃣ Setup Aras Proxy
 
