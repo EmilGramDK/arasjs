@@ -5,6 +5,7 @@ import {
   SearchDialogFilter,
   SearchDialogOptions,
   SearchDialogResult,
+  ArasConfirmDialogParameters,
 } from "arasjs-types";
 import ArasProvider from "../provider";
 
@@ -25,7 +26,14 @@ export default class DialogService {
     }
   }
 
-  //fullMultiResponse
+  public async showConfirmDialog(
+    message: string,
+    options: ArasConfirmDialogParameters = {}
+  ): Promise<boolean> {
+    const result = await this.#arasModules.Dialog.confirm(message, options);
+    return result === "ok";
+  }
+
   public async showSearchDialog(options: SearchDialogOptions): Promise<SearchDialogResult | null> {
     const params: ArasDialogParameters = {
       title: options.title || "Search Dialog",

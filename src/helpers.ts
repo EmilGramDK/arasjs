@@ -5,6 +5,7 @@ export function throwError(message: string): never {
 
 export async function InitAras() {
   window.aras = window.aras || parent.aras || top?.aras;
+  window.ArasModules = top?.ArasModules || parent?.ArasModules;
   window.store = window.store || parent.store || top?.store;
 
   if (!window.aras)
@@ -17,6 +18,12 @@ export async function InitAras() {
   injectArasSpinner();
   setBaseUrl();
   await Promise.all([injectStylesAndScripts(), waitForDomReady()]);
+}
+
+export function SetArasReady() {
+  window.isArasReady = true;
+  const event = new Event("ArasReady");
+  window.dispatchEvent(event);
 }
 
 function setBaseUrl() {
@@ -70,11 +77,6 @@ async function injectStylesAndScripts() {
       type: "stylesheet",
       url: `../javascript/include.aspx?classes=common.min.css,cuiLayout.css`,
       id: "styles-common-layout",
-    },
-    {
-      type: "text/javascript",
-      url: `../javascript/include.aspx?classes=ArasModules,MainWindow`,
-      id: "script-aras-modules",
     },
     {
       type: "module",

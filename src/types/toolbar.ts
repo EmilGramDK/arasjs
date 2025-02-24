@@ -29,6 +29,7 @@ export interface toolbarItemT {
 export interface textItemT extends toolbarItemT {
   type: "textbox"; // Specific type for this interface
   value?: string;
+  size?: number;
 }
 
 export interface checkedItemT extends toolbarItemT {
@@ -51,12 +52,14 @@ export interface selectItemT extends toolbarItemT {
 }
 
 export interface menuItemT extends toolbarItemT {
-  type: "dropdownMenu"; // Specific type for this interface
-  children: Array<toolbarItemT>;
+  type: "dropdownMenu";
+  buttonCssClass?: string;
+  children: Array<ToolbarItem>;
 }
 
-export interface separatorItemT extends toolbarItemT {
-  type: "separator"; // Specific type for this interface
+export interface separatorItemT extends Omit<toolbarItemT, "id"> {
+  type: "separator";
+  id?: string; // Now optional
 }
 
 export type ToolbarItem =

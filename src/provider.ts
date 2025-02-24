@@ -57,12 +57,24 @@ export default class ArasProvider {
   }
 
   /** Convert XML Item to IOMItem object. */
-  public convertToIOMItem(item: XmlNode, action: string = "get"): Item {
+  public convertToIOMItem(item: XmlNode, action?: string): Item {
     const aras = this.getAras();
     const newItem = aras.newIOMItem(item.getAttribute("type"), "get");
     newItem.loadAML(item.xml);
-    newItem.setAction(action);
+    if (action) newItem.setAction(action);
     return newItem;
+  }
+
+  /** Fetch items by ID. */
+  public async fetchItemsByIds(
+    itemTypeName: string,
+    itemIds: string[],
+    select?: string
+  ): Promise<Item> {
+    const items = arasProvider.innovator.newItem(itemTypeName, "get");
+    items.setAttribute("idlist", itemIds.join(","));
+    if (select) items.setAttribute("select", select);
+    return items.apply();
   }
 
   /** Show a toast message. */
