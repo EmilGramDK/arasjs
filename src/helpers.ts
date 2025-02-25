@@ -4,16 +4,12 @@ export function throwError(message: string): never {
 }
 
 export async function InitAras() {
-  window.aras = window.aras || parent.aras || top?.aras;
+  window.aras = window.aras || top?.aras || parent.aras;
   window.ArasModules = top?.ArasModules || parent?.ArasModules;
   window.store = window.store || parent.store || top?.store;
 
-  if (!window.aras)
-    throwError(
-      "Aras object not initialized\n\nThis Application needs to be run inside Aras Innovator"
-    );
+  if (!window.aras) throwError("Aras object not initialized\n\nThis Application needs to be run inside Aras Innovator");
 
-  //
   injectCSSToParent();
   injectArasSpinner();
   setBaseUrl();
