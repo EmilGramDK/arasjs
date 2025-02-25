@@ -44,12 +44,20 @@ export default class GridService {
       };
     };
     gridControl.setRows = (rows: Item | object[]) => {
-      const rowsMap = this.generateRowsMap(rows);
+      const rowsMap = this.generateRowsMap(rows, gridControl.head.store);
       gridControl.rows = rowsMap;
     };
     gridControl.setColumns = (columns: GridColumn[]) => {
       const columnsMap = this.generateColumnsMap(columns);
       gridControl.head = columnsMap;
+
+      if(options.orderBy) {
+        const { field, desc } = options.orderBy;
+        gridControl.settings.orderBy = [{
+          headId: `${field}_D`,
+          desc: desc || false,
+        }]
+      }
     };
 
     gridControl.setCellOnDoubleClick = (callback: (head: string, row: string) => void) => {
@@ -133,15 +141,29 @@ export default class GridService {
     ArasModules.vault.saveBlob(fileBlob, `${name}.xlsx`);
   }
 
-  private generateRowsMap(rows: Item | object[]): Map<string, any> {
+  private generateRowsMap(rows: Item | object[], headStore: Map<string, any>): Map<string, any> {
     const rowsMap = new Map<string, any>();
 
     const arr = Array.isArray(rows)
       ? rows
       : ArasModules.xmlToODataJsonAsCollection(rows.toString());
 
+    const defaultValues = new Map<string, any>();
+
+    headStore.forEach((head: any, key: string) => {
+      if(!head.defaultValue) return;
+      defaultValues.set(head.name, head.defaultValue);
+    });
+
     arr.forEach((row: any, index) => {
-      const id = row?.id || row?.keyed_name || index;
+      const id = row?.id || `${index}+${Date.now()}`;
+
+      if(defaultValues.size > 0) {
+        defaultValues.forEach((value, key) => {
+          if(!row[key]) row[key] = value;
+        });
+      }
+
       rowsMap.set(id, row);
     });
 
@@ -182,6 +204,7 @@ export default class GridService {
         helpTooltip: col.helpTooltip || null,
         layoutIndex: index,
         pattern: col.pattern || "",
+        defaultValue: col.defaultValue || null,
       };
 
       columnsMap.set(name, data);

@@ -29,9 +29,9 @@ export default class DialogService {
   public async showConfirmDialog(
     message: string,
     options: ArasConfirmDialogParameters = {}
-  ): Promise<boolean> {
+  ): Promise<boolean | string> {
     const result = await this.#arasModules.Dialog.confirm(message, options);
-    return result === "ok";
+    return result === "cancel" ? false : result;
   }
 
   public async showSearchDialog(options: SearchDialogOptions): Promise<SearchDialogResult | null> {

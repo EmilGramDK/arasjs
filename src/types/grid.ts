@@ -30,6 +30,7 @@ export type GridOptions = {
   selectable?: boolean;
   sortable?: boolean;
   tooltipDelay?: number;
+  orderBy?: { field: string; desc?: boolean };
 };
 
 export type GridColumn = {
@@ -78,4 +79,5 @@ export type GridColumn = {
   cssStyle?: {};
   cssClass?: string;
   icon?: string;
+  defaultValue?: any;
 };

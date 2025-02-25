@@ -1,12 +1,4 @@
-import type {
-  ArasModules,
-  Aras,
-  ArasWindow,
-  ExcelConverterAPI,
-  Innovator,
-  Item,
-  XmlNode,
-} from "arasjs-types";
+import type { ArasModules, Aras, ArasWindow, ExcelConverterAPI, Innovator, Item, XmlNode } from "arasjs-types";
 import { InitAras, throwError } from "./helpers";
 import ToolbarService from "./services/toolbar.service";
 import GridService from "./services/grid.service";
@@ -66,11 +58,7 @@ export default class ArasProvider {
   }
 
   /** Fetch items by ID. */
-  public async fetchItemsByIds(
-    itemTypeName: string,
-    itemIds: string[],
-    select?: string
-  ): Promise<Item> {
+  public async fetchItemsByIds(itemTypeName: string, itemIds: string[], select?: string): Promise<Item> {
     const items = arasProvider.innovator.newItem(itemTypeName, "get");
     items.setAttribute("idlist", itemIds.join(","));
     if (select) items.setAttribute("select", select);
@@ -89,7 +77,7 @@ export default class ArasProvider {
     this.arasModules.notify(message, {
       type: "info",
       timeout: 5000,
-      position: "bottom-left",
+      position: "top-right",
       ...options,
     });
   }
