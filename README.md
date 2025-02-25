@@ -9,17 +9,31 @@ ArasJS is a Library that make it easy to build Aras Innovator Client Extensions,
 
 ### 1️⃣ Configure Aras OAuth
 
-To enable authentication, add `localhost:3000` to the allowed redirect URIs in your **Aras Innovator OAuth Configuration**.
+To enable authentication, add `localhost:3456` to the allowed redirect URIs in your **Aras Innovator OAuth Configuration**.
 
 Add the following lines to **OAuth.config** located at:
 `C:\Program Files (x86)\Aras\Innovator\OAuthServer`
 
 ```xml
-<!-- ArasJS Config -->
-<redirectUri value='https://localhost:3000/InnovatorServer/Client/OAuth/RedirectCallback' />
-<redirectUri value='https://localhost:3000/InnovatorServer/Client/OAuth/SilentCallback' />
-<redirectUri value='https://localhost:3000/InnovatorServer/Client/OAuth/PopupCallback' />
-<!-- ArasJS Config -->
+<redirectUris>
+
+  <!-- ArasJS Config -->
+  <redirectUri value='https://localhost:3456/InnovatorServer/Client/OAuth/RedirectCallback' />
+  <redirectUri value='https://localhost:3456/InnovatorServer/Client/OAuth/SilentCallback' />
+  <redirectUri value='https://localhost:3456/InnovatorServer/Client/OAuth/PopupCallback' />
+  <!-- ArasJS Config -->
+
+...keep current urls
+</redirectUris>
+
+<postLogoutRedirectUris>
+
+  <!-- ArasJS Config -->
+  <redirectUri value='https://localhost:3456/InnovatorServer/Client/OAuth/PostLogoutCallback' />
+  <!-- ArasJS Config -->
+
+  ...keep current urls
+</postLogoutRedirectUris>
 ```
 
 ### 2️⃣ Add to TOC
@@ -41,10 +55,13 @@ Your Application needs to run inside Aras Innovator, therfore you have to setup 
 
 ```typescript
 // vite.config.ts
+
+import mkcert from "vite-plugin-mkcert";
+
 export default defineConfig({
-  plugins: [],
+  plugins: [mkcert()],
   server: {
-    port: 3000,
+    port: 3456,
     open: "/innovatorserver/client", // automatically open aras
     proxy: {
       "/innovatorserver": {
