@@ -19,6 +19,9 @@ export default class GridService {
     //@ts-ignore
     const gridControl: GridControl = new window.Grid(gridContainer, mergedOptions);
 
+    // Initialize grid rows
+    gridControl.rows = new Map();
+
     gridControl.getCellType = (headId: string) => {
       return gridControl.head.get(headId, "type") || gridControl.getCellType;
     };
@@ -43,7 +46,10 @@ export default class GridService {
         dataType: head.get(headId, "dataType"),
       };
     };
+
+    //TODO: Add merge option
     gridControl.setRows = (rows: Item | object[]) => {
+      if (!gridControl.head) throw new Error("Columns must be set before rows");
       const rowsMap = this.generateRowsMap(rows, gridControl.head.store);
       gridControl.rows = rowsMap;
     };

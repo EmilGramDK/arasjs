@@ -58,10 +58,16 @@ export default class ArasProvider {
   }
 
   /** Fetch items by ID. */
-  public async fetchItemsByIds(itemTypeName: string, itemIds: string[], select?: string): Promise<Item> {
+  public async fetchItemsByIds(
+    itemTypeName: string,
+    itemIds: string[],
+    select?: string,
+    levels?: number
+  ): Promise<Item> {
     const items = arasProvider.innovator.newItem(itemTypeName, "get");
     items.setAttribute("idlist", itemIds.join(","));
     if (select) items.setAttribute("select", select);
+    items.setAttribute("levels", levels ? levels.toString() : "0");
     return items.applyAsync();
   }
 
