@@ -1,9 +1,17 @@
-import type { ArasModules, Aras, ArasWindow, ExcelConverterAPI, Innovator, Item, XmlNode } from "arasjs-types";
+import type {
+  ArasModules,
+  Aras,
+  ArasWindow,
+  ExcelConverterAPI,
+  Innovator,
+  Item,
+  XmlNode,
+  ArasUser,
+} from "arasjs-types";
 import { InitAras, throwError } from "./helpers";
 import ToolbarService from "./services/toolbar.service";
 import GridService from "./services/grid.service";
 import DialogService from "./services/dialog.service";
-import { ArasUserInfo } from "arasjs-types";
 
 export default class ArasProvider {
   private static instance: ArasProvider | null = null;
@@ -18,7 +26,7 @@ export default class ArasProvider {
   public scriptsURL: string;
 
   /** Get Current UserInfo */
-  public getUser(): ArasUserInfo {
+  public getUser(): ArasUser["userInfo"] {
     return window.aras.user.userInfo;
   }
 
