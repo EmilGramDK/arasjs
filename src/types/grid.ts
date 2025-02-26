@@ -33,6 +33,7 @@ export type GridOptions = {
   orderBy?: { field: string; desc?: boolean };
 };
 
+export type GridColumns = GridColumn[];
 export type GridColumn = {
   field: string;
   label: string;

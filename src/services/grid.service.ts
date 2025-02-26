@@ -1,6 +1,6 @@
 import { Item } from "arasjs-types";
 import ArasProvider from "../provider";
-import { GridColumn, GridControl, GridOptions } from "../types/grid";
+import { GridColumn, GridColumns, GridControl, GridOptions } from "../types/grid";
 
 export default class GridService {
   #arasProvider: ArasProvider;
@@ -51,12 +51,14 @@ export default class GridService {
       const columnsMap = this.generateColumnsMap(columns);
       gridControl.head = columnsMap;
 
-      if(options.orderBy) {
+      if (options.orderBy) {
         const { field, desc } = options.orderBy;
-        gridControl.settings.orderBy = [{
-          headId: `${field}_D`,
-          desc: desc || false,
-        }]
+        gridControl.settings.orderBy = [
+          {
+            headId: `${field}_D`,
+            desc: desc || false,
+          },
+        ];
       }
     };
 
@@ -68,11 +70,7 @@ export default class GridService {
       gridControl.on("dblclick", callback, "row");
     };
 
-    gridControl.on(
-      "click",
-      (hId: string, rId: string, e: any) => this.cellClick(gridControl, hId, rId, e),
-      "cell"
-    );
+    gridControl.on("click", (hId: string, rId: string, e: any) => this.cellClick(gridControl, hId, rId, e), "cell");
 
     gridControl.setOnSelectRow = (callback: () => void) => {
       gridControl.on("selectRow", callback);
@@ -143,24 +141,23 @@ export default class GridService {
 
   private generateRowsMap(rows: Item | object[], headStore: Map<string, any>): Map<string, any> {
     const rowsMap = new Map<string, any>();
+    if (!rows || !rows.length) return rowsMap;
 
-    const arr = Array.isArray(rows)
-      ? rows
-      : ArasModules.xmlToODataJsonAsCollection(rows.toString());
+    const arr = Array.isArray(rows) ? rows : ArasModules.xmlToODataJsonAsCollection(rows.toString());
 
     const defaultValues = new Map<string, any>();
 
     headStore.forEach((head: any, key: string) => {
-      if(!head.defaultValue) return;
+      if (!head.defaultValue) return;
       defaultValues.set(head.name, head.defaultValue);
     });
 
     arr.forEach((row: any, index) => {
       const id = row?.id || `${index}+${Date.now()}`;
 
-      if(defaultValues.size > 0) {
+      if (defaultValues.size > 0) {
         defaultValues.forEach((value, key) => {
-          if(!row[key]) row[key] = value;
+          if (!row[key]) row[key] = value;
         });
       }
 
@@ -170,8 +167,11 @@ export default class GridService {
     return rowsMap;
   }
 
-  private generateColumnsMap(columns: GridColumn[]): Map<string, GridColumn> {
+  private generateColumnsMap(columns: GridColumns): Map<string, GridColumn> {
     const columnsMap = new Map<string, any>();
+
+    if (!columns || !columns.length) return columnsMap;
+
     columns.forEach((col, index) => {
       const name = col.field + "_D";
 

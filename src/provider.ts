@@ -62,7 +62,7 @@ export default class ArasProvider {
     const items = arasProvider.innovator.newItem(itemTypeName, "get");
     items.setAttribute("idlist", itemIds.join(","));
     if (select) items.setAttribute("select", select);
-    return items.apply();
+    return items.applyAsync();
   }
 
   /** Show a toast message. */
