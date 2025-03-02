@@ -27,7 +27,7 @@ export default class GridService {
     };
     gridControl.getCellMetadata = (headId: string, itemId: string, type: string) => {
       const { head, rows, settings } = gridControl;
-      const headInfo = head._store.get(headId);
+      const headInfo = head._store.get(headId) || {};
       const defaultPattern = type === "date" ? "short_date" : "";
       const pattern = headInfo.pattern || defaultPattern;
 
@@ -52,11 +52,12 @@ export default class GridService {
       if (!gridControl.head) throw new Error("Columns must be set before rows");
       const rowsMap = this.generateRowsMap(rows, gridControl.head.store);
       gridControl.rows = rowsMap;
+      if (gridControl.settings.orderBy) gridControl.sort();
     };
+
     gridControl.setColumns = (columns: GridColumn[]) => {
       const columnsMap = this.generateColumnsMap(columns);
       gridControl.head = columnsMap;
-
       if (options.orderBy) {
         const { field, desc } = options.orderBy;
         gridControl.settings.orderBy = [

@@ -12,6 +12,7 @@ import { InitAras, throwError } from "./helpers";
 import ToolbarService from "./services/toolbar.service";
 import GridService from "./services/grid.service";
 import DialogService from "./services/dialog.service";
+import { _replaceKeys } from "./helpers/odataFetch";
 
 export default class ArasProvider {
   private static instance: ArasProvider | null = null;
@@ -145,6 +146,23 @@ export default class ArasProvider {
 
     const itemID = item.getID();
     this.showItem(itemTypeName, itemID, viewMode, isUnfocused);
+  }
+
+  /**
+   * Makes a request to the odata API.
+   * @param url The URL to fetch.
+   * @param options The fetch options.
+   * @param keyReplacements An object with keys to replace in the response.
+   * @returns The response from the odata API.
+   * @throws If the request fails.
+   */
+  public async odataFetch(
+    url: string,
+    options?: RequestInit,
+    keyReplacements?: { [key: string]: string }
+  ): Promise<any> {
+    const request = await this.arasModules.odataFetch(url, options);
+    return _replaceKeys(request, keyReplacements);
   }
 
   private constructor() {
