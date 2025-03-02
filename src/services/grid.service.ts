@@ -1,6 +1,6 @@
-import { Item } from "arasjs-types";
 import ArasProvider from "../provider";
 import { GridColumn, GridColumns, GridControl, GridOptions } from "../types/grid";
+import { Item } from "../types/item";
 
 export default class GridService {
   #arasProvider: ArasProvider;

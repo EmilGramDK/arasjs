@@ -1,8 +1,8 @@
-/// <reference types="arasjs-types/globals" />
-import { ExcelConverterAPI, TopWindowHelper, XmlDocument } from "arasjs-types";
 import ArasProvider from "./provider";
 import "./styles.css";
 import { SetArasReady } from "./helpers";
+import { ExcelConverterAPI } from "./types/excel-converter";
+import { TopWindowHelper, XmlDocument } from "./types/aras";
 
 window.isArasReady = false;
 
@@ -28,5 +28,13 @@ declare global {
 }
 
 export { useArasProvider, ArasProvider };
+
+// types
 export * from "./types/grid";
 export * from "./types/toolbar";
+export * from "./types/aras";
+export * from "./types/dialog";
+export * from "./types/innovator";
+export * from "./types/item";
+export * from "./types/excel-converter";
+export * from "./types/aras-tabs";

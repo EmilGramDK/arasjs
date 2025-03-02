@@ -1,18 +1,12 @@
-import type {
-  ArasModules,
-  Aras,
-  ArasWindow,
-  ExcelConverterAPI,
-  Innovator,
-  Item,
-  XmlNode,
-  ArasUser,
-} from "arasjs-types";
 import { InitAras, throwError } from "./helpers";
 import ToolbarService from "./services/toolbar.service";
 import GridService from "./services/grid.service";
 import DialogService from "./services/dialog.service";
 import { _replaceKeys } from "./helpers/odataFetch";
+import { Innovator } from "./types/innovator";
+import { Aras, ArasModules, ArasUser, ArasWindow, XmlNode } from "./types/aras";
+import { ExcelConverterAPI } from "./types/excel-converter";
+import { Item } from "./types/item";
 
 export default class ArasProvider {
   private static instance: ArasProvider | null = null;

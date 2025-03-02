@@ -1,4 +1,4 @@
-import { Item } from "arasjs-types";
+import { Item } from "./item";
 
 export interface GridControl extends HTMLElement {
   connectId: string;

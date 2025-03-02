@@ -114,7 +114,7 @@ npm i arasjs
 Initialize ArasJS in your main file in your project:
 
 ```sh
-/// <reference types="arasjs-types/globals" />
+/// <reference types="arasjs/dist/globals" />
 import { useArasProvider } from 'arasjs';
 
 useArasProvider().then(() => {
@@ -130,7 +130,7 @@ useArasProvider().then(() => {
 ```typescript
 // main.tsx
 /// <reference types="vite/client" />
-/// <reference types="arasjs-types/globals" />
+/// <reference types="arasjs/dist/globals" />
 
 import "./app.css";
 import { StrictMode } from "react";

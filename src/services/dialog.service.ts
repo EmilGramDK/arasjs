@@ -1,13 +1,6 @@
-import {
-  ArasDialogParameters,
-  ArasModules,
-  DialogShowResult,
-  SearchDialogFilter,
-  SearchDialogOptions,
-  SearchDialogResult,
-  ArasConfirmDialogParameters,
-} from "arasjs-types";
 import ArasProvider from "../provider";
+import { ArasConfirmDialogParameters, ArasModules, DialogShowResult, SearchDialogResult } from "../types/aras";
+import { ArasDialogParameters, SearchDialogFilter, SearchDialogOptions } from "../types/dialog";
 
 export default class DialogService {
   #arasProvider: ArasProvider;
@@ -125,9 +118,7 @@ export default class DialogService {
     const headMap: Map<string, any> = grid.head._store;
 
     filters.forEach((filter) => {
-      const headItem = Array.from(headMap.values()).find(
-        (item: any) => item.name === filter.property
-      );
+      const headItem = Array.from(headMap.values()).find((item: any) => item.name === filter.property);
       if (!headItem) return;
 
       headItem.searchValue = filter.value;
