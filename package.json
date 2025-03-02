@@ -10,8 +10,7 @@
     "/dist"
   ],
   "scripts": {
-    "build": "vite build",
-    "release": "npm run build && npm publish"
+    "build": "vite build"
   },
   "devDependencies": {
     "tslib": "^2.8.1",
