@@ -59,7 +59,8 @@ export default class DialogService {
       sourcePropertyName: options.sourcePropertyName,
       multiselect: true,
       aras: window.aras,
-      dialogWidth: 700,
+      dialogWidth: options.dialogWidth || 800,
+      dialogHeight: options.dialogHeight || 600,
     };
 
     const dialog = this.#arasModules.Dialog.show("iframe", params);
