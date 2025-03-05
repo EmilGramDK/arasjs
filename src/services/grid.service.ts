@@ -153,10 +153,11 @@ export default class GridService {
     const arr = Array.isArray(rows) ? rows : ArasModules.xmlToODataJsonAsCollection(rows.toString());
 
     const defaultValues = new Map<string, any>();
+    const dateFields = new Set<string>();
 
     headStore.forEach((head: any, key: string) => {
-      if (!head.defaultValue) return;
-      defaultValues.set(head.name, head.defaultValue);
+      if (head.defaultValue) defaultValues.set(head.name, head.defaultValue);
+      if (head.dataType === "date") dateFields.add(head.name);
     });
 
     arr.forEach((row: any, index) => {
@@ -165,6 +166,17 @@ export default class GridService {
       if (defaultValues.size > 0) {
         defaultValues.forEach((value, key) => {
           if (!row[key]) row[key] = value;
+        });
+      }
+      // We need to check all date fields, because the grid crashes if the date is not a valid date
+      if (dateFields.size > 0) {
+        dateFields.forEach((field) => {
+          if (row[field]) {
+            const date = new Date(row[field]);
+            if (isNaN(date.getTime())) {
+              row[field] = null;
+            }
+          }
         });
       }
 
