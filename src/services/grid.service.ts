@@ -89,6 +89,7 @@ export default class GridService {
       });
       gridControl.settings.selectedRows = [];
       gridControl.rows = rows;
+      if (gridControl.settings.orderBy) gridControl.sort();
     };
     gridControl.getSelectedRows = () => {
       return gridControl.settings.selectedRows;
