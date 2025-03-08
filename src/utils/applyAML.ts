@@ -7,7 +7,7 @@ import { Item } from "../types/item";
  * @param abortController
  * @returns
  */
-export async function applyAML(aml: string, throwOnError = false, abortController?: AbortController): Promise<Item> {
+export async function applyAML(aml: string, throwOnError = false, signal?: AbortController["signal"]): Promise<Item> {
   const oAuthClient = aras.OAuthClient;
   const authHeaders = oAuthClient.getAuthorizationHeader();
 
@@ -22,7 +22,7 @@ export async function applyAML(aml: string, throwOnError = false, abortControlle
       Soapaction: "Applyaml",
       ...authHeaders,
     },
-    signal: abortController?.signal,
+    signal,
     body,
   };
 

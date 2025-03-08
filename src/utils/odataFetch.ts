@@ -9,7 +9,7 @@
 export async function odataFetch(
   requestURL = "",
   options: RequestInit = {},
-  abortController?: AbortController
+  signal?: AbortController["signal"]
 ): Promise<any> {
   try {
     const oAuthClient = aras.OAuthClient;
@@ -26,7 +26,7 @@ export async function odataFetch(
         ...authHeaders,
         ...(options.headers || {}),
       },
-      signal: abortController?.signal,
+      signal,
     };
 
     // Ensure URL is properly encoded

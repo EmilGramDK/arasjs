@@ -7,7 +7,7 @@ import { Item } from "../types/item";
  * @param abortController
  * @returns
  */
-export async function applyAsync(item: Item, throwOnError = false, abortController?: AbortController): Promise<Item> {
+export async function applyAsync(item: Item, throwOnError = false, signal?: AbortController["signal"]): Promise<Item> {
   const oAuthClient = aras.OAuthClient;
   const authHeaders = oAuthClient.getAuthorizationHeader();
 
@@ -22,7 +22,7 @@ export async function applyAsync(item: Item, throwOnError = false, abortControll
       Soapaction: "ApplyItem",
       ...authHeaders,
     },
-    signal: abortController?.signal,
+    signal,
     body,
   };
 
