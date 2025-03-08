@@ -8,6 +8,7 @@ import { ExcelConverterAPI } from "./types/excel-converter";
 import { Item } from "./types/item";
 import { odataFetch } from "./utils/odataFetch";
 import { applyAsync } from "./utils/applyAsync";
+import { applyAML } from "./utils/applyAML";
 
 export default class ArasProvider {
   private static instance: ArasProvider | null = null;
@@ -145,6 +146,7 @@ export default class ArasProvider {
 
   public odataFetch = odataFetch;
   public applyAsync = applyAsync;
+  public applyAML = applyAML;
 
   private constructor() {
     this.innovator = aras.IomInnovator;
