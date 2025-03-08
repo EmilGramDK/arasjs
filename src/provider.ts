@@ -2,11 +2,12 @@ import { InitAras, throwError } from "./helpers";
 import ToolbarService from "./services/toolbar.service";
 import GridService from "./services/grid.service";
 import DialogService from "./services/dialog.service";
-import { _replaceKeys } from "./helpers/odataFetch";
 import { Innovator } from "./types/innovator";
 import { Aras, ArasModules, ArasUser, ArasWindow, XmlNode } from "./types/aras";
 import { ExcelConverterAPI } from "./types/excel-converter";
 import { Item } from "./types/item";
+import { odataFetch } from "./utils/odataFetch";
+import { applyAsync } from "./utils/applyAsync";
 
 export default class ArasProvider {
   private static instance: ArasProvider | null = null;
@@ -142,22 +143,8 @@ export default class ArasProvider {
     this.showItem(itemTypeName, itemID, viewMode, isUnfocused);
   }
 
-  /**
-   * Makes a request to the odata API.
-   * @param url The URL to fetch.
-   * @param options The fetch options.
-   * @param keyReplacements An object with keys to replace in the response.
-   * @returns The response from the odata API.
-   * @throws If the request fails.
-   */
-  public async odataFetch(
-    url: string,
-    options?: RequestInit,
-    keyReplacements?: { [key: string]: string }
-  ): Promise<any> {
-    const request = await this.arasModules.odataFetch(url, options);
-    return _replaceKeys(request, keyReplacements);
-  }
+  public odataFetch = odataFetch;
+  public applyAsync = applyAsync;
 
   private constructor() {
     this.innovator = aras.IomInnovator;

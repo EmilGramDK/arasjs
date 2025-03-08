@@ -260,6 +260,7 @@ export interface ArasModules {
   };
   vault: any;
   jsonToXml: (data: string | object) => string;
+  soap: (data: any, options: any) => Promise<any>;
 }
 export interface ArasCore {
   user: ArasUser;
