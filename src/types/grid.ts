@@ -1,10 +1,13 @@
 import { Item } from "./item";
 
-export interface GridControl extends HTMLElement {
-  connectId: string;
+export interface GridControl extends Grid {
   setColumns: (columns: GridColumn[]) => void;
   setRows: (items: Item | object[]) => void;
+
+  // event handlers
   setCellOnDoubleClick: (callback: (head: string, row: string) => void) => void;
+  setOnHeadContextMenu: (callback: (head: string, event: Event) => void) => void;
+  setOnCellContextMenu: (callback: (head: string, rowId: string, event: Event) => void) => void;
   setRowOnDoubleClick: (callback: (row: string) => void) => void;
   setOnSelectRow: (callback: () => void) => void;
 
@@ -12,9 +15,55 @@ export interface GridControl extends HTMLElement {
 
   getSelectedRows: () => string[];
   deleteSelectedRows: () => void;
+}
 
-  // all other default methods
+export interface Grid extends HTMLElement {
+  new (container: HTMLElement, options?: any): Grid;
+  eventCallbacks: WeakMap<object, any>;
+  settings: GridSettings;
+  keyboard: any;
+  view: GridView;
+  head: HeadWrap;
+  rows: RowsWrap;
+  getCellType: (headId: string, itemId?: string, value?: any, type?: string) => string;
+  getCellSpan: (_headId: string, _itemId: string, _rowId: string) => GridCellSpan | null;
+  getCellStyles: () => Record<string, string>;
+  getItemId: (headId: string, rowId: string) => string;
+  validateCell: (headId: string, rowId: string, value: any, _grid: Grid) => CellValidationResult;
+  getEditorType: (headId: any, itemId: any, value: any, type: any) => any;
+  checkEditAvailability: (_headId: string, _itemId: string, _grid: Grid) => boolean;
+  getCellMetadata: (_headId: string, _itemId: string, _type: string) => Record<string, any> | null;
+  clientSort: (sortableArray: string[]) => void;
+  sort: () => Promise<void>;
+  cancelEdit: () => void;
+  resetData: () => void;
+  getRowClasses: () => string;
+  render: () => Promise<void>;
+  on: (type: string, callback: any, element?: "cell" | "head" | "row") => void;
+  off: (type: string, callback: any) => void;
   [key: string]: any;
+}
+
+export interface GridSettings extends HTMLElement {
+  frozenColumns: number;
+  indexHead: string[];
+  indexRows: string[];
+  selectedRows: string[];
+  copyArea: Pick<GridFocusCell, "headId" | "rowId"> | null;
+  focusedCell: GridFocusCell | null;
+  orderBy: Array<{ headId: string; desc?: boolean }>;
+  selection: GridSelectionRange | null;
+}
+
+export interface GridView {
+  delayForDragDetection: number;
+  defaultSettings: Settings;
+  scrollableElement: HTMLElement;
+  autofill: boolean;
+  destroyEventHandlers: () => void;
+  initialization: () => void;
+  render: () => Promise<void>;
+  showMessageActiveCell: () => void;
 }
 
 export type GridOptions = {
@@ -31,10 +80,12 @@ export type GridOptions = {
   sortable?: boolean;
   tooltipDelay?: number;
   orderBy?: { field: string; desc?: boolean };
+  autofill?: boolean | undefined;
 };
+export type Settings = GridOptions;
 
 export type GridColumns = GridColumn[];
-export type GridColumn = {
+export interface GridColumn extends GridHeadData {
   field: string;
   label: string;
   width?: number;
@@ -81,4 +132,150 @@ export type GridColumn = {
   cssClass?: string;
   icon?: string;
   defaultValue?: any;
-};
+}
+
+export interface GridCellViewMode {
+  headId: string;
+  rowId: string;
+  value: any;
+  type: string;
+  editing: boolean;
+}
+
+export interface GridCellApplyEditParameters {
+  headId: string;
+  rowId: string;
+  value: any;
+}
+
+export interface GridCellSpan {
+  headId: string;
+  rowId: string;
+  colspan?: number;
+  rowspan?: number;
+}
+
+export interface GridCellMetadata {
+  list?: Array<{
+    filter: string;
+    inactive: boolean;
+    label: string;
+    value: string;
+  }>;
+  scale?: number;
+  format?: "short_date" | "short_date_time" | "long_date" | "long_date_time";
+  [property: string]: any;
+}
+
+export interface CellValidationResult {
+  valid: boolean;
+  validationMessage?: string;
+  value?: any;
+}
+
+export interface GridFocusCell {
+  headId: string;
+  rowId: string;
+  editing?: boolean;
+  toolTipMessage?: string;
+  valid?: boolean;
+  isEditInProgress?: boolean;
+  isPasted?: boolean;
+}
+
+type focus = GridFocusCell | null;
+
+export const SelectionRangeStates = {
+  InProgress: "inprogress",
+  Default: "default",
+} as const;
+type RangeStateKeys = keyof typeof SelectionRangeStates;
+export interface GridSelectionRange {
+  column: string;
+  endcolumn: string;
+  row: string;
+  endrow: string;
+  state: (typeof SelectionRangeStates)[RangeStateKeys];
+}
+
+type GridCopiedArea = Pick<GridFocusCell, "headId" | "rowId">;
+
+const TDBorderHeight = 1; // 1 is a TD border height, that cannot be calculated via getcomputedStyle or something
+const SETTINGS = {
+  rowHeight: 32,
+  headWidth: 18,
+  multiSelect: true,
+  resizable: true,
+  search: false,
+  editable: false,
+  autofill: undefined,
+  sortable: true,
+  freezableColumns: false,
+  draggableColumns: true,
+  tooltipDelay: 1000,
+  copyPaste: true,
+  selectable: true,
+} as const;
+
+interface EventListenerDescriptor {
+  target: HTMLElement;
+  event: string;
+  listener: EventListenerOrEventListenerObject;
+}
+
+interface FilldownSessionData {
+  startX: number;
+  startY: number;
+  bodyBoundary: DOMRect;
+  scrollYSpeed: number;
+  scrollXSpeed: number;
+  pointerId: number;
+}
+
+interface FilldownData {
+  session: FilldownSessionData | null;
+  eventHandlers: EventListenerDescriptor[];
+  control: HTMLElement;
+}
+
+interface SelectionData {
+  range: GridSelectionRange;
+  control: HTMLElement;
+}
+
+export interface GridHeadData {
+  name?: string;
+  label?: string;
+  searchType?: string;
+  linkProperty?: string;
+  questionMark?: boolean;
+  [key: string]: any;
+}
+
+export interface HeadWrap extends Map<string, Record<string, GridHeadData>> {
+  store?: Map<string, Record<string, GridHeadData>> | null;
+  get: (key: string, prop?: string) => any;
+  set: (key: string, value: any, prop?: string) => any;
+}
+
+export interface RowsWrap {
+  store?: Map<string, Record<string, GridHeadData>> | null;
+  get: (key: string, prop?: string) => any;
+  set: (key: string, value: any, prop?: string) => any;
+}
+
+export const DEFAULT_SETTINGS = {
+  rowHeight: 32,
+  headWidth: 18,
+  multiSelect: true,
+  resizable: true,
+  search: false,
+  editable: false,
+  autofill: undefined,
+  sortable: true,
+  freezableColumns: false,
+  draggableColumns: true,
+  tooltipDelay: 1000,
+  copyPaste: true,
+  selectable: true,
+} as const;

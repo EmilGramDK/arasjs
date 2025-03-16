@@ -1,5 +1,5 @@
 import ArasProvider from "../provider";
-import { GridColumn, GridColumns, GridControl, GridOptions } from "../types/grid";
+import { DEFAULT_SETTINGS, GridColumn, GridColumns, GridControl, GridOptions } from "../types/grid";
 import { Item } from "../types/item";
 
 export default class GridService {
@@ -16,8 +16,7 @@ export default class GridService {
     const mergedOptions = this.mergeGridSettings(options);
     gridContainer.style.height = gridContainer.clientHeight + "px";
 
-    //@ts-ignore
-    const gridControl: GridControl = new window.Grid(gridContainer, mergedOptions);
+    const gridControl = new Grid(gridContainer, mergedOptions) as GridControl;
 
     // Initialize grid rows
     gridControl.rows = new Map();
@@ -27,7 +26,7 @@ export default class GridService {
     };
     gridControl.getCellMetadata = (headId: string, itemId: string, type: string) => {
       const { head, rows, settings } = gridControl;
-      const headInfo = head._store.get(headId) || {};
+      const headInfo = head.get(headId) || {};
       const defaultPattern = type === "date" ? "short_date" : "";
       const pattern = headInfo.pattern || defaultPattern;
 
@@ -50,7 +49,7 @@ export default class GridService {
     //TODO: Add merge option
     gridControl.setRows = (rows: Item | object[]) => {
       if (!gridControl.head) throw new Error("Columns must be set before rows");
-      const rowsMap = this.generateRowsMap(rows, gridControl.head.store);
+      const rowsMap = this.generateRowsMap(rows, gridControl.head.store!);
       gridControl.rows = rowsMap;
       if (gridControl.settings.orderBy) gridControl.sort();
     };
@@ -62,7 +61,7 @@ export default class GridService {
         const { field, desc } = options.orderBy;
         gridControl.settings.orderBy = [
           {
-            headId: `${field}_D`,
+            headId: field,
             desc: desc || false,
           },
         ];
@@ -91,7 +90,7 @@ export default class GridService {
       gridControl.on("selectRow", callback);
     };
     gridControl.deleteSelectedRows = () => {
-      const rows = gridControl.rows.store;
+      const rows = gridControl.rows.store!;
       gridControl.settings.selectedRows.forEach((id: string) => {
         rows.delete(id);
       });
@@ -125,20 +124,7 @@ export default class GridService {
   }
 
   private mergeGridSettings(options: GridOptions): GridOptions {
-    const defaultOptions: GridOptions = {
-      rowHeight: 32,
-      headWidth: 18,
-      multiSelect: true,
-      resizable: true,
-      search: false,
-      editable: false,
-      sortable: true,
-      freezableColumns: false,
-      draggableColumns: true,
-      tooltipDelay: 1000,
-      copyPaste: true,
-      selectable: true,
-    };
+    const defaultOptions: GridOptions = DEFAULT_SETTINGS;
 
     return { ...defaultOptions, ...options };
   }
@@ -201,7 +187,7 @@ export default class GridService {
     if (!columns || !columns.length) return columnsMap;
 
     columns.forEach((col, index) => {
-      const name = col.field + "_D";
+      const name = col.field;
 
       const data = {
         columnCssStyles: {

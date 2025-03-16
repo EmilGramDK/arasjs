@@ -1,10 +1,12 @@
-export interface ToolbarControl extends HTMLElement {
+export interface ToolbarControl extends Toolbar {
   setItems(items: ToolbarItem[]): void;
   setItemHidden(itemId: string): void;
   setItemEnabled(itemId: string, value: boolean): void;
   setOnClick(callback: (itemId: string) => void): void;
+}
 
-  // all other default methods
+export interface Toolbar extends HTMLElement {
+  extendFormatters: (formatters: Record<string, any>) => void;
   [key: string]: any;
 }
 
