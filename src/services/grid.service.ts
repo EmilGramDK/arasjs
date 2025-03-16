@@ -69,6 +69,14 @@ export default class GridService {
       }
     };
 
+    gridControl.setOnHeadContextMenu = (callback: (head: string) => void) => {
+      gridControl.on("contextmenu", callback, "head");
+    };
+
+    gridControl.setOnCellContextMenu = (callback: (head: string, rowId: string) => void) => {
+      gridControl.on("contextmenu", callback, "cell");
+    };
+
     gridControl.setCellOnDoubleClick = (callback: (head: string, row: string) => void) => {
       gridControl.on("dblclick", callback, "cell");
     };
