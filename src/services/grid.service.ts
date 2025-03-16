@@ -1,5 +1,5 @@
 import ArasProvider from "../provider";
-import { DEFAULT_SETTINGS, GridColumn, GridColumns, GridControl, GridOptions } from "../types/grid";
+import { DEFAULT_SETTINGS, GridColumn, GridColumns, GridControl, GridOptions, GridSettings } from "../types/grid";
 import { Item } from "../types/item";
 
 export default class GridService {
@@ -58,13 +58,7 @@ export default class GridService {
       const columnsMap = this.generateColumnsMap(columns);
       gridControl.head = columnsMap;
       if (options.orderBy) {
-        const { field, desc } = options.orderBy;
-        gridControl.settings.orderBy = [
-          {
-            headId: field,
-            desc: desc || false,
-          },
-        ];
+        gridControl.settings.orderBy = [options.orderBy];
       }
     };
 
@@ -123,8 +117,8 @@ export default class GridService {
     }
   }
 
-  private mergeGridSettings(options: GridOptions): GridOptions {
-    const defaultOptions: GridOptions = DEFAULT_SETTINGS;
+  private mergeGridSettings(options: GridOptions) {
+    const defaultOptions = DEFAULT_SETTINGS;
 
     return { ...defaultOptions, ...options };
   }

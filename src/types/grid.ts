@@ -44,29 +44,7 @@ export interface Grid extends HTMLElement {
   [key: string]: any;
 }
 
-export interface GridSettings extends HTMLElement {
-  frozenColumns: number;
-  indexHead: string[];
-  indexRows: string[];
-  selectedRows: string[];
-  copyArea: Pick<GridFocusCell, "headId" | "rowId"> | null;
-  focusedCell: GridFocusCell | null;
-  orderBy: Array<{ headId: string; desc?: boolean }>;
-  selection: GridSelectionRange | null;
-}
-
-export interface GridView {
-  delayForDragDetection: number;
-  defaultSettings: Settings;
-  scrollableElement: HTMLElement;
-  autofill: boolean;
-  destroyEventHandlers: () => void;
-  initialization: () => void;
-  render: () => Promise<void>;
-  showMessageActiveCell: () => void;
-}
-
-export type GridOptions = {
+export interface GridOptions {
   editable?: boolean;
   copyPaste?: boolean;
   draggableColumns?: boolean;
@@ -79,10 +57,31 @@ export type GridOptions = {
   selectable?: boolean;
   sortable?: boolean;
   tooltipDelay?: number;
-  orderBy?: { field: string; desc?: boolean };
   autofill?: boolean | undefined;
-};
-export type Settings = GridOptions;
+  orderBy?: { headId: string; desc?: boolean };
+}
+
+export interface GridSettings {
+  frozenColumns: number;
+  indexHead: string[];
+  indexRows: string[];
+  selectedRows: string[];
+  copyArea: Pick<GridFocusCell, "headId" | "rowId"> | null;
+  focusedCell: GridFocusCell | null;
+  selection: GridSelectionRange | null;
+  orderBy: Array<{ headId: string; desc?: boolean }>;
+}
+
+export interface GridView {
+  delayForDragDetection: number;
+  defaultSettings: GridSettings;
+  scrollableElement: HTMLElement;
+  autofill: boolean;
+  destroyEventHandlers: () => void;
+  initialization: () => void;
+  render: () => Promise<void>;
+  showMessageActiveCell: () => void;
+}
 
 export type GridColumns = GridColumn[];
 export interface GridColumn extends GridHeadData {
@@ -199,23 +198,6 @@ export interface GridSelectionRange {
 }
 
 type GridCopiedArea = Pick<GridFocusCell, "headId" | "rowId">;
-
-const TDBorderHeight = 1; // 1 is a TD border height, that cannot be calculated via getcomputedStyle or something
-const SETTINGS = {
-  rowHeight: 32,
-  headWidth: 18,
-  multiSelect: true,
-  resizable: true,
-  search: false,
-  editable: false,
-  autofill: undefined,
-  sortable: true,
-  freezableColumns: false,
-  draggableColumns: true,
-  tooltipDelay: 1000,
-  copyPaste: true,
-  selectable: true,
-} as const;
 
 interface EventListenerDescriptor {
   target: HTMLElement;
