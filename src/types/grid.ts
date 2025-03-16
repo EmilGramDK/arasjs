@@ -252,14 +252,14 @@ export interface GridHeadData {
   [key: string]: any;
 }
 
-export interface HeadWrap extends Map<string, Record<string, GridHeadData>> {
-  store?: Map<string, Record<string, GridHeadData>> | null;
+export interface HeadWrap extends Map<string, any> {
+  store?: Map<string, any>;
   get: (key: string, prop?: string) => any;
   set: (key: string, value: any, prop?: string) => any;
 }
 
-export interface RowsWrap {
-  store?: Map<string, Record<string, GridHeadData>> | null;
+export interface RowsWrap extends Map<string, any> {
+  store?: Map<string, any>;
   get: (key: string, prop?: string) => any;
   set: (key: string, value: any, prop?: string) => any;
 }
