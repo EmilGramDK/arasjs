@@ -41,6 +41,9 @@ export async function odataFetch(
       let errorData;
       try {
         errorData = JSON.parse(errorText);
+        if (errorData.error) {
+          errorData = errorData.error.message || errorData.error;
+        }
       } catch {
         errorData = errorText;
       }
