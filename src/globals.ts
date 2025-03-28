@@ -1,6 +1,6 @@
 import { ArasModules, Aras, ArasCore, GlobalStore, ReturnBlockerHelper } from "./types/aras";
 import { ArasTabs } from "./types/aras-tabs";
-import { Grid } from "./types/grid";
+import { GridControl } from "./types/grid";
 import { Toolbar } from "./types/toolbar";
 
 declare global {
@@ -10,7 +10,7 @@ declare global {
   var store: GlobalStore;
   var returnBlockerHelper: ReturnBlockerHelper;
   var arasTabs: ArasTabs;
-  var Grid: Grid;
+  var Grid: GridControl;
   var Toolbar: Toolbar;
 
   interface Window {
@@ -20,7 +20,7 @@ declare global {
     store: GlobalStore;
     returnBlockerHelper: ReturnBlockerHelper;
     arasTabs: ArasTabs;
-    Grid: Grid;
+    Grid: GridControl;
     Toolbar: Toolbar;
   }
   namespace JSX {

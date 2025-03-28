@@ -1,6 +1,5 @@
 import { InitAras, throwError } from "./helpers";
 import ToolbarService from "./services/toolbar.service";
-import GridService from "./services/grid.service";
 import DialogService from "./services/dialog.service";
 import { Innovator } from "./types/innovator";
 import { Aras, ArasModules, ArasUser, ArasWindow, XmlNode } from "./types/aras";
@@ -9,11 +8,11 @@ import { Item } from "./types/item";
 import { odataFetch } from "./utils/odataFetch";
 import { applyAsync } from "./utils/applyAsync";
 import { applyAML } from "./utils/applyAML";
+import { createGrid } from "./utils/createGrid";
 
 export default class ArasProvider {
   private static instance: ArasProvider | null = null;
   public toolbarService: ToolbarService;
-  public gridService: GridService;
   public dialogService: DialogService;
 
   public innovator: Innovator;
@@ -147,6 +146,7 @@ export default class ArasProvider {
   public odataFetch = odataFetch;
   public applyAsync = applyAsync;
   public applyAML = applyAML;
+  public createGrid = createGrid;
 
   private constructor() {
     this.innovator = aras.IomInnovator;
@@ -156,7 +156,6 @@ export default class ArasProvider {
     this.arasModules = window.ArasModules;
 
     this.toolbarService = new ToolbarService(this);
-    this.gridService = new GridService(this);
     this.dialogService = new DialogService(this);
   }
 

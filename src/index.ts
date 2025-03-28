@@ -1,5 +1,6 @@
-import ArasProvider from "./provider";
 import "./styles.css";
+import "./components/ArasGrid/grid";
+import ArasProvider from "./provider";
 import { SetArasReady } from "./helpers";
 import { ExcelConverterAPI } from "./types/excel-converter";
 import { TopWindowHelper, XmlDocument } from "./types/aras";
@@ -7,9 +8,10 @@ import { TopWindowHelper, XmlDocument } from "./types/aras";
 window.isArasReady = false;
 
 const useArasProvider = async (): Promise<void> => {
-  const instance = await ArasProvider.initializeArasApp();
-  SetArasReady();
-  instance.toggleSpinner(false);
+  await ArasProvider.initializeArasApp().then((instance) => {
+    SetArasReady();
+    instance.toggleSpinner(false);
+  });
 };
 
 declare global {

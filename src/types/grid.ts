@@ -1,6 +1,7 @@
 import { Item } from "./item";
 
 export interface GridControl extends Grid {
+  new (container: HTMLElement, options?: GridOptions): GridControl;
   setColumns: (columns: GridColumn[]) => void;
   setRows: (items: Item | object[]) => void;
 
@@ -59,6 +60,7 @@ export interface GridOptions {
   tooltipDelay?: number;
   autofill?: boolean | undefined;
   orderBy?: { headId: string; desc?: boolean };
+  enableDefaultLinkClick?: boolean;
 }
 
 export interface GridSettings {
