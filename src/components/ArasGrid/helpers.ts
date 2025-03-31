@@ -61,7 +61,7 @@ export const generateColumnsMap = (
       cssStyle: col.cssStyle || {},
       icon: col.icon || null,
       name: col.field,
-      id: name,
+      id: col.id || name,
       isReadOnly: col.isReadOnly || false,
       isForeign: col.isForeign || false,
       field: name,
