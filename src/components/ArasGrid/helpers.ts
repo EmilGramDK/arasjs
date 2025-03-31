@@ -27,10 +27,9 @@ export const generateRowsMap = (gridControl: GridControl, rows: Item | object[],
 
     // We need to check all date fields, because the grid crashes if the date is not a valid date
     dateFields.forEach((field) => {
-      if (row[field]) {
-        const date = new Date(row[field]);
-        if (isNaN(date.getTime())) row[field] = null;
-      }
+      if (!row[field]) return;
+      const date = new Date(row[field]);
+      row[field] = isNaN(date.getTime()) ? null : date.toISOString();
     });
 
     rowsMap.set(id, row);
