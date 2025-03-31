@@ -52,6 +52,7 @@ export const generateColumnsMap = (
     const name = col.field;
 
     const data = {
+      ...col,
       columnCssStyles: {
         "text-align": col.textAlign || "left",
         ...(col.columnCssStyles || {}),
