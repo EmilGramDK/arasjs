@@ -2,8 +2,8 @@ import { Item } from "./item";
 
 export interface GridControl extends Grid {
   new (container: HTMLElement, options?: GridOptions): GridControl;
-  setColumns: (columns: GridColumn[]) => void;
-  setRows: (items: Item | object[]) => void;
+  setColumns: (columns: GridColumn[], merge?: boolean) => void;
+  setRows: (items: Item | object[], merge?: boolean) => void;
 
   // event handlers
   setCellOnDoubleClick: (callback: (head: string, row: string) => void) => void;

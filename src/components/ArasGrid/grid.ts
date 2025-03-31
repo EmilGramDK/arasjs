@@ -49,8 +49,8 @@ customElements.whenDefined("aras-grid").then(() => {
     };
   };
 
-  gridPrototype.setColumns = function (columns: GridColumns) {
-    const columnsMap = generateColumnsMap(columns);
+  gridPrototype.setColumns = function (columns: GridColumns, merge?: boolean) {
+    const columnsMap = generateColumnsMap(this, columns, merge);
     this.head = columnsMap;
 
     if (this.options.orderBy) {

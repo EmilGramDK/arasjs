@@ -39,9 +39,13 @@ export const generateRowsMap = (gridControl: GridControl, rows: Item | object[],
   return rowsMap;
 };
 
-export const generateColumnsMap = (columns: GridColumns): Map<string, GridColumn> => {
-  const columnsMap = new Map<string, any>();
-
+export const generateColumnsMap = (
+  gridControl: GridControl,
+  columns: GridColumns,
+  merge?: boolean
+): Map<string, GridColumn> => {
+  const headStore = gridControl.head?.store || new Map<string, any>();
+  const columnsMap = merge ? headStore : new Map<string, any>();
   if (!columns || !columns.length) return columnsMap;
 
   columns.forEach((col, index) => {
