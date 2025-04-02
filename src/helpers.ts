@@ -75,6 +75,11 @@ async function injectStylesAndScripts() {
       id: "styles-common-layout",
     },
     {
+      type: "text/javascript",
+      url: "../javascript/include.aspx?files=IOM.ScriptSharp",
+      id: "script-iom",
+    },
+    {
       type: "module",
       url: `../jsBundles/excelConverter.es.js`,
       id: "script-excel-converter",
