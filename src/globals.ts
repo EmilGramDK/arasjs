@@ -22,6 +22,7 @@ declare global {
     arasTabs: ArasTabs;
     Grid: GridControl;
     Toolbar: Toolbar;
+    DOMParser: any;
   }
   namespace JSX {
     interface IntrinsicElements extends React.JSX.IntrinsicElements {

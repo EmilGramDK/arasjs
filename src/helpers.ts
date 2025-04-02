@@ -7,6 +7,7 @@ export async function InitAras() {
   window.aras = window.aras || top?.aras || parent.aras;
   window.ArasModules = top?.ArasModules || parent?.ArasModules;
   window.store = window.store || parent.store || top?.store;
+  window.DOMParser = top?.DOMParser || parent.DOMParser;
 
   if (!window.aras) throwError("Aras object not initialized\n\nThis Application needs to be run inside Aras Innovator");
 
@@ -73,11 +74,6 @@ async function injectStylesAndScripts() {
       type: "stylesheet",
       url: `../javascript/include.aspx?classes=common.min.css,cuiLayout.css`,
       id: "styles-common-layout",
-    },
-    {
-      type: "text/javascript",
-      url: "../javascript/include.aspx?files=IOM.ScriptSharp",
-      id: "script-iom",
     },
     {
       type: "module",
