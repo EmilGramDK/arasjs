@@ -10,7 +10,7 @@ export interface GridControl extends Grid {
   setOnHeadContextMenu: (callback: (head: string, event: Event) => void) => void;
   setOnCellContextMenu: (callback: (head: string, rowId: string, event: Event) => void) => void;
   setRowOnDoubleClick: (callback: (row: string) => void) => void;
-  setOnSelectRow: (callback: () => void) => void;
+  setOnSelectRow: (callback: (index: number, rowId: string, type: string) => void) => void;
 
   exportToExcel: (name: string) => void;
 

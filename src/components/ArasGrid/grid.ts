@@ -81,8 +81,11 @@ customElements.whenDefined("aras-grid").then(() => {
     this.on("dblclick", callback, "row");
   };
 
-  gridPrototype.setOnSelectRow = function (callback: () => void) {
-    this.on("selectRow", callback);
+  gridPrototype.setOnSelectRow = function (callback: (index: number, rowId: string, type: string) => void) {
+    this.on("selectRow", (event: CustomEvent) => {
+      const { index, rowId, type } = event.detail;
+      callback(index, rowId, type);
+    });
   };
 
   gridPrototype.deleteSelectedRows = function () {
