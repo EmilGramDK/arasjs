@@ -230,7 +230,7 @@ interface ArasDialogAttachedEventDescriptor {
   callback: () => void;
 }
 export type ArasDialogModule = {
-  new (type: "html", parameters: ArasDialogParameters): ArasDialogModule;
+  new (type: "html" | "iframe", parameters: ArasDialogParameters): ArasDialogModule;
   contentNode: HTMLElement;
   dialogNode: HTMLElement;
   attachedEvents: Record<string, ArasDialogAttachedEventDescriptor>;
@@ -243,9 +243,7 @@ export type ArasDialogModule = {
 export interface ArasModules {
   SvgManager: SvgManager;
   Dialog: ArasDialogModule;
-  MaximazableDialog: {
-    show: (type: string, options: Record<string, unknown>) => DialogShowResult;
-  };
+  MaximazableDialog: ArasDialogModule;
   odataFetch: (url: string, options?: RequestInit) => Promise<any>;
   notify: (message: string, options?: object) => void;
   xmlToJson: (xml: string | XmlNode) => object;
