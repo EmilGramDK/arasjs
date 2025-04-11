@@ -1,6 +1,6 @@
 import { GridControl, GridOptions } from "../types/grid";
 
-export const createGrid = (container: string | HTMLElement, options: GridOptions = {}): GridControl => {
+export const createGrid = function (container: string | HTMLElement, options: GridOptions = {}): GridControl {
   const gridContainer = typeof container === "string" ? document.getElementById(container) : container;
   if (!gridContainer) throw new Error(`Grid Container with ID: ${container} not found`);
 
