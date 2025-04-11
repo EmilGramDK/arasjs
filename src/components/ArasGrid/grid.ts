@@ -18,17 +18,21 @@ customElements.whenDefined("aras-grid").then(() => {
     this.head = new Map();
     this.rows = new Map();
 
-    if (options.enableDefaultLinkClick) enableDefaultLinkClick(this);
+    if (options?.enableDefaultLinkClick) enableDefaultLinkClick(this);
   };
 
   const originalCellType = gridPrototype.getCellType;
-  gridPrototype.getCellType = function (headId: string): string {
-    const { head } = this;
-    if (!head) return originalCellType;
-    return this.head.get(headId, "type") ?? originalCellType;
+  gridPrototype.getCellType = (headId: string, rowId: string) => {
+    //@ts-ignore
+    const head = this?.head;
+    if (!head) return originalCellType.call(this, headId, rowId);
+    const cellType = head.get(headId, "type");
+    return cellType || originalCellType.call(this, headId, rowId);
   };
 
-  gridPrototype.getCellMetadata = function (headId: string, itemId: string, type: string) {
+  gridPrototype.getCellMetadata = (headId: string, itemId: string, type: string) => {
+    if (!this) return {};
+    //@ts-ignore
     const { head, rows, settings } = this;
     const headInfo = head.get(headId) || {};
     const defaultPattern = type === "date" ? "short_date" : "";
