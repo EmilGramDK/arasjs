@@ -21,9 +21,9 @@ customElements.whenDefined("aras-grid").then(() => {
     if (options.enableDefaultLinkClick) enableDefaultLinkClick(this);
   };
 
-  gridPrototype.getCellType = function (headId: string): string {
-    return this.head?.get(headId)?.type ?? this.getCellType;
-  };
+  // gridPrototype.getCellType = function (headId: string): string {
+  //   return this.head?.get(headId)?.type ?? this.getCellType;
+  // };
 
   gridPrototype.getCellMetadata = function (headId: string, itemId: string, type: string) {
     const { head, rows, settings } = this;
