@@ -5,7 +5,7 @@ export const generateRowsMap = (gridControl: GridControl, rows: Item | object[],
   const headStore = gridControl.head?.store || new Map<string, any>();
   const rowsStore = gridControl.rows?.store || new Map<string, any>();
   const rowsMap = merge ? rowsStore : new Map<string, any>();
-  if (!rows || !rows.length) return rowsMap;
+  if (!rows || (Array.isArray(rows) && !rows.length)) return rowsMap;
 
   const arr = Array.isArray(rows) ? rows : ArasModules.xmlToODataJsonAsCollection(rows.toString());
   const defaultValues = new Map<string, any>();
