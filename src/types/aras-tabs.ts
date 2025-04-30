@@ -1,5 +1,6 @@
 export interface ArasTabs {
   data: Map<string, object>;
+  selectTab: (id: string, preventFocus?: boolean) => Promise<boolean>;
   forceCloseAllTabs: () => void;
   closeTabs: () => void;
   closeOtherTabs: (excludedTabId: string) => void;

@@ -21,13 +21,11 @@ customElements.whenDefined("aras-grid").then(() => {
     if (options?.enableDefaultLinkClick) enableDefaultLinkClick(this);
   };
 
-  const originalCellType = gridPrototype.getCellType;
-  gridPrototype.getCellType = (headId: string, rowId: string) => {
+  gridPrototype.getCellType = function (headId: string) {
     //@ts-ignore
-    const head = this?.head;
-    if (!head) return originalCellType.call(this, headId, rowId);
-    const cellType = head.get(headId, "type");
-    return cellType || originalCellType.call(this, headId, rowId);
+    const head = this?.head || document.querySelector("aras-grid")?.head;
+    if (!head) return "string";
+    return head.get(headId, "type") || "string";
   };
 
   gridPrototype.getCellMetadata = (headId: string, itemId: string, type: string) => {

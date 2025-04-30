@@ -4,6 +4,8 @@ import { Item } from "./item";
 
 export interface Aras {
   [index: string]: unknown;
+  lockItemAsync: (itemID: string, itemTypeName: string) => Promise<XmlNode>;
+  unlockItemAsync: (itemID: string, itemTypeName: string) => Promise<XmlNode>;
   getI18NXMLResource: (resource: string) => string;
   calcMD5: (input: string) => string;
   clearStatus: (id: string) => void;
