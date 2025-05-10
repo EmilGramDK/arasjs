@@ -4,6 +4,7 @@ import { Item } from "./item";
 
 export interface Aras {
   [index: string]: unknown;
+  logout: () => void;
   lockItemAsync: (itemID: string, itemTypeName: string) => Promise<XmlNode>;
   unlockItemAsync: (itemID: string, itemTypeName: string) => Promise<XmlNode>;
   getI18NXMLResource: (resource: string) => string;
@@ -92,9 +93,9 @@ export interface Aras {
     };
   };
   OAuthClient: {
-    login: (options: any) => void;
-    relogin: (options: any) => void;
-    logout: (options: any) => void;
+    login: (options: any) => Promise<void>;
+    relogin: (options: any) => Promise<void>;
+    logout: (options: any) => Promise<void>;
     getToken: () => string;
     isLogged: () => boolean;
     getAuthorizationHeader: () => object;
