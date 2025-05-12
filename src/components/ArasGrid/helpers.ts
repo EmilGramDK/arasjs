@@ -68,7 +68,7 @@ export const generateColumnsMap = (
       label: col.label,
       locale: col.locale || null,
       type: col.type || "string",
-      dataType: col.type || "string",
+      dataType: col.type || col.dataType || "string",
       dataSource: col.dataSource || null,
       dataSourceName: col.dataSourceName || null,
       editable: col.editable || false,

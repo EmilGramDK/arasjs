@@ -241,6 +241,7 @@ export type ArasDialogModule = {
   close: () => void;
   confirm: (message: string, parameters: ArasConfirmDialogParameters) => Promise<string>;
   alert: (message: string, options: object) => Promise<void>;
+  maximize: () => void;
   promise: Promise<unknown>;
 };
 export interface ArasModules {

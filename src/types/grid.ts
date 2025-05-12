@@ -79,10 +79,12 @@ export interface GridView {
   defaultSettings: GridSettings;
   scrollableElement: HTMLElement;
   autofill: boolean;
+  cache: any;
   destroyEventHandlers: () => void;
   initialization: () => void;
   render: () => Promise<void>;
   showMessageActiveCell: () => void;
+  _scrollHandler: () => void;
 }
 
 export type GridColumns = GridColumn[];
