@@ -30,7 +30,8 @@ export interface Item {
   removeAttribute: (name: string) => void;
   removeProperty: (name: string) => void;
   removePropertyAttribute: (propery: string, attribute: string) => void;
-  node: XmlNode;
+  node?: XmlNode;
+  nodeList?: XmlNode[];
   getErrorDetail: () => string;
   getRelatedItem(): Item | null;
   getRelatedItemID(): string | null;

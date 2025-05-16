@@ -4,6 +4,8 @@ import { Item } from "./item";
 
 export interface Aras {
   [index: string]: unknown;
+  vault: any;
+  getCurrentUserID: () => string;
   logout: () => void;
   lockItemAsync: (itemID: string, itemTypeName: string) => Promise<XmlNode>;
   unlockItemAsync: (itemID: string, itemTypeName: string) => Promise<XmlNode>;
@@ -28,6 +30,7 @@ export interface Aras {
   getMainArasObject: () => Aras;
   getMainWindow: () => ArasWindow;
   getItemTypeForClient: (name: string, searchType: string) => Item;
+  getItemTypeNodeForClient: (name: string, searchType: string) => XmlNode;
   getResource: (location: string, key: string, ...parameters: unknown[]) => string;
   getLanguagesResultNd: () => XmlNode;
   getItemTypeId: (name: string) => string;

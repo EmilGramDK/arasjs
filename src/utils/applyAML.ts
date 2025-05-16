@@ -1,4 +1,6 @@
+import { XmlNode } from "../types/aras";
 import { Item } from "../types/item";
+import { convertToXML } from "./convertToXML";
 
 /**
  *
@@ -7,7 +9,12 @@ import { Item } from "../types/item";
  * @param abortController
  * @returns
  */
-export async function applyAML(aml: string, throwOnError = false, signal?: AbortController["signal"]): Promise<Item> {
+export async function applyAML(
+  aml: string,
+  throwOnError = false,
+  returnFormat: "IOM" | "XML" | "string" = "IOM",
+  signal?: AbortController["signal"]
+): Promise<Item | string | XmlNode> {
   const oAuthClient = aras.OAuthClient;
   const authHeaders = oAuthClient.getAuthorizationHeader();
 
@@ -42,5 +49,5 @@ export async function applyAML(aml: string, throwOnError = false, signal?: Abort
     throw new Error(resItem.getErrorString());
   }
 
-  return resItem;
+  return returnFormat === "IOM" ? resItem : returnFormat === "XML" ? convertToXML(resItem) : resItem.ToString();
 }
