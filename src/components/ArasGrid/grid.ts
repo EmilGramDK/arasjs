@@ -14,7 +14,7 @@ customElements.whenDefined("aras-grid").then(() => {
     const columnsMap = generateColumnsMap(this, columns, merge);
     this.head = columnsMap;
 
-    if (this.options.orderBy) {
+    if (this.options?.orderBy) {
       this.settings.orderBy = [this.options.orderBy];
     }
   };

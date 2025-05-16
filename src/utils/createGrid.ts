@@ -5,7 +5,7 @@ import { CuiGridOptions } from "../types/grid-plugin";
 export const createGrid = function (
   container: string | HTMLElement,
   options: GridOptions = {},
-  cuiOptions: CuiGridOptions
+  cuiOptions: CuiGridOptions = {}
 ): GridControl {
   const gridContainer = typeof container === "string" ? document.getElementById(container) : container;
   if (!gridContainer) throw new Error(`Grid Container with ID: ${container} not found`);
@@ -14,7 +14,7 @@ export const createGrid = function (
 
   cuiGrid(gridControl, {
     ...cuiOptions,
-    plugins: [BaseGridPlugin, ...cuiOptions.plugins],
+    plugins: [BaseGridPlugin, ...(cuiOptions.plugins || [])],
   });
 
   return gridControl;
