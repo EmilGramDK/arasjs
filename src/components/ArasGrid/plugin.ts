@@ -35,12 +35,12 @@ export class BaseGridPlugin extends GridPlugin {
   }
 
   getCellType(result: any, headId: string) {
-    return result ?? this.grid.head.get(headId, "dataType");
+    return this.grid.head.get(headId, "dataType") || result;
   }
 
   getEditorType(result: any, headId: string) {
     const dataType = this.grid.head.get(headId, "dataType");
-    return this.dialogTypes.includes(dataType) ? "nonEditable" : result;
+    return this.dialogTypes.includes(dataType) ? "nonEditable" : dataType || result;
   }
 
   getCellMetadata(result: any, headId: string, rowId: string) {
