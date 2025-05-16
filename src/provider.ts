@@ -5,10 +5,8 @@ import { Innovator } from "./types/innovator";
 import { Aras, ArasModules, ArasUser, ArasWindow, XmlNode } from "./types/aras";
 import { ExcelConverterAPI } from "./types/excel-converter";
 import { Item } from "./types/item";
-import { odataFetch } from "./utils/odataFetch";
-import { applyAsync } from "./utils/applyAsync";
-import { applyAML } from "./utils/applyAML";
 import { createGrid } from "./utils/createGrid";
+import { applyAML, applyAsync, odataFetch } from "./utils";
 
 export default class ArasProvider {
   private static instance: ArasProvider | null = null;

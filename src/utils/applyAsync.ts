@@ -11,7 +11,7 @@ export async function applyAsync(item: Item, throwOnError = false, signal?: Abor
   const oAuthClient = aras.OAuthClient;
   const authHeaders = oAuthClient.getAuthorizationHeader();
 
-  const body = `<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" ><SOAP-ENV:Body><ApplyItem>${item.node.xml}</ApplyItem></SOAP-ENV:Body></SOAP-ENV:Envelope>`;
+  const body = `<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" ><SOAP-ENV:Body><ApplyItem>${item.node?.xml}</ApplyItem></SOAP-ENV:Body></SOAP-ENV:Envelope>`;
 
   const fetchOptions: RequestInit = {
     method: "POST",

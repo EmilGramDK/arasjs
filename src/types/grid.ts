@@ -33,7 +33,7 @@ export interface Grid extends HTMLElement {
   validateCell: (headId: string, rowId: string, value: any, _grid: Grid) => CellValidationResult;
   getEditorType: (headId: any, itemId: any, value: any, type: any) => any;
   checkEditAvailability: (_headId: string, _itemId: string, _grid: Grid) => boolean;
-  getCellMetadata: (_headId: string, _itemId: string, _type: string) => Record<string, any> | null;
+  getCellMetadata: (_headId: string, _itemId: string, _type?: string) => Record<string, any> | null;
   clientSort: (sortableArray: string[]) => void;
   sort: () => Promise<void>;
   cancelEdit: () => void;

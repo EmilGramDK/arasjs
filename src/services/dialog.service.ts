@@ -110,7 +110,7 @@ export default class DialogService {
       }
     });
 
-    await searchContainer._setAml(newSearch.node.xml);
+    await searchContainer._setAml(newSearch.node?.xml);
     currentSearchMode.setMaxRecords(options.maxRecords || 25);
     currentSearchMode.setPageSize(options.maxRecords || 25);
   }
