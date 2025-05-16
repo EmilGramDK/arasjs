@@ -40,5 +40,8 @@
   ],
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@emilgramdk/utils": "^1.0.10"
   }
 }

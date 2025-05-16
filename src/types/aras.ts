@@ -24,6 +24,14 @@ export interface Aras {
   uiDrawFieldEx: (field: XmlNode, type: unknown, mode: string) => string;
   getItemProperty: (item: XmlNode, property: string, defaultValue?: string | number) => string;
   getItemByName: (type: string, name: string, levels?: number, configPath?: string, select?: string) => XmlNode;
+  getItemByKeyedName: (
+    type: string,
+    keyedName: string,
+    levels?: number,
+    configPath?: string,
+    select?: string
+  ) => XmlNode;
+  uiGetItemByKeyedName: (typeName: string, keyedName: string, skipDialog?: boolean) => XmlNode;
   getUserID: () => string;
   user: ArasUser;
   getMostTopWindowWithAras: (target?: Window) => Window;

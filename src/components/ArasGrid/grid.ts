@@ -1,6 +1,6 @@
-import { GridColumns, GridOptions } from "../../types/grid";
+import { GridColumns } from "../../types/grid";
 import { Item } from "../../types/item";
-import { enableDefaultLinkClick, exportToExcel, generateColumnsMap, generateRowsMap } from "./helpers";
+import { exportToExcel, generateColumnsMap, generateRowsMap } from "./helpers";
 
 /**
  * Extends the ArasGrid component
@@ -9,50 +9,6 @@ import { enableDefaultLinkClick, exportToExcel, generateColumnsMap, generateRows
 customElements.whenDefined("aras-grid").then(() => {
   const gridPrototype = customElements.get("aras-grid")?.prototype;
   if (!gridPrototype) return;
-
-  const originalInit = gridPrototype.initialization;
-  gridPrototype.initialization = function (options: GridOptions) {
-    originalInit.call(this, options);
-
-    this.options = options;
-    this.head = new Map();
-    this.rows = new Map();
-
-    if (options?.enableDefaultLinkClick) enableDefaultLinkClick(this);
-  };
-
-  gridPrototype.getCellType = function (headId: string) {
-    //@ts-ignore
-    const head = this?.head || document.querySelector("aras-grid")?.head;
-    if (!head) return "string";
-    return head.get(headId, "type") || "string";
-  };
-
-  gridPrototype.getCellMetadata = (headId: string, itemId: string, type: string) => {
-    if (!this) return {};
-    //@ts-ignore
-    const { head, rows, settings } = this;
-    const headInfo = head.get(headId) || {};
-    const defaultPattern = type === "date" ? "short_date" : "";
-    const pattern = headInfo.pattern || defaultPattern;
-    //@ts-ignore
-    const layout = window.layout;
-
-    return {
-      list: [],
-      lifeCycleStates: new Map(),
-      currentUserId: aras.getUserID(),
-      format: itemId === "searchRow" ? defaultPattern : pattern,
-      sourceItemTypeName: headInfo.dataSourceName,
-      scale: headInfo.scale,
-      precision: headInfo.precision,
-      maxLength: headInfo.maxLength,
-      propsOfLayout: layout?.props || {},
-      stateOfLayout: layout?.state || {},
-      itemType: "",
-      dataType: head.get(headId, "dataType"),
-    };
-  };
 
   gridPrototype.setColumns = function (columns: GridColumns, merge?: boolean) {
     const columnsMap = generateColumnsMap(this, columns, merge);

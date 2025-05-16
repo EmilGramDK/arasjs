@@ -1,6 +1,7 @@
 import { ArasModules, Aras, ArasCore, GlobalStore, ReturnBlockerHelper } from "./types/aras";
 import { ArasTabs } from "./types/aras-tabs";
 import { GridControl } from "./types/grid";
+import { CuiGridOptions } from "./types/grid-plugin";
 import { Toolbar } from "./types/toolbar";
 
 declare global {
@@ -12,6 +13,7 @@ declare global {
   var arasTabs: ArasTabs;
   var Grid: GridControl;
   var Toolbar: Toolbar;
+  var cuiGrid: (control: GridControl, options: CuiGridOptions) => void;
 
   interface Window {
     aras: Aras;
@@ -22,6 +24,7 @@ declare global {
     arasTabs: ArasTabs;
     Grid: GridControl;
     Toolbar: Toolbar;
+    cuiGrid: (control: GridControl, options: CuiGridOptions) => void;
     DOMParser: any;
   }
   namespace JSX {

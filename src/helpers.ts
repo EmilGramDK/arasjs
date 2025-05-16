@@ -80,6 +80,11 @@ async function injectStylesAndScripts() {
       url: `../jsBundles/excelConverter.es.js`,
       id: "script-excel-converter",
     },
+    {
+      type: "module",
+      url: `../jsBundles/cui.es.js`,
+      id: "script-cui",
+    },
   ];
 
   await Promise.all(

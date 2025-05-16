@@ -33,7 +33,13 @@ export interface Grid extends HTMLElement {
   validateCell: (headId: string, rowId: string, value: any, _grid: Grid) => CellValidationResult;
   getEditorType: (headId: any, itemId: any, value: any, type: any) => any;
   checkEditAvailability: (_headId: string, _itemId: string, _grid: Grid) => boolean;
-  getCellMetadata: (_headId: string, _itemId: string, _type?: string) => Record<string, any> | null;
+  getCellMetadata: (
+    headId: string,
+    itemId: string,
+    type?: string
+  ) => {
+    [key: string]: any;
+  };
   clientSort: (sortableArray: string[]) => void;
   sort: () => Promise<void>;
   cancelEdit: () => void;
@@ -72,6 +78,7 @@ export interface GridSettings {
   focusedCell: GridFocusCell | null;
   selection: GridSelectionRange | null;
   orderBy: Array<{ headId: string; desc?: boolean }>;
+  editable?: boolean;
 }
 
 export interface GridView {

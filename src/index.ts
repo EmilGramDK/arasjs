@@ -4,12 +4,14 @@ import ArasProvider from "./provider";
 import { SetArasReady } from "./helpers";
 import { ExcelConverterAPI } from "./types/excel-converter";
 import { TopWindowHelper, XmlDocument } from "./types/aras";
+import { extendItemProperty } from "./extenders/extend-item-property";
 
 window.isArasReady = false;
 
 const useArasProvider = async (): Promise<void> => {
   await ArasProvider.initializeArasApp().then((instance) => {
     SetArasReady();
+    extendItemProperty();
     instance.toggleSpinner(false);
   });
 };
@@ -40,4 +42,5 @@ export * from "./types/innovator";
 export * from "./types/item";
 export * from "./types/excel-converter";
 export * from "./types/aras-tabs";
+export * from "./types/grid-plugin";
 export * from "./utils";
