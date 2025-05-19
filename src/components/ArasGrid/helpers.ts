@@ -1,5 +1,6 @@
 import { GridColumn, GridColumns, GridControl } from "../../types/grid";
 import { Item } from "../../types/item";
+import { getLocalISODate } from "../../utils/formatDate";
 
 export const generateRowsMap = (gridControl: GridControl, rows: Item | object[], merge?: boolean): Map<string, any> => {
   const headStore = gridControl.head?.store || new Map<string, any>();
@@ -28,8 +29,7 @@ export const generateRowsMap = (gridControl: GridControl, rows: Item | object[],
     // We need to check all date fields, because the grid crashes if the date is not a valid date
     dateFields.forEach((field) => {
       if (!row[field]) return;
-      const date = new Date(row[field]);
-      row[field] = isNaN(date.getTime()) ? null : date.toISOString();
+      row[field] = getLocalISODate(row[field]);
     });
 
     rowsMap.set(id, row);
