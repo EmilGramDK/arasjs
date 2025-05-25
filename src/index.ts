@@ -20,7 +20,8 @@ export const useAras = async (options: ArasOptions): Promise<void> => {
 };
 export const useArasProvider = useAras;
 
-export * from "./components/grid/index";
+export * from "./components/grid";
+export * from "./components/toolbar";
 
 export * from "./types/aras";
 export * from "./types/item";
