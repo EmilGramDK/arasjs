@@ -35,3 +35,5 @@ customElements.whenDefined("aras-toolbar").then(() => {
     });
   };
 });
+
+export { createToolbar, generateItemsMap } from "./utils";
