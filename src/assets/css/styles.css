@@ -28,6 +28,9 @@ body,
 .aras-toolbar aras-menu ul li {
   padding-right: 10px !important;
 }
+.aras-toolbar__right-container {
+  align-items: center;
+}
 /* END - toolbar fix */
 
 /* toolbar disabled button */
@@ -53,12 +56,8 @@ body,
 }
 .aras-grid-body_selectable .aras-grid-row:hover .aras-grid-row-cell[rowspan],
 .aras-grid-body_selectable .aras-grid-row_hovered .aras-grid-row-cell[rowspan],
-.aras-grid-body_selectable
-  .aras-grid-row_selected.aras-grid-row_hovered
-  .aras-grid-row-cell[rowspan],
-.aras-grid-body_selectable
-  .aras-grid-row_selected:hover
-  .aras-grid-row-cell[rowspan] {
+.aras-grid-body_selectable .aras-grid-row_selected.aras-grid-row_hovered .aras-grid-row-cell[rowspan],
+.aras-grid-body_selectable .aras-grid-row_selected:hover .aras-grid-row-cell[rowspan] {
   background-color: #dfeaf5;
 }
 .aras-grid-body_selectable .aras-grid-row_selected {
@@ -69,9 +68,7 @@ body,
 .aras-grid-body_selectable .aras-grid-row_selected:hover {
   box-shadow: 0 0 0 64px rgba(0, 0, 0, 0.04) inset;
 }
-.aras-grid-body_selectable
-  .aras-grid-row_selected
-  .aras-grid-row-cell[rowspan] {
+.aras-grid-body_selectable .aras-grid-row_selected .aras-grid-row-cell[rowspan] {
   background-color: #d0dfea;
 }
 /* END - Grid blue hover */

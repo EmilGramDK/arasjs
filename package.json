@@ -14,6 +14,7 @@
     "./globals": "./dist/globals.d.ts",
     "./utils": "./dist/utils.js",
     "./vite": "./dist/vite.js",
+    "./css": "./dist/arasjs.css",
     "./package.json": "./package.json"
   },
   "scripts": {
