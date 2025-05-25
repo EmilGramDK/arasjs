@@ -9,7 +9,10 @@ export async function InitAras(options: ArasOptions) {
   window.store = window.store || parent.store || top?.store;
   window.DOMParser = top?.DOMParser || parent.DOMParser;
 
-  if (!window.aras) throwError("Aras object not initialized\n\nThis Application needs to be run inside Aras Innovator");
+  if (!window.aras)
+    throwError(
+      "Aras object not initialized\n\nThis Application needs to be run inside Aras Innovator",
+    );
 
   injectCSSToParent();
   injectArasSpinner();
@@ -83,20 +86,24 @@ async function injectStylesAndScripts(options: ArasOptions) {
         type: "module",
         url: `../jsBundles/cui.es.js`,
         id: "script-cui",
-      }
+      },
     );
   }
 
   await Promise.all(
     resources.map((resource) =>
-      resource.type !== "stylesheet" ?
-        loadScript(resource.type, resource.url, resource.id)
-      : loadStylesheet(resource.url, resource.id)
-    )
+      resource.type !== "stylesheet"
+        ? loadScript(resource.type, resource.url, resource.id)
+        : loadStylesheet(resource.url, resource.id),
+    ),
   );
 }
 
-export async function loadScript(type: string, src: string, id: string): Promise<void> {
+export async function loadScript(
+  type: string,
+  src: string,
+  id: string,
+): Promise<void> {
   return new Promise((resolve, reject) => {
     if (document.getElementById(id)) return resolve(); // Skip if script already exists
 

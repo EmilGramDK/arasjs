@@ -3,7 +3,11 @@ import { extendItemProperty } from "./extensions/item-property";
 import type { TopWindowHelper } from "./types/aras";
 import type { ExcelConverterAPI } from "./types/excel-converter";
 import type { XmlDocument } from "./types/xml-node";
-import { InitAras, SetArasReady, type ArasOptions } from "./utils/providerUtils";
+import {
+  InitAras,
+  SetArasReady,
+  type ArasOptions,
+} from "./utils/providerUtils";
 import { toggleSpinner } from "./utils/toggleSpinner";
 
 window.isArasReady = false;

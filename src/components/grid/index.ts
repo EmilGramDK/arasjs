@@ -26,19 +26,27 @@ customElements.whenDefined("aras-grid").then(() => {
     if (this.settings.orderBy) this.sort();
   };
 
-  gridPrototype.setOnHeadContextMenu = function (callback: (head: string, event: Event) => void) {
+  gridPrototype.setOnHeadContextMenu = function (
+    callback: (head: string, event: Event) => void,
+  ) {
     this.on("contextmenu", callback, "head");
   };
 
-  gridPrototype.setOnCellContextMenu = function (callback: (head: string, rowId: string, event: Event) => void) {
+  gridPrototype.setOnCellContextMenu = function (
+    callback: (head: string, rowId: string, event: Event) => void,
+  ) {
     this.on("contextmenu", callback, "cell");
   };
 
-  gridPrototype.setCellOnDoubleClick = function (callback: (head: string, row: string) => void) {
+  gridPrototype.setCellOnDoubleClick = function (
+    callback: (head: string, row: string) => void,
+  ) {
     this.on("dblclick", callback, "cell");
   };
 
-  gridPrototype.setRowOnDoubleClick = function (callback: (row: string) => void) {
+  gridPrototype.setRowOnDoubleClick = function (
+    callback: (row: string) => void,
+  ) {
     this.on("dblclick", callback, "row");
   };
 

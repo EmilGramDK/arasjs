@@ -20,7 +20,10 @@ customElements.whenDefined("aras-toolbar").then(() => {
     return this.render();
   };
 
-  toolbarPrototype.setItemHidden = function (itemId: string, value: boolean = true) {
+  toolbarPrototype.setItemHidden = function (
+    itemId: string,
+    value: boolean = true,
+  ) {
     const item = this.data.get(itemId);
     if (!item) return;
     item.hidden = value;

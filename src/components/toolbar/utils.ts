@@ -1,11 +1,20 @@
-import { menuItemT, ToolbarControl, ToolbarControlOptions, ToolbarItem } from "../../types/toolbar";
+import {
+  menuItemT,
+  ToolbarControl,
+  ToolbarControlOptions,
+  ToolbarItem,
+} from "../../types/toolbar";
 
 export const createToolbar = function (
   container: string | HTMLElement,
-  options: ToolbarControlOptions = {}
+  options: ToolbarControlOptions = {},
 ): ToolbarControl {
-  const tbContainer = typeof container === "string" ? document.getElementById(container) : container;
-  if (!tbContainer) throw new Error(`Toolbar Container with ID: ${container} not found`);
+  const tbContainer =
+    typeof container === "string"
+      ? document.getElementById(container)
+      : container;
+  if (!tbContainer)
+    throw new Error(`Toolbar Container with ID: ${container} not found`);
 
   const tbControl = document.createElement("aras-toolbar") as ToolbarControl;
   tbContainer.innerHTML = "";
@@ -14,7 +23,11 @@ export const createToolbar = function (
   return tbControl;
 };
 
-export const onClickItem = (parentItem: ToolbarItem, event: Event, callback: any) => {
+export const onClickItem = (
+  parentItem: ToolbarItem,
+  event: Event,
+  callback: any,
+) => {
   const node = event.target;
   if (!(node instanceof Element) || !parentItem) return;
 
@@ -26,7 +39,9 @@ export const onClickItem = (parentItem: ToolbarItem, event: Event, callback: any
   return callback(targetNode.dataset.index);
 };
 
-export const generateItemsMap = (items: ToolbarItem[]): Map<string, ToolbarItem> => {
+export const generateItemsMap = (
+  items: ToolbarItem[],
+): Map<string, ToolbarItem> => {
   const itemsMap = new Map<string, ToolbarItem>();
 
   items.forEach((item) => {

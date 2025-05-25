@@ -17,6 +17,7 @@ export interface SearchDialogOptions {
   filters?: SearchDialogFilter[];
   maxRecords?: number;
   autoSearch?: boolean;
+  fullMultiResponse?: boolean;
 }
 
 export interface ArasDialogParameters {
@@ -26,6 +27,7 @@ export interface ArasDialogParameters {
   sourceItemTypeName?: string;
   sourcePropertyName?: string;
   multiselect?: boolean;
+  fullMultiResponse?: boolean;
   aras: Aras;
   dialogWidth?: number;
   dialogHeight?: number;
