@@ -1,4 +1,4 @@
-import { Item } from "./item";
+import type { Item } from "./item";
 
 export interface GridControl extends Grid {
   new (container: HTMLElement, options?: GridOptions): GridControl;
@@ -7,10 +7,16 @@ export interface GridControl extends Grid {
 
   // event handlers
   setCellOnDoubleClick: (callback: (head: string, row: string) => void) => void;
-  setOnHeadContextMenu: (callback: (head: string, event: Event) => void) => void;
-  setOnCellContextMenu: (callback: (head: string, rowId: string, event: Event) => void) => void;
+  setOnHeadContextMenu: (
+    callback: (head: string, event: Event) => void,
+  ) => void;
+  setOnCellContextMenu: (
+    callback: (head: string, rowId: string, event: Event) => void,
+  ) => void;
   setRowOnDoubleClick: (callback: (row: string) => void) => void;
-  setOnSelectRow: (callback: (index: number, rowId: string, type: string) => void) => void;
+  setOnSelectRow: (
+    callback: (index: number, rowId: string, type: string) => void,
+  ) => void;
 
   exportToExcel: (name: string) => void;
 
@@ -26,17 +32,35 @@ export interface Grid extends HTMLElement {
   view: GridView;
   head: HeadWrap;
   rows: RowsWrap;
-  getCellType: (headId: string, itemId?: string, value?: any, type?: string) => string;
-  getCellSpan: (_headId: string, _itemId: string, _rowId: string) => GridCellSpan | null;
+  getCellType: (
+    headId: string,
+    itemId?: string,
+    value?: any,
+    type?: string,
+  ) => string;
+  getCellSpan: (
+    _headId: string,
+    _itemId: string,
+    _rowId: string,
+  ) => GridCellSpan | null;
   getCellStyles: () => Record<string, string>;
   getItemId: (headId: string, rowId: string) => string;
-  validateCell: (headId: string, rowId: string, value: any, _grid: Grid) => CellValidationResult;
+  validateCell: (
+    headId: string,
+    rowId: string,
+    value: any,
+    _grid: Grid,
+  ) => CellValidationResult;
   getEditorType: (headId: any, itemId: any, value: any, type: any) => any;
-  checkEditAvailability: (_headId: string, _itemId: string, _grid: Grid) => boolean;
+  checkEditAvailability: (
+    _headId: string,
+    _itemId: string,
+    _grid: Grid,
+  ) => boolean;
   getCellMetadata: (
     headId: string,
     itemId: string,
-    type?: string
+    type?: string,
   ) => {
     [key: string]: any;
   };
@@ -124,7 +148,7 @@ export interface GridColumn extends GridHeadData {
     | "mv_list"
     | "restricted"
     | "select"
-    | string;
+    | (string & {});
   dataSource?: string; // ID of itemtype or list
   dataSourceName?: string; // Name of itemtype or list
   searchType?: string;

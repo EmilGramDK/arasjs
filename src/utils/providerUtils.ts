@@ -1,9 +1,9 @@
-export function throwError(message: string): never {
-  showFullScreenError("Error Occurred", message);
-  throw new Error(message);
+export interface ArasOptions {
+  injectCSS: boolean;
+  injectJS: boolean;
 }
 
-export async function InitAras() {
+export async function InitAras(options: ArasOptions) {
   window.aras = window.aras || top?.aras || parent.aras;
   window.ArasModules = top?.ArasModules || parent?.ArasModules;
   window.store = window.store || parent.store || top?.store;
@@ -14,7 +14,7 @@ export async function InitAras() {
   injectCSSToParent();
   injectArasSpinner();
   setBaseUrl();
-  await Promise.all([injectStylesAndScripts(), waitForDomReady()]);
+  await Promise.all([injectStylesAndScripts(options), waitForDomReady()]);
 }
 
 export function SetArasReady() {
@@ -33,11 +33,11 @@ function setBaseUrl() {
 function injectCSSToParent() {
   if (top?.document.getElementById("arasjs_parrent_css")) return;
   const css = `<style id="arasjs_parrent_css">
-  .content-block__iframe_page { padding:0;width:100%;height:100%; }
-  .aras-notification__message { white-space: break-spaces; line-height: 20px; padding: 8px 0px; }
-  .aras-notify_bottom-left, .aras-notify_top-left { left: 50px; }
-  .aras-notify_bottom-left, .aras-notify_bottom-right { bottom: 50px; }
-  </style>`;
+    .content-block__iframe_page { padding:0;width:100%;height:100%; }
+    .aras-notification__message { white-space: break-spaces; line-height: 20px; padding: 8px 0px; }
+    .aras-notify_bottom-left, .aras-notify_top-left { left: 50px; }
+    .aras-notify_bottom-left, .aras-notify_bottom-right { bottom: 50px; }
+    </style>`;
   top?.document.head.insertAdjacentHTML("beforeend", css);
 }
 
@@ -47,13 +47,6 @@ function injectArasSpinner() {
   iframe.src = aras.getScriptsURL() + "spinner.html";
   iframe.id = "dimmer_spinner";
   document.body.appendChild(iframe);
-}
-
-function showFullScreenError(title: string, message: string) {
-  const html = `
-    <div class="fullscreen-error"><div class="error-content"><h1>${title}</h1><p>${message}</p></div></div>
-    <style>body{margin:0}.fullscreen-error{display:flex;justify-content:center;align-items:center;height:100vh;width:100vw;background-color:#f8f9fa}.error-content{text-align:center}.error-content h1{font-size:24px}.error-content p{font-size:16px;white-space:break-spaces;line-height:20px;padding:8px 0}</style>`;
-  document.body.innerHTML = html;
 }
 
 function waitForDomReady(): Promise<void> {
@@ -68,30 +61,37 @@ function waitForDomReady(): Promise<void> {
   });
 }
 
-async function injectStylesAndScripts() {
-  const resources = [
-    {
+async function injectStylesAndScripts(options: ArasOptions) {
+  const resources = [];
+
+  if (options.injectCSS) {
+    resources.push({
       type: "stylesheet",
       url: `../javascript/include.aspx?classes=common.min.css,cuiLayout.css`,
       id: "styles-common-layout",
-    },
-    {
-      type: "module",
-      url: `../jsBundles/excelConverter.es.js`,
-      id: "script-excel-converter",
-    },
-    {
-      type: "module",
-      url: `../jsBundles/cui.es.js`,
-      id: "script-cui",
-    },
-  ];
+    });
+  }
+
+  if (options.injectJS) {
+    resources.push(
+      {
+        type: "module",
+        url: `../jsBundles/excelConverter.es.js`,
+        id: "script-excel-converter",
+      },
+      {
+        type: "module",
+        url: `../jsBundles/cui.es.js`,
+        id: "script-cui",
+      }
+    );
+  }
 
   await Promise.all(
     resources.map((resource) =>
-      resource.type !== "stylesheet"
-        ? loadScript(resource.type, resource.url, resource.id)
-        : loadStylesheet(resource.url, resource.id)
+      resource.type !== "stylesheet" ?
+        loadScript(resource.type, resource.url, resource.id)
+      : loadStylesheet(resource.url, resource.id)
     )
   );
 }
@@ -128,4 +128,16 @@ export async function loadStylesheet(href: string, id: string): Promise<void> {
     var head = document.getElementsByTagName("head")[0];
     head.insertBefore(link, head.firstChild);
   });
+}
+
+export function throwError(message: string): never {
+  showFullScreenError("Error Occurred", message);
+  throw new Error(message);
+}
+
+function showFullScreenError(title: string, message: string) {
+  const html = `
+        <div class="fullscreen-error"><div class="error-content"><h1>${title}</h1><p>${message}</p></div></div>
+        <style>body{margin:0}.fullscreen-error{display:flex;justify-content:center;align-items:center;height:100vh;width:100vw;background-color:#f8f9fa}.error-content{text-align:center}.error-content h1{font-size:24px}.error-content p{font-size:16px;white-space:break-spaces;line-height:20px;padding:8px 0}</style>`;
+  document.body.innerHTML = html;
 }

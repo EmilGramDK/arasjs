@@ -1,0 +1,23 @@
+/*
+* Parent CSS file for Aras Innovator
+* This file contains global styles and overrides for the Aras Innovator UI.
+*/
+
+.content-block__iframe_page {
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+.aras-notification__message {
+  white-space: break-spaces;
+  line-height: 20px;
+  padding: 8px 0px;
+}
+.aras-notify_bottom-left,
+.aras-notify_top-left {
+  left: 50px;
+}
+.aras-notify_bottom-left,
+.aras-notify_bottom-right {
+  bottom: 50px;
+}

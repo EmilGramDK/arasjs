@@ -1,4 +1,4 @@
-import { CellValidationResult, GridControl } from "./grid";
+import type { CellValidationResult, GridControl } from "./grid";
 
 export interface GridEventPayloadPlugin<T = Event> {
   name: string;
@@ -34,11 +34,28 @@ export abstract class GridPlugin {
 
   events?: Array<GridPluginEvent>;
 
-  getCellType?(result: string, headId: string, rowId: string, value: unknown): string;
+  getCellType?(
+    result: string,
+    headId: string,
+    rowId: string,
+    value: unknown,
+  ): string;
 
-  getCellStyles?(result: Record<string, string>, headId: string, itemId: string, rowId: string): Record<string, string>;
+  getCellStyles?(
+    result: Record<string, string>,
+    headId: string,
+    itemId: string,
+    rowId: string,
+  ): Record<string, string>;
 
-  getEditorType?(result: string, headId: string, itemId: string, value: unknown, type: string, rowId: string): string;
+  getEditorType?(
+    result: string,
+    headId: string,
+    itemId: string,
+    value: unknown,
+    type: string,
+    rowId: string,
+  ): string;
 
   getRowClasses?(result: string, rowId: string): string;
 
@@ -46,17 +63,22 @@ export abstract class GridPlugin {
     cellMetaData: Record<string, unknown>,
     headId: string,
     rowId: string,
-    type: string
+    type: string,
   ): Record<string, unknown>;
 
-  checkEditAvailability?(result: boolean, headId: string, itemId: string, grid: GridControl): boolean;
+  checkEditAvailability?(
+    result: boolean,
+    headId: string,
+    itemId: string,
+    grid: GridControl,
+  ): boolean;
 
   validateCell?(
     result: CellValidationResult,
     headId: string,
     rowId: string,
     value: unknown,
-    grid: GridControl
+    grid: GridControl,
   ): CellValidationResult;
 
   sort?(): Promise<void>;

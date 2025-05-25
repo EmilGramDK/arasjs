@@ -1,6 +1,6 @@
 import { GridColumns } from "../../types/grid";
 import { Item } from "../../types/item";
-import { exportToExcel, generateColumnsMap, generateRowsMap } from "./helpers";
+import { exportToExcel, generateColumnsMap, generateRowsMap } from "./utils";
 
 /**
  * Extends the ArasGrid component
@@ -42,13 +42,6 @@ customElements.whenDefined("aras-grid").then(() => {
     this.on("dblclick", callback, "row");
   };
 
-  gridPrototype.setOnSelectRow = function (callback: (index: number, rowId: string, type: string) => void) {
-    this.on("selectRow", (event: CustomEvent) => {
-      const { index, rowId, type } = event.detail;
-      callback(index, rowId, type);
-    });
-  };
-
   gridPrototype.deleteSelectedRows = function () {
     if (!this.rows) return;
     const rows = this.rows.store!;
@@ -68,3 +61,6 @@ customElements.whenDefined("aras-grid").then(() => {
     exportToExcel(this, name);
   };
 });
+
+export { generateRowsMap, generateColumnsMap, createGrid } from "./utils";
+export { BaseGridPlugin } from "./plugin";

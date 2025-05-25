@@ -1,5 +1,8 @@
 export type ExcelConverterAPI = {
-  convertItemView: (item: Record<string, string>, itemType: any) => Promise<excelJsonInterface>;
+  convertItemView: (
+    item: Record<string, string>,
+    itemType: any,
+  ) => Promise<excelJsonInterface>;
   convertTreeGrid: (treeGrid: any) => excelJsonInterface;
   convertGrid: (grid: any) => excelJsonInterface;
   convertJsonToExcel: (worksheets: any) => any;

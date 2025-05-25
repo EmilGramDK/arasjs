@@ -1,13 +1,6 @@
-import ArasProvider from "../provider";
 import { menuItemT, ToolbarControl, ToolbarItem } from "../types/toolbar";
 
 export default class ToolbarService {
-  #arasProvider: ArasProvider;
-
-  constructor(arasProvider: ArasProvider) {
-    this.#arasProvider = arasProvider;
-  }
-
   public createToolbar(containerID: string): ToolbarControl {
     const toolbarContainer = document.getElementById(containerID);
     if (!toolbarContainer) throw new Error(`Toolbar Container with ID: ${containerID} not found`);

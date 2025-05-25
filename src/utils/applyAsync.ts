@@ -1,4 +1,4 @@
-import { Item } from "../types/item";
+import type { Item } from "../types/item";
 
 /**
  *
@@ -7,7 +7,11 @@ import { Item } from "../types/item";
  * @param abortController
  * @returns
  */
-export async function applyAsync(item: Item, throwOnError = false, signal?: AbortController["signal"]): Promise<Item> {
+export async function applyAsync(
+  item: Item,
+  throwOnError = false,
+  signal?: AbortController["signal"],
+): Promise<Item> {
   const oAuthClient = aras.OAuthClient;
   const authHeaders = oAuthClient.getAuthorizationHeader();
 

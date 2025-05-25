@@ -1,8 +1,8 @@
-import { ArasModules, Aras, ArasCore, GlobalStore, ReturnBlockerHelper } from "./types/aras";
-import { ArasTabs } from "./types/aras-tabs";
-import { GridControl } from "./types/grid";
-import { CuiGridOptions } from "./types/grid-plugin";
-import { Toolbar } from "./types/toolbar";
+import type { ArasModules, Aras, ArasCore, GlobalStore, ReturnBlockerHelper } from "./types/aras";
+import type { ArasTabs } from "./types/aras-tabs";
+import type { GridControl } from "./types/grid";
+import type { CuiGridOptions } from "./types/grid-plugin";
+import type { Toolbar } from "./types/toolbar";
 
 declare global {
   var aras: Aras;
@@ -24,8 +24,8 @@ declare global {
     arasTabs: ArasTabs;
     Grid: GridControl;
     Toolbar: Toolbar;
-    cuiGrid: (control: GridControl, options: CuiGridOptions) => void;
     DOMParser: any;
+    cuiGrid: (control: GridControl, options: CuiGridOptions) => void;
   }
   namespace JSX {
     interface IntrinsicElements extends React.JSX.IntrinsicElements {
@@ -42,4 +42,3 @@ declare module "react/jsx-runtime" {
     }
   }
 }
-export {};

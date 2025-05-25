@@ -1,14 +1,27 @@
-import { GridColumn, GridColumns, GridControl } from "../../types/grid";
-import { Item } from "../../types/item";
+import type {
+  GridColumn,
+  GridColumns,
+  GridControl,
+  GridOptions,
+} from "../../types/grid";
+import type { CuiGridOptions } from "../../types/grid-plugin";
+import type { Item } from "../../types/item";
 import { getLocalISODate } from "../../utils/formatDate";
+import { BaseGridPlugin } from "./plugin";
 
-export const generateRowsMap = (gridControl: GridControl, rows: Item | object[], merge?: boolean): Map<string, any> => {
+export const generateRowsMap = (
+  gridControl: GridControl,
+  rows: Item | object[],
+  merge?: boolean,
+): Map<string, any> => {
   const headStore = gridControl.head?.store || new Map<string, any>();
   const rowsStore = gridControl.rows?.store || new Map<string, any>();
   const rowsMap = merge ? rowsStore : new Map<string, any>();
   if (!rows || (Array.isArray(rows) && !rows.length)) return rowsMap;
 
-  const arr = Array.isArray(rows) ? rows : ArasModules.xmlToODataJsonAsCollection(rows.toString());
+  const arr = Array.isArray(rows)
+    ? rows
+    : ArasModules.xmlToODataJsonAsCollection(rows.toString());
   const defaultValues = new Map<string, any>();
   const dateFields = new Set<string>();
 
@@ -41,7 +54,7 @@ export const generateRowsMap = (gridControl: GridControl, rows: Item | object[],
 export const generateColumnsMap = (
   gridControl: GridControl,
   columns: GridColumns,
-  merge?: boolean
+  merge?: boolean,
 ): Map<string, GridColumn> => {
   const headStore = gridControl.head?.store || new Map<string, any>();
   const columnsMap = merge ? headStore : new Map<string, any>();
@@ -88,7 +101,10 @@ export const generateColumnsMap = (
   return columnsMap;
 };
 
-export const exportToExcel = async (grid: GridControl, name: string): Promise<void> => {
+export const exportToExcel = async (
+  grid: GridControl,
+  name: string,
+): Promise<void> => {
   const worksheets = [];
   const gridWorksheet = excelConverterApi.convertGrid(grid);
   worksheets.push({
@@ -100,20 +116,24 @@ export const exportToExcel = async (grid: GridControl, name: string): Promise<vo
   ArasModules.vault.saveBlob(fileBlob, `${name}.xlsx`);
 };
 
-export const enableDefaultLinkClick = (gridControl: GridControl) => {
-  gridControl.on("click", (hId: string, rId: string, e: any) => checkForLinkClick(gridControl, hId, rId, e), "cell");
-};
+export const createGrid = function (
+  container: string | HTMLElement,
+  options: GridOptions = {},
+  cuiOptions: CuiGridOptions = {},
+): GridControl {
+  const gridContainer =
+    typeof container === "string"
+      ? document.getElementById(container)
+      : container;
+  if (!gridContainer)
+    throw new Error(`Grid Container with ID: ${container} not found`);
 
-const checkForLinkClick = (gridControl: GridControl, headId: string, rowId: string, event: Event) => {
-  const target = event.target;
+  const gridControl = new Grid(gridContainer, options) as GridControl;
 
-  if (target instanceof Element && target.classList.contains("aras-grid-link")) {
-    const prop = gridControl.head.get(headId, "name");
-    const itemId = gridControl.rows.get(rowId, prop);
-    const itemType = gridControl.head.get(headId, "dataSourceName");
+  cuiGrid(gridControl, {
+    ...cuiOptions,
+    plugins: [BaseGridPlugin, ...(cuiOptions.plugins || [])],
+  });
 
-    if (!itemId || !itemType) return;
-
-    arasProvider.showItem(itemType, itemId);
-  }
+  return gridControl;
 };

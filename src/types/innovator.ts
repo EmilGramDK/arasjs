@@ -1,5 +1,5 @@
-import { XmlDocument } from "./aras";
-import { Item } from "./item";
+import type { Item } from "./item";
+import type { XmlDocument } from "./xml-node";
 
 export interface Innovator {
   /**
@@ -121,5 +121,3 @@ export interface Innovator {
 
   newXMLDocument: () => XmlDocument;
 }
-
-export {};

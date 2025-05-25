@@ -9,7 +9,7 @@
 export async function odataFetch(
   requestURL = "",
   options: RequestInit = {},
-  signal?: AbortController["signal"]
+  signal?: AbortController["signal"],
 ): Promise<any> {
   try {
     const oAuthClient = aras.OAuthClient;
@@ -47,7 +47,9 @@ export async function odataFetch(
       } catch {
         errorData = errorText;
       }
-      throw new Error(typeof errorData === "object" ? JSON.stringify(errorData) : errorData);
+      throw new Error(
+        typeof errorData === "object" ? JSON.stringify(errorData) : errorData,
+      );
     }
 
     // Return JSON safely

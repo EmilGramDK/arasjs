@@ -138,7 +138,12 @@ import { createRoot } from "react-dom/client";
 import { useArasProvider } from "arasjs";
 import { App } from "./app";
 
-useArasProvider().then(() => {
+const options = {
+  injectCSS: true,
+  injectJS: true,
+}
+
+useArasProvider(options).then(() => {
   createRoot(document.getElementById("root")!).render(
     <StrictMode>
       <App />
@@ -158,7 +163,12 @@ import { appConfig } from "./app/app.config";
 import { AppComponent } from "./app/app.component";
 import { useArasProvider } from "arasjs";
 
-useArasProvider().then(() => {
+const options = {
+  injectCSS: true,
+  injectJS: true,
+};
+
+useArasProvider(options).then(() => {
   bootstrapApplication(AppComponent, appConfig);
 });
 ```

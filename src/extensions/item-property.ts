@@ -1,9 +1,11 @@
 import { tryCatch } from "@emilgramdk/utils";
 import { applyAML, convertItemToXML } from "../utils";
+import { XmlNode } from "../types/xml-node";
 
 export const extendItemProperty = () => {
-  //@ts-ignore
-  ItemProperty.prototype.request = async function () {
+  if (!window.ItemProperty) return;
+
+  window.ItemProperty.prototype.request = async function () {
     const { label, itemType, maxItemsCount } = this.state;
 
     const aml = `<AML><Item type="${itemType}" action="get" maxRecords="${maxItemsCount}"><keyed_name condition="like">${label}*</keyed_name></Item></AML>`;
@@ -18,3 +20,18 @@ export const extendItemProperty = () => {
     return convertItemToXML(data, true);
   };
 };
+
+declare global {
+  interface Window {
+    ItemProperty: {
+      prototype: {
+        state: {
+          label: string;
+          itemType: string;
+          maxItemsCount: number;
+        };
+        request: () => Promise<XmlNode | null>;
+      };
+    };
+  }
+}

@@ -1,7 +1,7 @@
-import { XmlNode } from "./aras";
+import type { XmlNode } from "./xml-node";
 
 export interface Item {
-  [index: string]: unknown;
+  [index: string]: any;
   ToString(): string;
   loadAML: (aml: string) => void;
   apply: () => Item;
@@ -10,13 +10,24 @@ export interface Item {
   getPropertyItem: (name: string) => Item;
   getRelationships: (name: string) => Item;
   setAction: (action: string) => void;
-  setProperty: (name: string, value: string | number | boolean, defaultValue?: string) => void;
-  setPropertyCondition(propertyName: string, condition: string, lang?: string): void;
+  setProperty: (
+    name: string,
+    value: string | number | boolean,
+    defaultValue?: string,
+  ) => void;
+  setPropertyCondition(
+    propertyName: string,
+    condition: string,
+    lang?: string,
+  ): void;
   setAttribute: (name: string, value: string) => void;
-  setPropertyAttribute: (name: string, attribute: string, value: string) => void;
+  setPropertyAttribute: (
+    name: string,
+    attribute: string,
+    value: string,
+  ) => void;
   setID: (id: string) => void;
   getID: () => string;
-  getId: () => string;
   getAttribute: (name: string) => string;
   getErrorString: () => string;
   getResult: () => string;
@@ -76,7 +87,11 @@ export interface Item {
   // Fetch operations
   fetchDefaultPropertyValues(overwriteCurrent: boolean): Item;
   fetchLockStatus(): number;
-  fetchRelationships(relationshipTypeName: string, selectList?: string, orderBy?: string): Promise<Item>;
+  fetchRelationships(
+    relationshipTypeName: string,
+    selectList?: string,
+    orderBy?: string,
+  ): Promise<Item>;
 
   // Get operations
   getAction(): string | null;
@@ -93,7 +108,11 @@ export interface Item {
   getRelatedItem(): Item | null;
   getRelatedItemID(): string | null;
 
-  setPropertyCondition(propertyName: string, condition: string, lang?: string): void;
+  setPropertyCondition(
+    propertyName: string,
+    condition: string,
+    lang?: string,
+  ): void;
   setPropertyItem(propertyName: string, item: Item): Item;
   setRelatedItem(item: Item): void;
   setType(itemTypeName: string): void;
@@ -111,4 +130,3 @@ export interface Item {
   isLogical(): boolean;
   isRoot(): boolean;
 }
-export {};

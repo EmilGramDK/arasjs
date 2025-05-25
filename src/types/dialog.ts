@@ -1,4 +1,4 @@
-import { Aras } from "./aras";
+import type { Aras } from "./aras";
 
 export interface SearchDialogFilter {
   property: string;
