@@ -9,7 +9,7 @@ import { toggleSpinner } from "./utils/toggleSpinner";
 window.isArasReady = false;
 
 export const useAras = async (options: ArasOptions): Promise<void> => {
-  InitAras(options)
+  await InitAras(options)
     .then(() => {
       extendItemProperty();
       SetArasReady();
