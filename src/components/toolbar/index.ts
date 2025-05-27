@@ -1,5 +1,5 @@
 import { menuItemT, ToolbarControl, ToolbarItem } from "../../types/toolbar";
-import { generateItemsMap } from "./utils";
+import { generateItemsMap, onClickItem } from "./utils";
 
 /**
  * Extends the Aras Toolbar component
@@ -34,7 +34,7 @@ customElements.whenDefined("aras-toolbar").then(() => {
   toolbarPrototype.setOnClick = function (callback: (itemId: string) => void) {
     this.on("click", (itemId: string, event: Event) => {
       const parentItem = this.data.get(itemId);
-      this.onClickItem(parentItem, event, callback);
+      onClickItem(parentItem, event, callback);
     });
   };
 });
