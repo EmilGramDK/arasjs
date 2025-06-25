@@ -149,8 +149,7 @@ export class BaseGridPlugin extends GridPlugin {
 
     //Update row with selected item
     currentRow[cellName] = result.itemID;
-    // currentRow[`${cellName}@action`] = aras.getItemProperty(result.item, "action");
     currentRow[`${cellName}@aras.keyed_name`] = result.keyed_name;
-    this.grid.rows.store!.set(rowId, currentRow);
+    this.grid.rows!.set(rowId, currentRow);
   }
 }
