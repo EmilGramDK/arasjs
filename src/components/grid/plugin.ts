@@ -25,9 +25,7 @@ export class BaseGridPlugin extends GridPlugin {
 
   getEditorType(result: any, headId: string) {
     const dataType = this.grid.head.get(headId, "dataType");
-    return this.dialogTypes.includes(dataType)
-      ? "nonEditable"
-      : dataType || result;
+    return this.dialogTypes.includes(dataType) ? "nonEditable" : dataType || result;
   }
 
   getCellMetadata(result: any, headId: string, rowId: string) {
@@ -55,9 +53,7 @@ export class BaseGridPlugin extends GridPlugin {
     const defaultPattern = dataType === "date" ? "short_date" : "";
     const pattern = customPattern || defaultPattern;
 
-    const itemType = dataSourceName
-      ? aras.getItemTypeNodeForClient(dataSourceName, "name")
-      : {};
+    const itemType = dataSourceName ? aras.getItemTypeNodeForClient(dataSourceName, "name") : {};
     const focusedCell = settings?.focusedCell;
 
     return {
@@ -80,12 +76,7 @@ export class BaseGridPlugin extends GridPlugin {
         if (!parentRowId) return;
 
         const file = await aras.vault.selectFile();
-        const validation = this.grid.validateCell(
-          headId,
-          parentRowId,
-          file,
-          this.grid,
-        );
+        const validation = this.grid.validateCell(headId, parentRowId, file, this.grid);
 
         if (!validation.valid) {
           this.grid.settings.focusedCell = { headId, rowId: parentRowId };
@@ -112,29 +103,22 @@ export class BaseGridPlugin extends GridPlugin {
       },
 
       editorClickHandler: () => {
-        if (!focusedCell) return;
         this.grid.cancelEdit();
-        this.pickItem(cellName);
+        if (type != "item") return;
+        this.pickItem(cellName, dataSourceName, rowId);
         // this.grid.onInputHelperShow_Experimental(focusedCell.rowId, layoutIndex);
       },
 
       handler: () => {
-        this.pickItem(cellName);
-        // this.grid.onInputHelperShow_Experimental(rowId, layoutIndex);
+        this.grid.cancelEdit();
+        if (type != "item") return;
+        this.pickItem(cellName, dataSourceName, rowId);
       },
     };
   }
 
-  validateCell(
-    result: CellValidationResult,
-    headId: string,
-    rowId: string,
-    value: any,
-  ): CellValidationResult {
-    const { dataType, sourceItemTypeName } = this.grid.getCellMetadata(
-      headId,
-      rowId,
-    );
+  validateCell(result: CellValidationResult, headId: string, rowId: string, value: any): CellValidationResult {
+    const { dataType, sourceItemTypeName } = this.grid.getCellMetadata(headId, rowId);
 
     if (dataType !== "item" || typeof value !== "string") return result;
 
@@ -151,38 +135,22 @@ export class BaseGridPlugin extends GridPlugin {
     };
   }
 
-
   //pick item in grid via search dialog
-  async pickItem(cellName: string) {
-    const focusedCell = this.grid.settings.focusedCell;
-    if (!focusedCell) {
-      this.grid.cancelEdit();
-      return;
-    };
-    
-    const itemTypeName = this.grid.head.get(focusedCell.headId, "dataSourceName");
-    if (!itemTypeName) return;
+  async pickItem(cellName: string, itemTypeName: string, rowId: string) {
+    const currentRow = this.grid.rows.store!.get(rowId);
+    if (!currentRow) return;
 
     const result = await showSearchDialog({
       title: "Select an Item",
       itemtypeName: itemTypeName,
     });
 
-    if (!result) {
-      this.grid.cancelEdit();
-      return;
-    };
-
-    const currentRow = this.grid.rows.store!.get(focusedCell.rowId)
-    if (!currentRow) return;
+    if (!result) return;
 
     //Update row with selected item
     currentRow[cellName] = result.itemID;
-    currentRow[`${cellName}@action`] = aras.getItemProperty(result.item, "action");
+    // currentRow[`${cellName}@action`] = aras.getItemProperty(result.item, "action");
     currentRow[`${cellName}@aras.keyed_name`] = result.keyed_name;
-    this.grid.rows.store!.set(focusedCell.rowId, currentRow);
+    this.grid.rows.store!.set(rowId, currentRow);
   }
 }
-
-
-
