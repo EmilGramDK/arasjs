@@ -1,6 +1,6 @@
 {
   "name": "arasjs",
-  "version": "0.0.50",
+  "version": "0.0.51",
   "description": "A JavaScript Library for building Aras Innovator Client Extensions",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
