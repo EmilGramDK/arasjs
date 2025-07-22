@@ -1,23 +1,19 @@
-export interface ArasOptions {
-  injectCSS: boolean;
-  injectJS: boolean;
-}
-
-export async function InitAras(options: ArasOptions) {
+export async function InitAras() {
   window.aras = window.aras || top?.aras || parent.aras;
   window.ArasModules = top?.ArasModules || parent?.ArasModules;
   window.store = window.store || parent.store || top?.store;
   window.DOMParser = top?.DOMParser || parent.DOMParser;
+  window.Item = top?.Item || parent.Item;
 
   if (!window.aras)
     throwError(
-      "Aras object not initialized\n\nThis Application needs to be run inside Aras Innovator",
+      "Aras object not initialized\n\nThis Application needs to be run inside Aras Innovator"
     );
 
   injectCSSToParent();
   injectArasSpinner();
   setBaseUrl();
-  await Promise.all([injectStylesAndScripts(options), waitForDomReady()]);
+  await Promise.all([injectStylesAndScripts(), waitForDomReady()]);
 }
 
 export function SetArasReady() {
@@ -64,45 +60,41 @@ function waitForDomReady(): Promise<void> {
   });
 }
 
-async function injectStylesAndScripts(options: ArasOptions) {
+async function injectStylesAndScripts() {
   const resources = [];
 
-  if (options.injectCSS) {
-    resources.push({
-      type: "stylesheet",
-      url: `../javascript/include.aspx?classes=common.min.css,cuiLayout.css`,
-      id: "styles-common-layout",
-    });
-  }
+  resources.push({
+    type: "stylesheet",
+    url: `../javascript/include.aspx?classes=common.min.css,cuiLayout.css`,
+    id: "styles-common-layout",
+  });
 
-  if (options.injectJS) {
-    resources.push(
-      {
-        type: "module",
-        url: `../jsBundles/excelConverter.es.js`,
-        id: "script-excel-converter",
-      },
-      {
-        type: "module",
-        url: `../jsBundles/cui.es.js`,
-        id: "script-cui",
-      },
-    );
-  }
+  resources.push(
+    {
+      type: "module",
+      url: `../jsBundles/excelConverter.es.js`,
+      id: "script-excel-converter",
+    },
+    {
+      type: "module",
+      url: `../jsBundles/cui.es.js`,
+      id: "script-cui",
+    }
+  );
 
   await Promise.all(
     resources.map((resource) =>
       resource.type !== "stylesheet"
         ? loadScript(resource.type, resource.url, resource.id)
-        : loadStylesheet(resource.url, resource.id),
-    ),
+        : loadStylesheet(resource.url, resource.id)
+    )
   );
 }
 
 export async function loadScript(
   type: string,
   src: string,
-  id: string,
+  id: string
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     if (document.getElementById(id)) return resolve(); // Skip if script already exists

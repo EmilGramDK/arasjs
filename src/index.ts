@@ -3,22 +3,28 @@ import { extendItemProperty } from "./extensions/item-property";
 import type { TopWindowHelper } from "./types/aras";
 import type { ExcelConverterAPI } from "./types/excel-converter";
 import type { XmlDocument } from "./types/xml-node";
-import { InitAras, SetArasReady, type ArasOptions } from "./utils/providerUtils";
+import { InitAras, SetArasReady } from "./utils/providerUtils";
 import { toggleSpinner } from "./utils/toggleSpinner";
 
 window.isArasReady = false;
 
-export const useAras = async (options: ArasOptions): Promise<void> => {
-  await InitAras(options)
+/**
+ * @description Initializes the Aras environment, injecting necessary styles and scripts.
+ * @param keepSpinner If true, the spinner will not be removed after initialization.
+ * @returns {Promise<void>} A promise that resolves when the initialization is complete.
+ */
+export const useArasJS = async (keepSpinner = false): Promise<void> => {
+  await InitAras()
     .then(() => {
       extendItemProperty();
       SetArasReady();
     })
     .finally(() => {
+      if (keepSpinner) return;
       toggleSpinner(false);
     });
 };
-export const useArasProvider = useAras;
+export const useArasProvider = useArasJS;
 
 export * from "./components/grid";
 export * from "./components/toolbar";

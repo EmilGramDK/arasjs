@@ -8,6 +8,7 @@ import type {
 import type { ArasTabs } from "./types/aras-tabs";
 import type { GridControl } from "./types/grid";
 import type { CuiGridOptions } from "./types/grid-plugin";
+import type { ItemClass } from "./types/item";
 import type { Toolbar } from "./types/toolbar";
 
 declare global {
@@ -19,6 +20,7 @@ declare global {
   var arasTabs: ArasTabs;
   var Grid: GridControl;
   var Toolbar: Toolbar;
+  var Item: ItemClass;
   var cuiGrid: (control: GridControl, options: CuiGridOptions) => void;
 
   interface Window {
@@ -31,6 +33,7 @@ declare global {
     Grid: GridControl;
     Toolbar: Toolbar;
     DOMParser: any;
+    Item: ItemClass;
     cuiGrid: (control: GridControl, options: CuiGridOptions) => void;
   }
   namespace JSX {

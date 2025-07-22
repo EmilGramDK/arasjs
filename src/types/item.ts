@@ -1,5 +1,11 @@
 import type { XmlNode } from "./xml-node";
 
+export interface ItemClass extends Item {
+  new (): Item;
+  new (itemTypeName: string): Item;
+  new (itemTypeName: string, action: string): Item;
+}
+
 export interface Item {
   [index: string]: any;
   ToString(): string;
@@ -13,18 +19,18 @@ export interface Item {
   setProperty: (
     name: string,
     value: string | number | boolean,
-    defaultValue?: string,
+    defaultValue?: string
   ) => void;
   setPropertyCondition(
     propertyName: string,
     condition: string,
-    lang?: string,
+    lang?: string
   ): void;
   setAttribute: (name: string, value: string) => void;
   setPropertyAttribute: (
     name: string,
     attribute: string,
-    value: string,
+    value: string
   ) => void;
   setID: (id: string) => void;
   getID: () => string;
@@ -90,7 +96,7 @@ export interface Item {
   fetchRelationships(
     relationshipTypeName: string,
     selectList?: string,
-    orderBy?: string,
+    orderBy?: string
   ): Promise<Item>;
 
   // Get operations
@@ -111,7 +117,7 @@ export interface Item {
   setPropertyCondition(
     propertyName: string,
     condition: string,
-    lang?: string,
+    lang?: string
   ): void;
   setPropertyItem(propertyName: string, item: Item): Item;
   setRelatedItem(item: Item): void;
