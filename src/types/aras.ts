@@ -61,8 +61,9 @@ export interface Aras {
   getMostTopWindowWithAras: (target?: Window) => Window;
   getMainArasObject: () => Aras;
   getMainWindow: () => ArasWindow;
-  getItemTypeForClient: (name: string, searchType: string) => Item;
-  getItemTypeNodeForClient: (name: string, searchType: string) => XmlNode;
+  getItemTypeForClient: (criteriaValue: string, criteriaName: string) => Item;
+  getItemTypeNodeForClient: (criteriaValue: string, criteriaName: string) => XmlNode;
+  getItemTypeDictionaryJson: (criteriaValue: string, criteriaName: string) => object;
   getResource: (
     location: string,
     key: string,
