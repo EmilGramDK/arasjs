@@ -63,7 +63,7 @@ export interface Aras {
   getMainWindow: () => ArasWindow;
   getItemTypeForClient: (criteriaValue: string, criteriaName: string) => Item;
   getItemTypeNodeForClient: (criteriaValue: string, criteriaName: string) => XmlNode;
-  getItemTypeDictionaryJson: (criteriaValue: string, criteriaName: string) => Promise<Record<string, unknown>>;
+  getItemTypeDictionaryJson: (criteriaValue: string, criteriaName: string) => Promise<unknown>;
   getResource: (
     location: string,
     key: string,
