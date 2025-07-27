@@ -1,4 +1,4 @@
-import "./assets/css/styles.css";
+import "./assets/arasjs.css";
 import { extendItemProperty } from "./extensions/item-property";
 import type { TopWindowHelper } from "./types/aras";
 import type { ExcelConverterAPI } from "./types/excel-converter";

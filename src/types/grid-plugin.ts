@@ -34,12 +34,7 @@ export abstract class GridPlugin {
 
   events?: Array<GridPluginEvent>;
 
-  getCellType?(
-    result: string,
-    headId: string,
-    rowId: string,
-    value: unknown,
-  ): string;
+  getCellType?(result: string, headId: string, rowId: string, value: unknown): string;
 
   getCellStyles?(
     result: Record<string, string>,

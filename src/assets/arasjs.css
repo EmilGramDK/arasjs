@@ -56,7 +56,9 @@ body,
 }
 .aras-grid-body_selectable .aras-grid-row:hover .aras-grid-row-cell[rowspan],
 .aras-grid-body_selectable .aras-grid-row_hovered .aras-grid-row-cell[rowspan],
-.aras-grid-body_selectable .aras-grid-row_selected.aras-grid-row_hovered .aras-grid-row-cell[rowspan],
+.aras-grid-body_selectable
+  .aras-grid-row_selected.aras-grid-row_hovered
+  .aras-grid-row-cell[rowspan],
 .aras-grid-body_selectable .aras-grid-row_selected:hover .aras-grid-row-cell[rowspan] {
   background-color: #dfeaf5;
 }

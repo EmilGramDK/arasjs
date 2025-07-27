@@ -1,8 +1,8 @@
 import type { BaseGridPlugin } from "./plugin";
-import {
-  type GridCellEventPayloadPlugin,
-  type GridEventPayloadPlugin,
-  type GridPluginEvent,
+import type {
+  GridCellEventPayloadPlugin,
+  GridEventPayloadPlugin,
+  GridPluginEvent,
 } from "../../types/grid-plugin";
 
 export const basePluginEvents: Array<GridPluginEvent> = [
@@ -20,10 +20,7 @@ export const basePluginEvents: Array<GridPluginEvent> = [
   {
     type: "applyEdit",
     name: "applyEdit",
-    method(
-      this: BaseGridPlugin,
-      { data: [eventData] }: GridEventPayloadPlugin<CustomEvent>,
-    ) {
+    method(this: BaseGridPlugin, { data: [eventData] }: GridEventPayloadPlugin<CustomEvent>) {
       const { headId, rowId, value } = eventData.detail;
       applyEdit(this, headId, rowId, value);
     },
@@ -46,17 +43,12 @@ async function gridLinkClick(
 
   if (!headInfo || !initialRowInfo || !metadata) return;
 
-  const linkPropertyId = headInfo.linkProperty
-    ? initialRowInfo[headInfo.linkProperty]
-    : null;
-  const rowInfo = linkPropertyId
-    ? rows.get(linkPropertyId) || {}
-    : initialRowInfo;
+  const linkPropertyId = headInfo.linkProperty ? initialRowInfo[headInfo.linkProperty] : null;
+  const rowInfo = linkPropertyId ? rows.get(linkPropertyId) || {} : initialRowInfo;
 
   const propertyName = headInfo.name || headId;
   const currentValue = rowInfo[propertyName];
-  const sourceItemTypeName =
-    metadata.sourceItemTypeName || rowInfo[`${propertyName}@aras.type`];
+  const sourceItemTypeName = metadata.sourceItemTypeName || rowInfo[`${propertyName}@aras.type`];
 
   const target = event.target as HTMLElement;
 
@@ -76,12 +68,7 @@ async function gridLinkClick(
   }
 }
 
-function applyEdit(
-  plugin: BaseGridPlugin,
-  headId: string,
-  rowId: string,
-  value: string,
-) {
+function applyEdit(plugin: BaseGridPlugin, headId: string, rowId: string, value: string) {
   const cellMetadata = plugin.grid.getCellMetadata(headId, rowId);
   const { dataType, sourceItemTypeName } = cellMetadata;
 

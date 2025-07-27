@@ -1,26 +1,27 @@
 {
+  "type": "module",
+  "sideEffects": false,
   "name": "arasjs",
   "version": "0.0.55",
   "description": "A JavaScript Library for building Aras Innovator Client Extensions",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
-  "style": "dist/arasjs.css",
+  "types": "src/index.d.ts",
   "files": [
-    "/dist"
+    "src"
   ],
   "exports": {
-    ".": "./dist/index.js",
-    "./globals": "./dist/globals.d.ts",
-    "./utils": "./dist/utils.js",
-    "./vite": "./dist/vite.js",
-    "./css": "./dist/arasjs.css",
+    ".": "./src/index.ts",
+    "./types": "./src/index.d.ts",
+    "./utils": "./src/utils.ts",
+    "./vite": "./src/vite/plugin.js",
+    "./css": "./src/assets/arasjs.css",
     "./package.json": "./package.json"
   },
   "scripts": {
     "build": "vite build",
-    "format": "prettier --cache --write .",
-    "release": "bumpp && pnpm publish"
+    "release": "bumpp && pnpm publish",
+    "lint": "eslint 'src/**/*.{ts,mts,tsx}' --fix",
+    "format": "prettier --write 'src/**/*.{ts,mts,tsx,js,json,md}'",
+    "check": "bun run format && bun run lint"
   },
   "devDependencies": {
     "@types/react": "^19.1.5",
@@ -48,7 +49,7 @@
   "keywords": [
     "aras",
     "aras innovator",
-    "arasjs"
+    "typescript"
   ],
   "publishConfig": {
     "access": "public"

@@ -1,7 +1,7 @@
 import type { ArasObjectUser } from "./aras-user";
 import type { ArasDialogParameters } from "./dialog";
 import type { Innovator } from "./innovator";
-import type { Item } from "./item";
+import type { Item, ODataItem } from "./item";
 import type { XmlDocument, XmlNode } from "./xml-node";
 
 /**
@@ -25,18 +25,10 @@ export interface Aras {
   applyItemMethod: (action: string, type: string, body: string) => void;
   newItem: (itemtype: string, optional?: unknown) => XmlNode;
   newIOMItem: (type?: string, action?: string) => Item;
-  evalMethod: (
-    method: string | XmlNode,
-    XMLinput: string | XmlNode,
-    args?: unknown,
-  ) => unknown;
+  evalMethod: (method: string | XmlNode, XMLinput: string | XmlNode, args?: unknown) => unknown;
   createXMLDocument: () => XmlDocument;
   uiDrawFieldEx: (field: XmlNode, type: unknown, mode: string) => string;
-  getItemProperty: (
-    item: XmlNode,
-    property: string,
-    defaultValue?: string | number,
-  ) => string;
+  getItemProperty: (item: XmlNode, property: string, defaultValue?: string | number) => string;
   getItemByName: (
     type: string,
     name: string,
@@ -51,11 +43,7 @@ export interface Aras {
     configPath?: string,
     select?: string,
   ) => XmlNode;
-  uiGetItemByKeyedName: (
-    typeName: string,
-    keyedName: string,
-    skipDialog?: boolean,
-  ) => XmlNode;
+  uiGetItemByKeyedName: (typeName: string, keyedName: string, skipDialog?: boolean) => XmlNode;
   getUserID: () => string;
   user: ArasObjectUser;
   getMostTopWindowWithAras: (target?: Window) => Window;
@@ -64,38 +52,22 @@ export interface Aras {
   getItemTypeForClient: (criteriaValue: string, criteriaName: string) => Item;
   getItemTypeNodeForClient: (criteriaValue: string, criteriaName: string) => XmlNode;
   getItemTypeDictionaryJson: (criteriaValue: string, criteriaName: string) => Promise<unknown>;
-  getResource: (
-    location: string,
-    key: string,
-    ...parameters: unknown[]
-  ) => string;
+  getResource: (location: string, key: string, ...parameters: unknown[]) => string;
   getLanguagesResultNd: () => XmlNode;
   getItemTypeId: (name: string) => string;
   getDotNetDatePattern: (pattern: string) => string;
   getItemById: (id: string, type: string, levels?: number) => XmlNode;
   getItemTypeName: (id: string) => string;
   getPermissions: (type: string, itemid: string, itemtype?: string) => boolean;
-  setItemProperty: (
-    item: XmlNode,
-    property: string,
-    value: string | XmlNode,
-  ) => void;
-  evalItemMethod: (
-    methodName: string,
-    itemNode: XmlNode,
-    contextParameters: unknown,
-  ) => void;
+  setItemProperty: (item: XmlNode, property: string, value: string | XmlNode) => void;
+  evalItemMethod: (methodName: string, itemNode: XmlNode, contextParameters: unknown) => void;
   setItemPropertyAttribute: (
     item: XmlNode,
     property: string,
     attribute: string,
     value: string | boolean,
   ) => void;
-  convertFromNeutral: (
-    value: unknown,
-    datatype: string,
-    format: string,
-  ) => unknown;
+  convertFromNeutral: (value: unknown, datatype: string, format: string) => unknown;
   getItemFromServer: (type: string, id: string, properties: string) => Item;
   getItemTranslation: (
     item: XmlNode,
@@ -118,11 +90,7 @@ export interface Aras {
    * 2) viewMode        - 'tab view' or 'openFile'
    * 3) isOpenInTearOff - true or false
    */
-  uiShowItemEx: (
-    itemNd: XmlNode,
-    viewMode?: string,
-    isOpenInTearOff?: boolean,
-  ) => boolean;
+  uiShowItemEx: (itemNd: XmlNode, viewMode?: string, isOpenInTearOff?: boolean) => boolean;
   getRelationshipTypeId: (name: string) => string;
   confirm: (message: string) => boolean;
   AlertWarning: (message: string) => void;
@@ -136,12 +104,7 @@ export interface Aras {
   uiGetFormID4ItemEx: (item: XmlNode, type: string) => string;
   getFormForDisplay: (id: string) => Item;
   saveItemExAsync: (item: XmlNode, confirm?: boolean) => Promise<XmlNode>;
-  setItemTranslation: (
-    item: XmlNode,
-    property: string,
-    value: string,
-    language: string,
-  ) => void;
+  setItemTranslation: (item: XmlNode, property: string, value: string, language: string) => void;
   unlockItemEx: (item: XmlNode) => XmlNode;
   getVariable: (id: string) => unknown;
   setVariable: (id: string, value: unknown) => void;
@@ -169,7 +132,7 @@ export interface Aras {
     logout: (options: any) => Promise<void>;
     getToken: () => string;
     isLogged: () => boolean;
-    getAuthorizationHeader: () => object;
+    getAuthorizationHeader: () => Record<string, unknown>;
     unauthorizedStatusCode: number;
     getNewTokens: () => Promise<{
       clientId: string;
@@ -204,11 +167,7 @@ export interface Aras {
   ) => XmlNode;
 
   registerEventHandler: (eventName: string, win: Window, handler: any) => void;
-  unregisterEventHandler: (
-    eventName: string,
-    win: Window,
-    handler: any,
-  ) => void;
+  unregisterEventHandler: (eventName: string, win: Window, handler: any) => void;
 }
 
 interface Browser {
@@ -234,12 +193,12 @@ export interface GlobalStore {
     deleteItemLocalChangesRecord: (itemtype: string, id: string) => void;
   };
   getState: () => {
-    dependencies: object;
-    favorites: object;
-    layout: object;
-    localChanges: object;
-    preferences: object;
-    system: object;
+    dependencies: Record<string, unknown>;
+    favorites: Record<string, unknown>;
+    layout: Record<string, unknown>;
+    localChanges: Record<string, unknown>;
+    preferences: Record<string, unknown>;
+    system: Record<string, unknown>;
   };
 }
 
@@ -330,20 +289,14 @@ interface ArasDialogAttachedEventDescriptor {
 }
 
 export type ArasDialogModule = {
-  new (
-    type: "html" | "iframe",
-    parameters: ArasDialogParameters,
-  ): ArasDialogModule;
+  new (type: "html" | "iframe", parameters: ArasDialogParameters): ArasDialogModule;
   contentNode: HTMLElement;
   dialogNode: HTMLElement;
   attachedEvents: Record<string, ArasDialogAttachedEventDescriptor>;
   show: (type?: string, options?: ArasDialogParameters) => DialogShowResult;
   close: () => void;
-  confirm: (
-    message: string,
-    parameters: ArasConfirmDialogParameters,
-  ) => Promise<string>;
-  alert: (message: string, options: object) => Promise<void>;
+  confirm: (message: string, parameters: ArasConfirmDialogParameters) => Promise<string>;
+  alert: (message: string, options: Record<string, unknown>) => Promise<void>;
   maximize: () => void;
   promise: Promise<unknown>;
 };
@@ -352,16 +305,16 @@ export interface ArasModules {
   SvgManager: SvgManager;
   Dialog: ArasDialogModule;
   MaximazableDialog: ArasDialogModule;
-  odataFetch: (url: string, options?: RequestInit) => Promise<any>;
-  notify: (message: string, options?: object) => void;
-  xmlToJson: (xml: string | XmlNode) => object;
-  xmlToODataJson: (xml: string | XmlNode, skipNullValues?: boolean) => object;
-  xmlToODataJsonAsCollection: (xml: string) => object[];
-  xmlToODataJsonByItemType: (
+  odataFetch: (url: string, options?: RequestInit) => Promise<unknown>;
+  notify: (message: string, options?: Record<string, unknown>) => void;
+  xmlToJson: (xml: string | XmlNode) => unknown;
+  xmlToODataJson: <T extends ODataItem>(xml: string | XmlNode, skipNullValues?: boolean) => T;
+  xmlToODataJsonAsCollection: <T extends ODataItem>(xml: string) => T[];
+  xmlToODataJsonByItemType: <T extends ODataItem>(
     itemNode: XmlNode,
     itemType: any,
-    options: object,
-  ) => object;
+    options: Record<string, unknown>,
+  ) => T;
   metadata: {
     itemType: unknown;
     list: unknown;
@@ -369,8 +322,8 @@ export interface ArasModules {
     propertyEvents: unknown;
   };
   vault: any;
-  jsonToXml: (data: string | object) => string;
-  soap: (data: any, options: any) => Promise<any>;
+  jsonToXml: (data: string | Record<string, unknown>) => XmlNode;
+  soap: (data: Record<string, unknown>, options: Record<string, unknown>) => Promise<unknown>;
 }
 
 export interface ArasCore {
@@ -403,9 +356,7 @@ export interface MetadataCacheXmlData {
 }
 
 export interface MetadataCache {
-  GetConfigurableUi: (
-    parameters: Record<string, string>,
-  ) => MetadataCacheXmlData;
+  GetConfigurableUi: (parameters: Record<string, string>) => MetadataCacheXmlData;
 }
 
 export interface BrowserHelper {

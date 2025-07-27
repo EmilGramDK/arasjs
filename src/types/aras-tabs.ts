@@ -1,5 +1,5 @@
 export interface ArasTabs {
-  data: Map<string, object>;
+  data: Map<string, Record<string, unknown>>;
   selectTab: (id: string, preventFocus?: boolean) => Promise<boolean>;
   forceCloseAllTabs: () => void;
   closeTabs: () => void;
@@ -7,12 +7,7 @@ export interface ArasTabs {
   updateTitleTab: (id: string, props: Partial<HeaderTab>) => void;
   setTabContent: (id: string, props: Partial<HeaderTab>) => void;
   addTab: (id: string, options: Partial<HeaderTab>, position?: number) => void;
-  open: (
-    src: string,
-    winName: string,
-    isUnfocused: boolean,
-    className?: string,
-  ) => void;
+  open: (src: string, winName: string, isUnfocused: boolean, className?: string) => void;
   getSearchGridTabs: (id: string) => any;
   focusedTab: string;
   selectedTab: string;

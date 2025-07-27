@@ -1,5 +1,5 @@
-import { GridColumns } from "../../types/grid";
-import { Item } from "../../types/item";
+import type { GridColumns } from "../../types/grid";
+import type { Item } from "../../types/item";
 import { exportToExcel, generateColumnsMap, generateRowsMap } from "./utils";
 
 /**
@@ -19,16 +19,14 @@ customElements.whenDefined("aras-grid").then(() => {
     }
   };
 
-  gridPrototype.setRows = function (rows: Item | object[], merge?: boolean) {
+  gridPrototype.setRows = function (rows: Item | Record<string, unknown>[], merge?: boolean) {
     if (!this.head) throw new Error("Columns must be set before rows");
     const rowsMap = generateRowsMap(this, rows, merge);
     this.rows = rowsMap;
     if (this.settings.orderBy) this.sort();
   };
 
-  gridPrototype.setOnHeadContextMenu = function (
-    callback: (head: string, event: Event) => void,
-  ) {
+  gridPrototype.setOnHeadContextMenu = function (callback: (head: string, event: Event) => void) {
     this.on("contextmenu", callback, "head");
   };
 
@@ -38,15 +36,11 @@ customElements.whenDefined("aras-grid").then(() => {
     this.on("contextmenu", callback, "cell");
   };
 
-  gridPrototype.setCellOnDoubleClick = function (
-    callback: (head: string, row: string) => void,
-  ) {
+  gridPrototype.setCellOnDoubleClick = function (callback: (head: string, row: string) => void) {
     this.on("dblclick", callback, "cell");
   };
 
-  gridPrototype.setRowOnDoubleClick = function (
-    callback: (row: string) => void,
-  ) {
+  gridPrototype.setRowOnDoubleClick = function (callback: (row: string) => void) {
     this.on("dblclick", callback, "row");
   };
 

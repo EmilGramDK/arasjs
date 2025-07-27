@@ -1,6 +1,6 @@
 import { tryCatch } from "@emilgramdk/utils";
 import { applyAML, convertItemToXML } from "../utils";
-import { XmlNode } from "../types/xml-node";
+import type { XmlNode } from "../types/xml-node";
 
 export const extendItemProperty = () => {
   if (!window.ItemProperty) return;

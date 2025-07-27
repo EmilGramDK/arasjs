@@ -1,9 +1,9 @@
-import {
+import type {
   ArasConfirmDialogParameters,
   DialogShowResult,
   SearchDialogResult,
 } from "../types/aras";
-import {
+import type {
   ArasDialogParameters,
   SearchDialogFilter,
   SearchDialogOptions,
@@ -90,8 +90,7 @@ async function setSearchFilters(
   const filters = options.filters!;
   const iframe = dialog.dialogNode.querySelector(".aras-dialog__iframe") as any;
   const { searchContainer, currentSearchMode } = iframe?.contentWindow;
-  if (!searchContainer || !currentSearchMode)
-    return retrySetSearchFilters(dialog, options);
+  if (!searchContainer || !currentSearchMode) return retrySetSearchFilters(dialog, options);
 
   const grid = searchContainer.grid?._grid;
   if (!grid?.head?._store) return retrySetSearchFilters(dialog, options);
@@ -139,10 +138,7 @@ function updateGridHeader(grid: any, filters: SearchDialogFilter[]): void {
   grid.head = headMap;
 }
 
-function retrySetSearchFilters(
-  dialog: DialogShowResult,
-  options: SearchDialogOptions,
-): void {
+function retrySetSearchFilters(dialog: DialogShowResult, options: SearchDialogOptions): void {
   setTimeout(() => setSearchFilters(dialog, options, false), 100);
 }
 

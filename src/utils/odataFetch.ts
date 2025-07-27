@@ -47,9 +47,7 @@ export async function odataFetch(
       } catch {
         errorData = errorText;
       }
-      throw new Error(
-        typeof errorData === "object" ? JSON.stringify(errorData) : errorData,
-      );
+      throw new Error(typeof errorData === "object" ? JSON.stringify(errorData) : errorData);
     }
 
     // Return JSON safely

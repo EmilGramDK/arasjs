@@ -16,22 +16,10 @@ export interface Item {
   getPropertyItem: (name: string) => Item;
   getRelationships: (name: string) => Item;
   setAction: (action: string) => void;
-  setProperty: (
-    name: string,
-    value: string | number | boolean,
-    defaultValue?: string
-  ) => void;
-  setPropertyCondition(
-    propertyName: string,
-    condition: string,
-    lang?: string
-  ): void;
+  setProperty: (name: string, value: string | number | boolean, defaultValue?: string) => void;
+  setPropertyCondition(propertyName: string, condition: string, lang?: string): void;
   setAttribute: (name: string, value: string) => void;
-  setPropertyAttribute: (
-    name: string,
-    attribute: string,
-    value: string
-  ) => void;
+  setPropertyAttribute: (name: string, attribute: string, value: string) => void;
   setID: (id: string) => void;
   getID: () => string;
   getAttribute: (name: string) => string;
@@ -96,7 +84,7 @@ export interface Item {
   fetchRelationships(
     relationshipTypeName: string,
     selectList?: string,
-    orderBy?: string
+    orderBy?: string,
   ): Promise<Item>;
 
   // Get operations
@@ -114,11 +102,7 @@ export interface Item {
   getRelatedItem(): Item | null;
   getRelatedItemID(): string | null;
 
-  setPropertyCondition(
-    propertyName: string,
-    condition: string,
-    lang?: string
-  ): void;
+  setPropertyCondition(propertyName: string, condition: string, lang?: string): void;
   setPropertyItem(propertyName: string, item: Item): Item;
   setRelatedItem(item: Item): void;
   setType(itemTypeName: string): void;
@@ -135,4 +119,12 @@ export interface Item {
   isEmpty(): boolean;
   isLogical(): boolean;
   isRoot(): boolean;
+}
+
+export interface ODataItem {
+  id: string;
+  keyed_name: string;
+  "@odata.type": string;
+  "@odata.id": string;
+  [key: string]: unknown;
 }

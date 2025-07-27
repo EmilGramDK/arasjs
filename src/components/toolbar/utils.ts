@@ -1,4 +1,4 @@
-import {
+import type {
   menuItemT,
   ToolbarControl,
   ToolbarControlOptions,
@@ -10,11 +10,8 @@ export const createToolbar = function (
   options: ToolbarControlOptions = {},
 ): ToolbarControl {
   const tbContainer =
-    typeof container === "string"
-      ? document.getElementById(container)
-      : container;
-  if (!tbContainer)
-    throw new Error(`Toolbar Container with ID: ${container} not found`);
+    typeof container === "string" ? document.getElementById(container) : container;
+  if (!tbContainer) throw new Error(`Toolbar Container with ID: ${container} not found`);
 
   const tbControl = document.createElement("aras-toolbar") as ToolbarControl;
   tbContainer.innerHTML = "";
@@ -23,11 +20,7 @@ export const createToolbar = function (
   return tbControl;
 };
 
-export const onClickItem = (
-  parentItem: ToolbarItem,
-  event: Event,
-  callback: any,
-) => {
+export const onClickItem = (parentItem: ToolbarItem, event: Event, callback: any) => {
   const node = event.target;
   if (!(node instanceof Element) || !parentItem) return;
 
@@ -39,9 +32,7 @@ export const onClickItem = (
   return callback(targetNode.dataset.index);
 };
 
-export const generateItemsMap = (
-  items: ToolbarItem[],
-): Map<string, ToolbarItem> => {
+export const generateItemsMap = (items: ToolbarItem[]): Map<string, ToolbarItem> => {
   const itemsMap = new Map<string, ToolbarItem>();
 
   items.forEach((item) => {

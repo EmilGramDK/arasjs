@@ -30,9 +30,6 @@ export function showToast(
  * @param type type of the alert (success, error, warning)
  * @description Displays an alert dialog with the specified message and type.
  */
-export function showAlert(
-  message: string,
-  type: "success" | "error" | "warning" = "error",
-): void {
+export function showAlert(message: string, type: "success" | "error" | "warning" = "error"): void {
   ArasModules.Dialog.alert(message, { type });
 }

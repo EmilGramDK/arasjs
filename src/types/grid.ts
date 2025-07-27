@@ -3,20 +3,14 @@ import type { Item } from "./item";
 export interface GridControl extends Grid {
   new (container: HTMLElement, options?: GridOptions): GridControl;
   setColumns: (columns: GridColumn[], merge?: boolean) => void;
-  setRows: (items: Item | object[], merge?: boolean) => void;
+  setRows: (items: Item | Record<string, unknown>[], merge?: boolean) => void;
 
   // event handlers
   setCellOnDoubleClick: (callback: (head: string, row: string) => void) => void;
-  setOnHeadContextMenu: (
-    callback: (head: string, event: Event) => void,
-  ) => void;
-  setOnCellContextMenu: (
-    callback: (head: string, rowId: string, event: Event) => void,
-  ) => void;
+  setOnHeadContextMenu: (callback: (head: string, event: Event) => void) => void;
+  setOnCellContextMenu: (callback: (head: string, rowId: string, event: Event) => void) => void;
   setRowOnDoubleClick: (callback: (row: string) => void) => void;
-  setOnSelectRow: (
-    callback: (index: number, rowId: string, type: string) => void,
-  ) => void;
+  setOnSelectRow: (callback: (index: number, rowId: string, type: string) => void) => void;
 
   exportToExcel: (name: string) => void;
 
@@ -26,37 +20,19 @@ export interface GridControl extends Grid {
 
 export interface Grid extends HTMLElement {
   new (container: HTMLElement, options?: any): Grid;
-  eventCallbacks: WeakMap<object, any>;
+  eventCallbacks: WeakMap<Record<string, unknown>, any>;
   settings: GridSettings;
   keyboard: any;
   view: GridView;
   head: HeadWrap;
   rows: RowsWrap;
-  getCellType: (
-    headId: string,
-    itemId?: string,
-    value?: any,
-    type?: string,
-  ) => string;
-  getCellSpan: (
-    _headId: string,
-    _itemId: string,
-    _rowId: string,
-  ) => GridCellSpan | null;
+  getCellType: (headId: string, itemId?: string, value?: any, type?: string) => string;
+  getCellSpan: (_headId: string, _itemId: string, _rowId: string) => GridCellSpan | null;
   getCellStyles: () => Record<string, string>;
   getItemId: (headId: string, rowId: string) => string;
-  validateCell: (
-    headId: string,
-    rowId: string,
-    value: any,
-    _grid: Grid,
-  ) => CellValidationResult;
+  validateCell: (headId: string, rowId: string, value: any, _grid: Grid) => CellValidationResult;
   getEditorType: (headId: any, itemId: any, value: any, type: any) => any;
-  checkEditAvailability: (
-    _headId: string,
-    _itemId: string,
-    _grid: Grid,
-  ) => boolean;
+  checkEditAvailability: (_headId: string, _itemId: string, _grid: Grid) => boolean;
   getCellMetadata: (
     headId: string,
     itemId: string,

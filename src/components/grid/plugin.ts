@@ -117,7 +117,12 @@ export class BaseGridPlugin extends GridPlugin {
     };
   }
 
-  validateCell(result: CellValidationResult, headId: string, rowId: string, value: any): CellValidationResult {
+  validateCell(
+    result: CellValidationResult,
+    headId: string,
+    rowId: string,
+    value: any,
+  ): CellValidationResult {
     const { dataType, sourceItemTypeName } = this.grid.getCellMetadata(headId, rowId);
 
     if (dataType !== "item" || typeof value !== "string") return result;

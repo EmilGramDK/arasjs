@@ -1,9 +1,4 @@
-import type {
-  GridColumn,
-  GridColumns,
-  GridControl,
-  GridOptions,
-} from "../../types/grid";
+import type { GridColumn, GridColumns, GridControl, GridOptions } from "../../types/grid";
 import type { CuiGridOptions } from "../../types/grid-plugin";
 import type { Item } from "../../types/item";
 import { getLocalISODate } from "../../utils/formatDate";
@@ -11,7 +6,7 @@ import { BaseGridPlugin } from "./plugin";
 
 export const generateRowsMap = (
   gridControl: GridControl,
-  rows: Item | object[],
+  rows: Item | Record<string, unknown>[],
   merge?: boolean,
 ): Map<string, any> => {
   const headStore = gridControl.head?.store || new Map<string, any>();
@@ -19,9 +14,7 @@ export const generateRowsMap = (
   const rowsMap = merge ? rowsStore : new Map<string, any>();
   if (!rows || (Array.isArray(rows) && !rows.length)) return rowsMap;
 
-  const arr = Array.isArray(rows)
-    ? rows
-    : ArasModules.xmlToODataJsonAsCollection(rows.toString());
+  const arr = Array.isArray(rows) ? rows : ArasModules.xmlToODataJsonAsCollection(rows.toString());
   const defaultValues = new Map<string, any>();
   const dateFields = new Set<string>();
 
@@ -101,10 +94,7 @@ export const generateColumnsMap = (
   return columnsMap;
 };
 
-export const exportToExcel = async (
-  grid: GridControl,
-  name: string,
-): Promise<void> => {
+export const exportToExcel = async (grid: GridControl, name: string): Promise<void> => {
   const worksheets = [];
   const gridWorksheet = excelConverterApi.convertGrid(grid);
   worksheets.push({
@@ -122,11 +112,8 @@ export const createGrid = function (
   cuiOptions: CuiGridOptions = {},
 ): GridControl {
   const gridContainer =
-    typeof container === "string"
-      ? document.getElementById(container)
-      : container;
-  if (!gridContainer)
-    throw new Error(`Grid Container with ID: ${container} not found`);
+    typeof container === "string" ? document.getElementById(container) : container;
+  if (!gridContainer) throw new Error(`Grid Container with ID: ${container} not found`);
 
   const gridControl = new Grid(gridContainer, options) as GridControl;
 
