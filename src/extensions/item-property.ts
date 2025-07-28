@@ -1,4 +1,4 @@
-import { tryCatch } from "@emilgramdk/utils";
+import { tryCatch } from "@emilgramdk/web/core";
 import { applyAML, convertItemToXML } from "../utils";
 import type { XmlNode } from "../types/xml-node";
 
