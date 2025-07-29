@@ -27,4 +27,3 @@ export interface excelJsonInterface {
   worksheetCells: Array<worksheetCellsInterface>;
   columnsSettings: Array<columnsSettingsInterface>;
 }
-export {};

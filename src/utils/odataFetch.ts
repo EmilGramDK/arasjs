@@ -24,13 +24,13 @@ export async function odataFetch(
         "Content-Type": "application/json",
         Accept: "application/json;odata.metadata=none",
         ...authHeaders,
-        ...(options.headers || {}),
+        ...options.headers,
       },
       signal,
     };
 
     // Ensure URL is properly encoded
-    const baseUrl = new URL(window.aras.getServerBaseURL());
+    const baseUrl = new URL(globalThis.aras.getServerBaseURL());
     const url = new URL(`odata/${encodeURIComponent(requestURL)}`, baseUrl);
 
     const response = await fetch(url.href, fetchOptions);

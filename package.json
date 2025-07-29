@@ -17,19 +17,18 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "vite build",
+    "build": "tsc -b && vite build",
     "release": "bumpp && pnpm publish",
-    "lint": "eslint 'src/**/*.{ts,mts,tsx}' --fix",
     "format": "prettier --write 'src/**/*.{ts,mts,tsx,js,json,md}'",
     "check": "bun run format && bun run lint"
   },
   "devDependencies": {
     "@types/react": "^19.1.5",
+    "prettier": "^3.6.2",
     "tslib": "^2.8.1",
     "typescript": "^5.8.3",
     "vite": "^6.3.5",
-    "vite-plugin-dts": "^4.5.4",
-    "prettier": "^3.5.3"
+    "vite-plugin-dts": "^4.5.4"
   },
   "peerDependencies": {
     "@emilgramdk/web": ">=0.0.5"

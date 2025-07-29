@@ -1,11 +1,11 @@
 export async function InitAras() {
-  window.aras = window.aras || top?.aras || parent.aras;
-  window.ArasModules = top?.ArasModules || parent?.ArasModules;
-  window.store = window.store || parent.store || top?.store;
-  window.DOMParser = top?.DOMParser || parent.DOMParser;
-  window.Item = top?.Item || parent.Item;
+  globalThis.aras = globalThis.aras || top?.aras || parent.aras;
+  globalThis.ArasModules = top?.ArasModules || parent?.ArasModules;
+  globalThis.store = globalThis.store || parent.store || top?.store;
+  globalThis.DOMParser = top?.DOMParser || parent.DOMParser;
+  globalThis.Item = top?.Item || parent.Item;
 
-  if (!window.aras)
+  if (!globalThis.aras)
     throwError(
       "Aras object not initialized\n\nThis Application needs to be run inside Aras Innovator",
     );
@@ -17,9 +17,9 @@ export async function InitAras() {
 }
 
 export function SetArasReady() {
-  window.isArasReady = true;
+  globalThis.isArasReady = true;
   const event = new Event("ArasReady");
-  window.dispatchEvent(event);
+  globalThis.dispatchEvent(event);
 }
 
 function setBaseUrl() {
@@ -30,7 +30,7 @@ function setBaseUrl() {
 }
 
 function injectCSSToParent() {
-  if (top?.document.getElementById("arasjs_parrent_css")) return;
+  if (top?.document.querySelector("#arasjs_parrent_css")) return;
   const css = `<style id="arasjs_parrent_css">
     .content-block__iframe_page { padding:0;width:100%;height:100%; }
     .aras-notification__message { white-space: break-spaces; line-height: 20px; padding: 8px 0px; }
@@ -41,11 +41,11 @@ function injectCSSToParent() {
 }
 
 function injectArasSpinner() {
-  if (document.getElementById("dimmer_spinner")) return;
+  if (document.querySelector("#dimmer_spinner")) return;
   const iframe = document.createElement("iframe");
-  iframe.src = aras.getScriptsURL() + "spinner.html";
+  iframe.src = `${aras.getScriptsURL()}spinner.html`;
   iframe.id = "dimmer_spinner";
-  document.body.appendChild(iframe);
+  document.body.append(iframe);
 }
 
 function waitForDomReady(): Promise<void> {
@@ -53,7 +53,7 @@ function waitForDomReady(): Promise<void> {
     if (document.readyState === "complete") {
       resolve();
     } else {
-      window.addEventListener("DOMContentLoaded", () => {
+      globalThis.addEventListener("DOMContentLoaded", () => {
         resolve();
       });
     }
@@ -63,30 +63,29 @@ function waitForDomReady(): Promise<void> {
 async function injectStylesAndScripts() {
   const resources = [];
 
-  resources.push({
-    type: "stylesheet",
-    url: `../javascript/include.aspx?classes=common.min.css,cuiLayout.css`,
-    id: "styles-common-layout",
-  });
-
   resources.push(
     {
+      type: "stylesheet",
+      url: "../javascript/include.aspx?classes=common.min.css,cuiLayout.css",
+      id: "styles-common-layout",
+    },
+    {
       type: "module",
-      url: `../jsBundles/excelConverter.es.js`,
+      url: "../jsBundles/excelConverter.es.js",
       id: "script-excel-converter",
     },
     {
       type: "module",
-      url: `../jsBundles/cui.es.js`,
+      url: "../jsBundles/cui.es.js",
       id: "script-cui",
     },
   );
 
   await Promise.all(
     resources.map((resource) =>
-      resource.type !== "stylesheet"
-        ? loadScript(resource.type, resource.url, resource.id)
-        : loadStylesheet(resource.url, resource.id),
+      resource.type === "stylesheet"
+        ? loadStylesheet(resource.url, resource.id)
+        : loadScript(resource.type, resource.url, resource.id),
     ),
   );
 }
@@ -101,10 +100,10 @@ export async function loadScript(type: string, src: string, id: string): Promise
     script.type = type;
     script.async = true;
 
-    script.onload = () => resolve();
+    script.addEventListener("load", () => resolve());
     script.onerror = () => reject(`Failed to load script: ${src}`);
 
-    document.head.appendChild(script);
+    document.head.append(script);
   });
 }
 
@@ -117,10 +116,10 @@ export async function loadStylesheet(href: string, id: string): Promise<void> {
     link.href = href;
     link.rel = "stylesheet";
 
-    link.onload = () => resolve();
+    link.addEventListener("load", () => resolve());
     link.onerror = () => reject(`Failed to load stylesheet: ${href}`);
 
-    var head = document.getElementsByTagName("head")[0];
+    const head = document.querySelectorAll("head")[0];
     head.insertBefore(link, head.firstChild);
   });
 }

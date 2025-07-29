@@ -4,11 +4,11 @@ export interface XmlNode {
   xml: string;
   nodeType: number;
   nodeName: string;
-  attributes: {
+  attributes: Array<{
     name: string;
     value: string;
-  }[];
-  childNodes: XmlNode[];
+  }>;
+  childNodes: Array<XmlNode>;
   cloneNode: (deep: boolean) => XmlNode;
   parentNode: XmlNode | null;
   firstChild: XmlNode | null;
@@ -22,7 +22,7 @@ export interface XmlNode {
   removeAttribute: (name: string) => void;
   hasAttribute: (name: string) => boolean;
   hasChildNodes: () => boolean;
-  selectNodes: (xpath: string) => XmlNode[];
+  selectNodes: (xpath: string) => Array<XmlNode>;
   textContent: string;
   remove: () => void;
 }
@@ -40,7 +40,7 @@ export type XmlDocument = {
   createElement: (name: string) => XmlNode;
   selectSingleNode: (xpath: string) => XmlNode | undefined;
   importNode: (node: XmlNode, deep: boolean) => XmlNode;
-  selectNodes: (xpath: string) => XmlNode[];
+  selectNodes: (xpath: string) => Array<XmlNode>;
   createNode: (type: number, name: string, namespaceURI: string) => XmlNode;
   createTextNode: (text: string) => XmlNode;
 };

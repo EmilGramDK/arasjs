@@ -10,10 +10,10 @@ import type {
 } from "../types/dialog";
 
 export function removeAllDialogs() {
-  const topDialogs = top?.document.getElementsByTagName("dialog");
+  const topDialogs = top?.document.querySelectorAll("dialog");
   if (!topDialogs?.length) return;
-  for (let i = 0; i < topDialogs.length; i++) {
-    topDialogs[i].remove();
+  for (const topDialog of topDialogs) {
+    topDialog.remove();
   }
 }
 
@@ -35,7 +35,7 @@ export async function showSearchDialog(
     sourceItemTypeName: options.sourceItemTypeName,
     sourcePropertyName: options.sourcePropertyName,
     multiselect: false,
-    aras: window.aras,
+    aras: globalThis.aras,
     dialogWidth: options.dialogWidth || 800,
     dialogHeight: options.dialogHeight || 600,
   };
@@ -52,7 +52,7 @@ export async function showSearchDialog(
 
 export async function showMultiSelectSearchDialog(
   options: SearchDialogOptions,
-): Promise<string[] | SearchDialogResult[]> {
+): Promise<Array<string> | Array<SearchDialogResult>> {
   const params: ArasDialogParameters = {
     title: options.title || "Search Dialog",
     type: "SearchDialog",
@@ -60,7 +60,7 @@ export async function showMultiSelectSearchDialog(
     sourceItemTypeName: options.sourceItemTypeName,
     sourcePropertyName: options.sourcePropertyName,
     multiselect: true,
-    aras: window.aras,
+    aras: globalThis.aras,
     dialogWidth: options.dialogWidth || 800,
     dialogHeight: options.dialogHeight || 600,
     fullMultiResponse: options.fullMultiResponse || false,
@@ -74,9 +74,9 @@ export async function showMultiSelectSearchDialog(
 
   const res = await dialog.promise;
 
-  if (options.fullMultiResponse) return res as SearchDialogResult[];
+  if (options.fullMultiResponse) return res as Array<SearchDialogResult>;
 
-  return res as string[];
+  return res as Array<string>;
 }
 
 async function setSearchFilters(
@@ -120,13 +120,11 @@ async function setSearchFilters(
   currentSearchMode.setPageSize(options.maxRecords || 25);
 }
 
-function updateGridHeader(grid: any, filters: SearchDialogFilter[]): void {
+function updateGridHeader(grid: any, filters: Array<SearchDialogFilter>): void {
   const headMap: Map<string, any> = grid.head._store;
 
   filters.forEach((filter) => {
-    const headItem = Array.from(headMap.values()).find(
-      (item: any) => item.name === filter.property,
-    );
+    const headItem = [...headMap.values()].find((item: any) => item.name === filter.property);
     if (!headItem) return;
 
     headItem.searchValue = filter.value;

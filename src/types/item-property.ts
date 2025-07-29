@@ -1,4 +1,4 @@
-import { XmlNode } from "./xml-node";
+import type { XmlNode } from "./xml-node";
 
 export interface ItemPropertyState {
   label: string;

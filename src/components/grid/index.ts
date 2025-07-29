@@ -19,7 +19,7 @@ customElements.whenDefined("aras-grid").then(() => {
     }
   };
 
-  gridPrototype.setRows = function (rows: Item | Record<string, unknown>[], merge?: boolean) {
+  gridPrototype.setRows = function (rows: Item | Array<Record<string, unknown>>, merge?: boolean) {
     if (!this.head) throw new Error("Columns must be set before rows");
     const rowsMap = generateRowsMap(this, rows, merge);
     this.rows = rowsMap;

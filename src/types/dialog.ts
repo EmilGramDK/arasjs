@@ -14,7 +14,7 @@ export interface SearchDialogOptions {
   sourcePropertyName?: string;
   dialogWidth?: number;
   dialogHeight?: number;
-  filters?: SearchDialogFilter[];
+  filters?: Array<SearchDialogFilter>;
   maxRecords?: number;
   autoSearch?: boolean;
   fullMultiResponse?: boolean;
@@ -45,5 +45,3 @@ export type DialogTypes =
   | "ManageFileProperty"
   | "Text"
   | "Color";
-
-export {};

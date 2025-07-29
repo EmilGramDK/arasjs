@@ -54,10 +54,10 @@ export function convertItemToXML(item: Item, forceList = false): XmlNode {
 export function convertStringToXML(xmlStr: string): XmlNode {
   const parser = new DOMParser();
   const xmlDoc = parser.parseFromString(xmlStr, "application/xml");
-  const errorNode = xmlDoc.getElementsByTagName("parsererror");
+  const errorNode = xmlDoc.querySelectorAll("parsererror");
 
-  if (errorNode.length) {
-    throw new Error("Error parsing XML: " + errorNode[0].textContent);
+  if (errorNode.length > 0) {
+    throw new Error(`Error parsing XML: ${errorNode[0].textContent}`);
   }
 
   return xmlDoc.documentElement as any;

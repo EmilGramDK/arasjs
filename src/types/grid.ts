@@ -2,8 +2,8 @@ import type { Item } from "./item";
 
 export interface GridControl extends Grid {
   new (container: HTMLElement, options?: GridOptions): GridControl;
-  setColumns: (columns: GridColumn[], merge?: boolean) => void;
-  setRows: (items: Item | Record<string, unknown>[], merge?: boolean) => void;
+  setColumns: (columns: Array<GridColumn>, merge?: boolean) => void;
+  setRows: (items: Item | Array<Record<string, unknown>>, merge?: boolean) => void;
 
   // event handlers
   setCellOnDoubleClick: (callback: (head: string, row: string) => void) => void;
@@ -14,7 +14,7 @@ export interface GridControl extends Grid {
 
   exportToExcel: (name: string) => void;
 
-  getSelectedRows: () => string[];
+  getSelectedRows: () => Array<string>;
   deleteSelectedRows: () => void;
 }
 
@@ -40,7 +40,7 @@ export interface Grid extends HTMLElement {
   ) => {
     [key: string]: any;
   };
-  clientSort: (sortableArray: string[]) => void;
+  clientSort: (sortableArray: Array<string>) => void;
   sort: () => Promise<void>;
   cancelEdit: () => void;
   resetData: () => void;
@@ -69,9 +69,9 @@ export interface GridOptions {
 
 export interface GridSettings {
   frozenColumns: number;
-  indexHead: string[];
-  indexRows: string[];
-  selectedRows: string[];
+  indexHead: Array<string>;
+  indexRows: Array<string>;
+  selectedRows: Array<string>;
   copyArea: Pick<GridFocusCell, "headId" | "rowId"> | null;
   focusedCell: GridFocusCell | null;
   selection: GridSelectionRange | null;
@@ -92,7 +92,7 @@ export interface GridView {
   _scrollHandler: () => void;
 }
 
-export type GridColumns = GridColumn[];
+export type GridColumns = Array<GridColumn>;
 export interface GridColumn extends GridHeadData {
   field: string;
   label: string;
@@ -225,7 +225,7 @@ interface FilldownSessionData {
 
 interface FilldownData {
   session: FilldownSessionData | null;
-  eventHandlers: EventListenerDescriptor[];
+  eventHandlers: Array<EventListenerDescriptor>;
   control: HTMLElement;
 }
 

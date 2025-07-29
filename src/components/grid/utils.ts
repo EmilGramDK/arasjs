@@ -6,13 +6,13 @@ import { BaseGridPlugin } from "./plugin";
 
 export const generateRowsMap = (
   gridControl: GridControl,
-  rows: Item | Record<string, unknown>[],
+  rows: Item | Array<Record<string, unknown>>,
   merge?: boolean,
 ): Map<string, any> => {
   const headStore = gridControl.head?.store || new Map<string, any>();
   const rowsStore = gridControl.rows?.store || new Map<string, any>();
   const rowsMap = merge ? rowsStore : new Map<string, any>();
-  if (!rows || (Array.isArray(rows) && !rows.length)) return rowsMap;
+  if (!rows || (Array.isArray(rows) && rows.length === 0)) return rowsMap;
 
   const arr = Array.isArray(rows) ? rows : ArasModules.xmlToODataJsonAsCollection(rows.toString());
   const defaultValues = new Map<string, any>();
@@ -51,7 +51,7 @@ export const generateColumnsMap = (
 ): Map<string, GridColumn> => {
   const headStore = gridControl.head?.store || new Map<string, any>();
   const columnsMap = merge ? headStore : new Map<string, any>();
-  if (!columns || !columns.length) return columnsMap;
+  if (!columns || columns.length === 0) return columnsMap;
 
   columns.forEach((col, index) => {
     const name = col.field;
@@ -60,7 +60,7 @@ export const generateColumnsMap = (
       ...col,
       columnCssStyles: {
         "text-align": col.textAlign || "left",
-        ...(col.columnCssStyles || {}),
+        ...col.columnCssStyles,
       },
       cssClass: col.cssClass || "",
       cssStyle: col.cssStyle || {},

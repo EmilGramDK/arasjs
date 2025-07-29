@@ -6,7 +6,6 @@ export default defineConfig({
     lib: {
       entry: {
         index: "src/index.ts",
-        vite: "src/vite/plugin.ts",
         utils: "src/utils.ts",
       },
       name: "ArasLib",

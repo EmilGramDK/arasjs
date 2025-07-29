@@ -1,5 +1,5 @@
 export interface ToolbarControl extends Toolbar {
-  setItems(items: ToolbarItem[]): void;
+  setItems(items: Array<ToolbarItem>): void;
   setItemHidden(itemId: string): void;
   setItemEnabled(itemId: string, value: boolean): void;
   setOnClick(callback: (itemId: string) => void): void;

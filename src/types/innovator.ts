@@ -8,7 +8,7 @@ export interface Innovator {
    * @param args - Parameters to be injected into the query.
    * @returns The server response as an Item.
    */
-  applyAML(AML: string, ...args: unknown[]): Item;
+  applyAML(AML: string, ...args: Array<unknown>): Item;
 
   /**
    * Apply a method by name, passing a string value as its body.
@@ -24,7 +24,7 @@ export interface Innovator {
    * @param args - Parameters to be injected into the query.
    * @returns The server response as an Item.
    */
-  applySQL(sql: string, ...args: unknown[]): Item;
+  applySQL(sql: string, ...args: Array<unknown>): Item;
 
   /**
    * Returns the server connection set on the instance.
@@ -101,7 +101,7 @@ export interface Innovator {
    * @param args - Parameters to be injected into the AML.
    * @returns A new Item populated with the provided AML.
    */
-  newItemFromAml(aml: string, ...args: unknown[]): Item;
+  newItemFromAml(aml: string, ...args: Array<unknown>): Item;
 
   /**
    * Creates a new Item where the provided text is the body for the `<Result>` tag.

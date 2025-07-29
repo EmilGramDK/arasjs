@@ -15,7 +15,7 @@ export const createToolbar = function (
 
   const tbControl = document.createElement("aras-toolbar") as ToolbarControl;
   tbContainer.innerHTML = "";
-  tbContainer.appendChild(tbControl);
+  tbContainer.append(tbControl);
 
   return tbControl;
 };
@@ -32,7 +32,7 @@ export const onClickItem = (parentItem: ToolbarItem, event: Event, callback: any
   return callback(targetNode.dataset.index);
 };
 
-export const generateItemsMap = (items: ToolbarItem[]): Map<string, ToolbarItem> => {
+export const generateItemsMap = (items: Array<ToolbarItem>): Map<string, ToolbarItem> => {
   const itemsMap = new Map<string, ToolbarItem>();
 
   items.forEach((item) => {

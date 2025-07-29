@@ -1,11 +1,10 @@
 import { tryCatch } from "@emilgramdk/web/core";
 import { applyAML, convertItemToXML, showSearchDialog } from "../utils";
-import { ItemProperty } from "../types/item-property";
 
 export const extendItemProperty = () => {
-  if (!window.ItemProperty) return;
+  if (!globalThis.ItemProperty) return;
 
-  window.ItemProperty.prototype.request = async function () {
+  globalThis.ItemProperty.prototype.request = async function () {
     const { label, itemType, maxItemsCount } = this.state;
 
     const aml = `<AML><Item type="${itemType}" action="get" maxRecords="${maxItemsCount}"><keyed_name condition="like">${label}*</keyed_name></Item></AML>`;
@@ -20,7 +19,7 @@ export const extendItemProperty = () => {
     return convertItemToXML(data, true);
   };
 
-  window.ItemProperty.prototype.showDialogHandler = async function () {
+  globalThis.ItemProperty.prototype.showDialogHandler = async function () {
     const { itemType } = this.state;
 
     const item = await showSearchDialog({
@@ -30,7 +29,7 @@ export const extendItemProperty = () => {
 
     this.setState({
       label: item.keyed_name,
-      items: [
+      list: [
         {
           label: item.keyed_name,
           value: item.keyed_name,
@@ -42,7 +41,7 @@ export const extendItemProperty = () => {
     this.state.refs.input.dispatchEvent(new CustomEvent("change", { bubbles: true }));
   };
 
-  window.ItemProperty.prototype.onSelectValue = function (
+  globalThis.ItemProperty.prototype.onSelectValue = function (
     callback: (item: { label: string; value: string; itemId: string }) => void,
   ) {
     this.addEventListener("change", () => {

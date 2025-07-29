@@ -25,7 +25,7 @@ export function showItemByCriteria(
   viewMode: "tab view" | "openFile" = "tab view",
   isUnfocused: boolean = false,
 ) {
-  var item = aras.newIOMItem(itemTypeName, "get");
+  let item = aras.newIOMItem(itemTypeName, "get");
   item.setProperty(criteriaProperty, criteriaValue);
   item = item.apply();
 

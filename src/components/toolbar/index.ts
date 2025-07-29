@@ -9,7 +9,7 @@ customElements.whenDefined("aras-toolbar").then(() => {
   const toolbarPrototype = customElements.get("aras-toolbar")?.prototype;
   if (!toolbarPrototype) return;
 
-  toolbarPrototype.setItems = function (items: ToolbarItem[]) {
+  toolbarPrototype.setItems = function (items: Array<ToolbarItem>) {
     this.data = generateItemsMap(items);
   };
 

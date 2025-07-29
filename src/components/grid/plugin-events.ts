@@ -72,7 +72,7 @@ function applyEdit(plugin: BaseGridPlugin, headId: string, rowId: string, value:
   const cellMetadata = plugin.grid.getCellMetadata(headId, rowId);
   const { dataType, sourceItemTypeName } = cellMetadata;
 
-  if (dataType != "item" || typeof value != "string") return null;
+  if (dataType != "item" || typeof value !== "string") return null;
 
   const itemNode = aras.uiGetItemByKeyedName(sourceItemTypeName, value, true);
   if (!itemNode) return;

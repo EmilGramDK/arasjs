@@ -52,7 +52,7 @@ export interface Aras {
   getItemTypeForClient: (criteriaValue: string, criteriaName: string) => Item;
   getItemTypeNodeForClient: (criteriaValue: string, criteriaName: string) => XmlNode;
   getItemTypeDictionaryJson: (criteriaValue: string, criteriaName: string) => Promise<unknown>;
-  getResource: (location: string, key: string, ...parameters: unknown[]) => string;
+  getResource: (location: string, key: string, ...parameters: Array<unknown>) => string;
   getLanguagesResultNd: () => XmlNode;
   getItemTypeId: (name: string) => string;
   getDotNetDatePattern: (pattern: string) => string;
@@ -216,9 +216,9 @@ export interface ArasWindow extends Window {
 }
 
 export interface ArasItemViewWindow extends ArasWindow {
-  onSaveCommand: (...parameters: unknown[]) => void;
-  onUnlockCommand: (...parameters: unknown[]) => void;
-  onSaveUnlockAndExitCommand: (...parameters: unknown[]) => void;
+  onSaveCommand: (...parameters: Array<unknown>) => void;
+  onUnlockCommand: (...parameters: Array<unknown>) => void;
+  onSaveUnlockAndExitCommand: (...parameters: Array<unknown>) => void;
 }
 
 export interface ArasFormWindow extends Window {
@@ -238,7 +238,7 @@ export interface FormField extends HTMLElement {
   component?: ComponentField;
 }
 
-export type DefaultHandler = (...args: unknown[]) => unknown;
+export type DefaultHandler = (...args: Array<unknown>) => unknown;
 export interface ComponentField extends HTMLElement {
   _getCurrentInputValue: () => string;
   _getInputTemplate: () => void;
@@ -254,12 +254,12 @@ export interface ComponentField extends HTMLElement {
 }
 
 export interface ComponentFormFieldFormat {
-  children: HTMLElement[];
+  children: Array<HTMLElement>;
 }
 
 export interface DialogShowResult {
   dialogNode: HTMLElement;
-  promise: Promise<SearchDialogResult | string[] | any>;
+  promise: Promise<SearchDialogResult | Array<string> | any>;
 }
 
 export interface SearchDialogResult {
@@ -269,18 +269,18 @@ export interface SearchDialogResult {
 }
 
 export interface SvgManager {
-  load: (icons: string | string[]) => void;
+  load: (icons: string | Array<string>) => void;
 }
 
 export interface ArasConfirmDialogParameters {
-  additionalButtons?: Record<string, unknown>[];
+  additionalButtons?: Array<Record<string, unknown>>;
   cancelButtonModifier?: string;
   cancelButtonText?: string;
   okButtonModifier?: string;
   okButtonText?: string;
   title?: string;
   image?: string;
-  buttonsOrdering?: string[];
+  buttonsOrdering?: Array<string>;
 }
 
 interface ArasDialogAttachedEventDescriptor {
@@ -310,7 +310,7 @@ export interface ArasModules {
   notify: (message: string, options?: Record<string, unknown>) => void;
   xmlToJson: (xml: string | XmlNode) => unknown;
   xmlToODataJson: <T extends ODataItem>(xml: string | XmlNode, skipNullValues?: boolean) => T;
-  xmlToODataJsonAsCollection: <T extends ODataItem>(xml: string) => T[];
+  xmlToODataJsonAsCollection: <T extends ODataItem>(xml: string) => Array<T>;
   xmlToODataJsonByItemType: <T extends ODataItem>(
     itemNode: XmlNode,
     itemType: any,
@@ -395,5 +395,3 @@ export interface SelecitonRange {
 export interface TopWindowHelper {
   getMostTopWindowWithAras: (target?: Window) => Window;
 }
-
-export {};
