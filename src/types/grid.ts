@@ -65,8 +65,6 @@ export interface GridOptions {
   sortable?: boolean;
   tooltipDelay?: number;
   autofill?: boolean | undefined;
-  orderBy?: { headId: string; desc?: boolean };
-  enableDefaultLinkClick?: boolean;
 }
 
 export interface GridSettings {

@@ -106,7 +106,17 @@ export const exportToExcel = async (grid: GridControl, name: string): Promise<vo
   ArasModules.vault.saveBlob(fileBlob, `${name}.xlsx`);
 };
 
-export const createGrid = function (
+export const newGrid = function (
+  options: GridOptions = {},
+  cuiOptions: CuiGridOptions = {},
+): GridControl {
+  const dom = document.createElement("div");
+  const gridControl = new Grid(dom, options) as GridControl;
+  initCuiGrid(gridControl, options, cuiOptions);
+  return gridControl;
+};
+
+export const renderGrid = function (
   container: string | HTMLElement,
   options: GridOptions = {},
   cuiOptions: CuiGridOptions = {},
@@ -116,11 +126,22 @@ export const createGrid = function (
   if (!gridContainer) throw new Error(`Grid Container with ID: ${container} not found`);
 
   const gridControl = new Grid(gridContainer, options) as GridControl;
+  initCuiGrid(gridControl, options, cuiOptions);
+  return gridControl;
+};
 
-  cuiGrid(gridControl, {
+const initCuiGrid = (
+  grid: GridControl,
+  options: GridOptions = {},
+  cuiOptions: CuiGridOptions = {},
+) => {
+  cuiGrid(grid, {
     ...cuiOptions,
     plugins: [BaseGridPlugin, ...(cuiOptions.plugins || [])],
+  }).then(() => {
+    grid.view.defaultSettings = {
+      ...grid.view.defaultSettings,
+      ...options,
+    };
   });
-
-  return gridControl;
 };

@@ -64,5 +64,5 @@ customElements.whenDefined("aras-grid").then(() => {
   };
 });
 
-export { generateRowsMap, generateColumnsMap, createGrid } from "./utils";
+export { generateRowsMap, generateColumnsMap, renderGrid, newGrid } from "./utils";
 export { BaseGridPlugin } from "./plugin";

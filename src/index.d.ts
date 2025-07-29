@@ -15,7 +15,7 @@ declare global {
   var Grid: GridControl;
   var Toolbar: Toolbar;
   var Item: ItemClass;
-  var cuiGrid: (control: GridControl, options: CuiGridOptions) => void;
+  var cuiGrid: (control: GridControl, options: CuiGridOptions) => Promise<{ destroy: () => void }>;
 
   interface Window {
     aras: Aras;
@@ -28,7 +28,7 @@ declare global {
     Toolbar: Toolbar;
     DOMParser: any;
     Item: ItemClass;
-    cuiGrid: (control: GridControl, options: CuiGridOptions) => void;
+    cuiGrid: (control: GridControl, options: CuiGridOptions) => Promise<{ destroy: () => void }>;
   }
   namespace JSX {
     interface IntrinsicElements extends React.JSX.IntrinsicElements {
