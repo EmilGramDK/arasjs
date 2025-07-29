@@ -107,11 +107,12 @@ export const exportToExcel = async (grid: GridControl, name: string): Promise<vo
 };
 
 export const newGrid = function (
+  id: string,
   options: GridOptions = {},
   cuiOptions: CuiGridOptions = {},
 ): GridControl {
-  const dom = document.createElement("div");
-  const gridControl = new Grid(dom, options) as GridControl;
+  const gridControl = new Grid();
+  gridControl.id = id;
   initCuiGrid(gridControl, options, cuiOptions);
   return gridControl;
 };

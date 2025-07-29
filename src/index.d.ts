@@ -1,9 +1,10 @@
+import type { FilterList } from "./components/filter-list";
+import type { ItemProperty } from "./components/item-property/types";
 import type { ArasModules, Aras, ArasCore, GlobalStore, ReturnBlockerHelper } from "./types/aras";
 import type { ArasTabs } from "./types/aras-tabs";
 import type { GridControl } from "./types/grid";
 import type { CuiGridOptions } from "./types/grid-plugin";
 import type { ItemClass } from "./types/item";
-import type { ItemProperty } from "./types/item-property";
 import type { Toolbar } from "./types/toolbar";
 
 declare global {
@@ -14,6 +15,7 @@ declare global {
   var returnBlockerHelper: ReturnBlockerHelper;
   var arasTabs: ArasTabs;
   var Grid: GridControl;
+  var FilterList: FilterList;
   var ItemProperty: ItemProperty;
   var Toolbar: Toolbar;
   var Item: ItemClass;
@@ -27,6 +29,7 @@ declare global {
     returnBlockerHelper: ReturnBlockerHelper;
     arasTabs: ArasTabs;
     Grid: GridControl;
+    FilterList: FilterList;
     ItemProperty: ItemProperty;
     Toolbar: Toolbar;
     DOMParser: any;

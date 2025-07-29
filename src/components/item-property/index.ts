@@ -1,10 +1,15 @@
 import { tryCatch } from "@emilgramdk/web/core";
-import { applyAML, convertItemToXML, showSearchDialog } from "../utils";
+import { applyAML, convertItemToXML, showSearchDialog } from "../../utils";
 
-export const extendItemProperty = () => {
-  if (!globalThis.ItemProperty) return;
+/**
+ * Extends the Aras FilterList component
+ *
+ */
+customElements.whenDefined("aras-filter-list").then(() => {
+  const prototype = customElements.get("aras-filter-list")?.prototype;
+  if (!prototype) return;
 
-  globalThis.ItemProperty.prototype.request = async function () {
+  prototype.request = async function () {
     const { label, itemType, maxItemsCount } = this.state;
 
     const aml = `<AML><Item type="${itemType}" action="get" maxRecords="${maxItemsCount}"><keyed_name condition="like">${label}*</keyed_name></Item></AML>`;
@@ -19,7 +24,7 @@ export const extendItemProperty = () => {
     return convertItemToXML(data, true);
   };
 
-  globalThis.ItemProperty.prototype.showDialogHandler = async function () {
+  prototype.showDialogHandler = async function () {
     const { itemType } = this.state;
 
     const item = await showSearchDialog({
@@ -40,17 +45,7 @@ export const extendItemProperty = () => {
 
     this.state.refs.input.dispatchEvent(new CustomEvent("change", { bubbles: true }));
   };
+});
 
-  globalThis.ItemProperty.prototype.onSelectValue = function (
-    callback: (item: { label: string; value: string; itemId: string }) => void,
-  ) {
-    this.addEventListener("change", () => {
-      const { label, list } = this.state;
-      const item = list.find(
-        (i: { label: string; value: string; itemId: string }) => i.label === label,
-      );
-      if (!item) return;
-      callback(item);
-    });
-  };
-};
+export type { ItemProperty, ItemPropertyListOption, ItemPropertyState } from "./types";
+export { newItemProperty } from "./utils";

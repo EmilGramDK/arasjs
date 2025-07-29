@@ -1,6 +1,7 @@
 import type { Item } from "./item";
 
 export interface GridControl extends Grid {
+  new (): GridControl;
   new (container: HTMLElement, options?: GridOptions): GridControl;
   setColumns: (columns: Array<GridColumn>, merge?: boolean) => void;
   setRows: (items: Item | Array<Record<string, unknown>>, merge?: boolean) => void;
