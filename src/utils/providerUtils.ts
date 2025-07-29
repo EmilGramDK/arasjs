@@ -16,6 +16,13 @@ export async function InitAras() {
   await Promise.all([injectStylesAndScripts(), waitForDomReady()]);
 }
 
+export async function WaitForArasReady(): Promise<void> {
+  if (window.isArasReady) return;
+  await new Promise((resolve) => {
+    globalThis.addEventListener("ArasReady", resolve, { once: true });
+  });
+}
+
 export function SetArasReady() {
   globalThis.isArasReady = true;
   const event = new Event("ArasReady");

@@ -1,10 +1,13 @@
+import { WaitForArasReady } from "../../utils/providerUtils";
 import type { FilterListOption } from "./types";
 
 /**
  * Extends the Aras FilterList component
  *
  */
-customElements.whenDefined("aras-filter-list").then(() => {
+customElements.whenDefined("aras-filter-list").then(async () => {
+  await WaitForArasReady();
+
   const prototype = customElements.get("aras-filter-list")?.prototype;
   if (!prototype) return;
 
