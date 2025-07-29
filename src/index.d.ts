@@ -3,6 +3,7 @@ import type { ArasTabs } from "./types/aras-tabs";
 import type { GridControl } from "./types/grid";
 import type { CuiGridOptions } from "./types/grid-plugin";
 import type { ItemClass } from "./types/item";
+import { ItemProperty } from "./types/item-property";
 import type { Toolbar } from "./types/toolbar";
 
 declare global {
@@ -13,6 +14,7 @@ declare global {
   var returnBlockerHelper: ReturnBlockerHelper;
   var arasTabs: ArasTabs;
   var Grid: GridControl;
+  var ItemProperty: ItemProperty;
   var Toolbar: Toolbar;
   var Item: ItemClass;
   var cuiGrid: (control: GridControl, options: CuiGridOptions) => Promise<{ destroy: () => void }>;
@@ -25,6 +27,7 @@ declare global {
     returnBlockerHelper: ReturnBlockerHelper;
     arasTabs: ArasTabs;
     Grid: GridControl;
+    ItemProperty: ItemProperty;
     Toolbar: Toolbar;
     DOMParser: any;
     Item: ItemClass;

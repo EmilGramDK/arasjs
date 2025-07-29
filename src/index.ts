@@ -32,6 +32,7 @@ export * from "./components/toolbar";
 export * from "./types/aras";
 export * from "./types/item";
 export * from "./types/grid";
+export * from "./types/item-property";
 export * from "./types/toolbar";
 export * from "./types/dialog";
 export * from "./types/innovator";

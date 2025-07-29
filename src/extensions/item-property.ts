@@ -1,6 +1,5 @@
 import { tryCatch } from "@emilgramdk/web/core";
-import { applyAML, convertItemToXML } from "../utils";
-import type { XmlNode } from "../types/xml-node";
+import { applyAML, convertItemToXML, showSearchDialog } from "../utils";
 
 export const extendItemProperty = () => {
   if (!window.ItemProperty) return;
@@ -19,19 +18,26 @@ export const extendItemProperty = () => {
 
     return convertItemToXML(data, true);
   };
-};
 
-declare global {
-  interface Window {
-    ItemProperty: {
-      prototype: {
-        state: {
-          label: string;
-          itemType: string;
-          maxItemsCount: number;
-        };
-        request: () => Promise<XmlNode | null>;
-      };
-    };
-  }
-}
+  window.ItemProperty.prototype.showDialogHandler = async function () {
+    const { itemType } = this.state;
+
+    const item = await showSearchDialog({
+      itemtypeName: itemType,
+    });
+    if (!item) return;
+
+    this.setState({
+      label: item.keyed_name,
+      items: [
+        {
+          label: item.keyed_name,
+          value: item.keyed_name,
+          itemId: item.itemID,
+        },
+      ],
+    });
+
+    this.state.refs.input.dispatchEvent(new CustomEvent("change", { bubbles: true }));
+  };
+};
