@@ -25,5 +25,5 @@ export interface FilterList extends HTMLElement {
   new (): FilterList;
   state: FilterListState;
   setState: (state: Partial<FilterListState>) => void;
-  onSelectValue: (callback: (item: FilterListOption) => void) => void;
+  onSelectValue: (callback: (item: FilterListOption | undefined) => void) => void;
 }

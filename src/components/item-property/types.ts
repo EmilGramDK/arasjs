@@ -17,5 +17,5 @@ export interface ItemProperty extends FilterList {
   setState: (state: Partial<ItemPropertyState>) => void;
   request: () => Promise<XmlNode | null>;
   showDialogHandler: () => Promise<void>;
-  onSelectValue: (callback: (item: ItemPropertyListOption) => void) => void;
+  onSelectValue: (callback: (item: ItemPropertyListOption | undefined) => void) => void;
 }

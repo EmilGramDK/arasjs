@@ -1,18 +1,13 @@
 import { tryCatch } from "@emilgramdk/web/core";
 import { applyAML, convertItemToXML, showSearchDialog } from "../../utils";
-import { WaitForArasReady } from "../../utils/providerUtils";
+import type { ItemPropertyListOption } from "./types";
 
 /**
  * Extends the Aras FilterList component
  *
  */
 customElements.whenDefined("aras-filter-list").then(async () => {
-  await WaitForArasReady();
-
-  const prototype = customElements.get("aras-filter-list")?.prototype;
-  if (!prototype) return;
-
-  prototype.request = async function () {
+  globalThis.ItemProperty.prototype.request = async function () {
     const { label, itemType, maxItemsCount } = this.state;
 
     const aml = `<AML><Item type="${itemType}" action="get" maxRecords="${maxItemsCount}"><keyed_name condition="like">${label}*</keyed_name></Item></AML>`;
@@ -27,7 +22,17 @@ customElements.whenDefined("aras-filter-list").then(async () => {
     return convertItemToXML(data, true);
   };
 
-  prototype.showDialogHandler = async function () {
+  globalThis.ItemProperty.prototype.onSelectValue = function (
+    callback: (item: ItemPropertyListOption | undefined) => void,
+  ) {
+    this.addEventListener("change", () => {
+      const { label, list } = this.state;
+      const item = list.find((i: ItemPropertyListOption) => i.label === label);
+      callback(item);
+    });
+  };
+
+  globalThis.ItemProperty.prototype.showDialogHandler = async function () {
     const { itemType } = this.state;
 
     const item = await showSearchDialog({

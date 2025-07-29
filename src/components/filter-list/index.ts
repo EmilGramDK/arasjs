@@ -1,4 +1,3 @@
-import { WaitForArasReady } from "../../utils/providerUtils";
 import type { FilterListOption } from "./types";
 
 /**
@@ -6,16 +5,12 @@ import type { FilterListOption } from "./types";
  *
  */
 customElements.whenDefined("aras-filter-list").then(async () => {
-  await WaitForArasReady();
-
-  const prototype = customElements.get("aras-filter-list")?.prototype;
-  if (!prototype) return;
-
-  prototype.onSelectValue = function (callback: (item: { label: string; value: string }) => void) {
+  globalThis.FilterList.prototype.onSelectValue = function (
+    callback: (item: FilterListOption | undefined) => void,
+  ) {
     this.addEventListener("change", () => {
-      const { label, list } = this.state;
-      const item = list.find((i: FilterListOption) => i.label === label);
-      if (!item) return;
+      const { value, list } = this.state;
+      const item = list.find((i: FilterListOption) => i.value === value);
       callback(item);
     });
   };
