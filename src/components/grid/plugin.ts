@@ -41,6 +41,7 @@ export class BaseGridPlugin extends GridPlugin {
       pattern: customPattern,
       list = [],
       lifeCycleStates = [],
+      dataSource,
       dataSourceName,
       scale,
       precision,
@@ -50,10 +51,13 @@ export class BaseGridPlugin extends GridPlugin {
     } = headInfo;
 
     const dataType = rawDataType || type || "string";
+    const isItem = dataType === "item";
     const defaultPattern = dataType === "date" ? "short_date" : "";
     const pattern = customPattern || defaultPattern;
 
-    const itemType = dataSourceName ? aras.getItemTypeNodeForClient(dataSourceName, "name") : {};
+    const itemType =
+      isItem && dataSourceName ? aras.getItemTypeNodeForClient(dataSourceName, "name") : {};
+
     const focusedCell = settings?.focusedCell;
 
     return {
@@ -97,16 +101,12 @@ export class BaseGridPlugin extends GridPlugin {
         currentRow[`${cellName}@aras.keyed_name`] = fileJson.filename;
 
         rows.store!.set(rowId, currentRow);
-
-        // Optionally trigger an update event here
-        // window.onWidgetApplyEdit?.(parentRowId, headId, selectedFile);
       },
 
       editorClickHandler: () => {
         this.grid.cancelEdit();
         if (type != "item") return;
         this.pickItem(cellName, dataSourceName, rowId);
-        // this.grid.onInputHelperShow_Experimental(focusedCell.rowId, layoutIndex);
       },
 
       handler: () => {

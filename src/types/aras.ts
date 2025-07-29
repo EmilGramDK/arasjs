@@ -117,6 +117,7 @@ export interface Aras {
   uiRegWindowEx: (id: string, wnd: ArasItemViewWindow) => void;
   isNew: (item: XmlNode) => boolean;
   MetadataCache: MetadataCache;
+  MetadataCacheJson: MetadataCacheJson;
   browserHelper: BrowserHelper;
   Browser: Browser;
   shortcutsHelperFactory: ShortcutsHelperFactory;
@@ -357,6 +358,18 @@ export interface MetadataCacheXmlData {
 
 export interface MetadataCache {
   GetConfigurableUi: (parameters: Record<string, string>) => MetadataCacheXmlData;
+  GetList: (listId: string) => MetadataCacheXmlData;
+  GetItem: (id: string) => MetadataCacheXmlData;
+  GetItemType: (criteriaValue: string, criteriaName: string) => MetadataCacheXmlData;
+  GetItemTypeId: (itemTypeName: string) => MetadataCacheXmlData;
+}
+
+export interface MetadataCacheJson {
+  GetConfigurableUi: (parameters: Record<string, string>) => Promise<unknown>;
+  GetList: (listId: Array<string>, filterListId?: Array<string>) => Promise<unknown>;
+  GetItem: (id: string) => Promise<unknown>;
+  GetItemType: (criteriaValue: string, criteriaName: string) => Promise<unknown>;
+  GetItemTypeId: (itemTypeName: string) => Promise<unknown>;
 }
 
 export interface BrowserHelper {
