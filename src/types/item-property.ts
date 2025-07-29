@@ -27,4 +27,7 @@ export interface ItemProperty extends HTMLElement {
   setState: (state: Partial<ItemPropertyState>) => void;
   request: () => Promise<XmlNode | null>;
   showDialogHandler: () => Promise<void>;
+  onSelectValue: (
+    callback: (item: { label: string; value: string; itemId: string }) => void,
+  ) => void;
 }

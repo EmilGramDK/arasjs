@@ -1,5 +1,6 @@
 import { tryCatch } from "@emilgramdk/web/core";
 import { applyAML, convertItemToXML, showSearchDialog } from "../utils";
+import { ItemProperty } from "../types/item-property";
 
 export const extendItemProperty = () => {
   if (!window.ItemProperty) return;
@@ -39,5 +40,18 @@ export const extendItemProperty = () => {
     });
 
     this.state.refs.input.dispatchEvent(new CustomEvent("change", { bubbles: true }));
+  };
+
+  window.ItemProperty.prototype.onSelectValue = function (
+    callback: (item: { label: string; value: string; itemId: string }) => void,
+  ) {
+    this.addEventListener("change", () => {
+      const { label, list } = this.state;
+      const item = list.find(
+        (i: { label: string; value: string; itemId: string }) => i.label === label,
+      );
+      if (!item) return;
+      callback(item);
+    });
   };
 };
