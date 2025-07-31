@@ -2,6 +2,7 @@ import type { ArasObjectUser } from "./aras-user";
 import type { ArasDialogParameters } from "./dialog";
 import type { Innovator } from "./innovator";
 import type { Item, ODataItem } from "./item";
+import type { ItemType } from "./itemtype";
 import type { XmlDocument, XmlNode } from "./xml-node";
 
 /**
@@ -51,7 +52,7 @@ export interface Aras {
   getMainWindow: () => ArasWindow;
   getItemTypeForClient: (criteriaValue: string, criteriaName: string) => Item;
   getItemTypeNodeForClient: (criteriaValue: string, criteriaName: string) => XmlNode;
-  getItemTypeDictionaryJson: (criteriaValue: string, criteriaName: string) => Promise<unknown>;
+  getItemTypeDictionaryJson: (criteriaValue: string, criteriaName: string) => Promise<ItemType>;
   getResource: (location: string, key: string, ...parameters: Array<unknown>) => string;
   getLanguagesResultNd: () => XmlNode;
   getItemTypeId: (name: string) => string;
