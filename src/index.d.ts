@@ -7,8 +7,15 @@ import type { CuiGridOptions } from "./types/grid-plugin";
 import type { ItemClass } from "./types/item";
 import type { Toolbar } from "./types/toolbar";
 
+interface TopWork {
+  searchContainer: {
+    runSearch: () => void;
+  };
+}
+
 declare global {
   var aras: Aras;
+  var work: TopWork;
   var ArasCore: ArasCore;
   var ArasModules: ArasModules;
   var store: GlobalStore;
@@ -23,6 +30,7 @@ declare global {
 
   interface Window {
     aras: Aras;
+    work: TopWork;
     ArasCore: ArasCore;
     ArasModules: ArasModules;
     store: GlobalStore;
