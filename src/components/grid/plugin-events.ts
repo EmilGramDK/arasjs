@@ -48,7 +48,7 @@ async function gridLinkClick(
 
   const propertyName = headInfo.name || headId;
   const currentValue = rowInfo[propertyName];
-  const sourceItemTypeName = metadata.sourceItemTypeName || rowInfo[`${propertyName}@aras.type`];
+  const sourceItemTypeName = rowInfo[`${propertyName}@aras.type`] || metadata.sourceItemTypeName;
 
   const target = event.target as HTMLElement;
 
@@ -61,7 +61,7 @@ async function gridLinkClick(
   const isSelectFileIcon = target.closest(".aras-grid-file-icon_select-file");
 
   if (fileIcon && !isSelectFileIcon) {
-    alert("Not implemented");
+    alert("Not implemented. Please update gridLinkClick in GridPlugin.");
     // const itemId = rowInfo.id;
     // const fileId = link.replace(/'/g, "").split(",")[1];
     // dialogs.file(headId, rowId, itemId, this.grid, { fileId });
@@ -77,11 +77,10 @@ function applyEdit(plugin: BaseGridPlugin, headId: string, rowId: string, value:
   const itemNode = aras.uiGetItemByKeyedName(sourceItemTypeName, value, true);
   if (!itemNode) return;
 
-  const item = ArasModules.xmlToODataJson(itemNode) as any;
-
   plugin.grid.rows.set(rowId, {
     ...plugin.grid.rows.get(rowId),
-    [`${headId}`]: item.id,
-    [`${headId}@aras.keyed_name`]: item.keyed_name,
+    [`${headId}`]: itemNode.getAttribute("id"),
+    [`${headId}@aras.type`]: sourceItemTypeName,
+    [`${headId}@aras.keyed_name`]: value,
   });
 }

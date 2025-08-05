@@ -94,36 +94,39 @@ export interface GridView {
 }
 
 export type GridColumns = Array<GridColumn>;
+
+export type GridColumnDataTypes =
+  | "text"
+  | "string"
+  | "date"
+  | "boolean"
+  | "integer"
+  | "float"
+  | "item"
+  | "list"
+  | "calendar"
+  | "claim by"
+  | "color"
+  | "color list"
+  | "current_state"
+  | "decimal"
+  | "extend"
+  | "file"
+  | "filter list"
+  | "image"
+  | "img"
+  | "link"
+  | "md5"
+  | "mv_list"
+  | "restricted"
+  | "select"
+  | (string & {});
+
 export interface GridColumn extends GridHeadData {
   field: string;
   label: string;
   width?: number;
-  type?:
-    | "text"
-    | "string"
-    | "date"
-    | "boolean"
-    | "integer"
-    | "float"
-    | "item"
-    | "list"
-    | "calendar"
-    | "claim by"
-    | "color"
-    | "color list"
-    | "current_state"
-    | "decimal"
-    | "extend"
-    | "file"
-    | "filter list"
-    | "image"
-    | "img"
-    | "link"
-    | "md5"
-    | "mv_list"
-    | "restricted"
-    | "select"
-    | (string & {});
+  dataType?: GridColumnDataTypes;
   dataSource?: string; // ID of itemtype or list
   dataSourceName?: string; // Name of itemtype or list
   searchType?: string;

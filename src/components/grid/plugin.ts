@@ -1,10 +1,11 @@
 import type { CellValidationResult } from "../../types/grid";
 import { GridPlugin } from "../../types/grid-plugin";
-import { showSearchDialog } from "../../utils";
+import { getListsValuesJson, showSearchDialog, type ListOption } from "../../utils";
 import { basePluginEvents } from "./plugin-events";
 
 export class BaseGridPlugin extends GridPlugin {
   private readonly dialogTypes = ["text", "color", "image", "formatted text"];
+  private listMap: Map<string, Array<ListOption>> = new Map();
 
   events = basePluginEvents;
 
@@ -52,6 +53,7 @@ export class BaseGridPlugin extends GridPlugin {
 
     const dataType = rawDataType || type || "string";
     const isItem = dataType === "item";
+    const isList = dataType === "list" || dataType === "filter list";
     const defaultPattern = dataType === "date" ? "short_date" : "";
     const pattern = customPattern || defaultPattern;
 
@@ -60,8 +62,13 @@ export class BaseGridPlugin extends GridPlugin {
 
     const focusedCell = settings?.focusedCell;
 
+    let listOptions = list;
+    if (isList && dataSource && (!Array.isArray(list) || list.length === 0)) {
+      listOptions = this.getListOptions(dataSource, dataType === "filter list");
+    }
+
     return {
-      list,
+      list: listOptions,
       lifeCycleStates,
       currentUserId: this.currentUserId,
       format: rowId === "searchRow" ? defaultPattern : pattern,
@@ -72,7 +79,7 @@ export class BaseGridPlugin extends GridPlugin {
       maxLength,
       propsOfLayout: getProps?.() ?? {},
       stateOfLayout: getState?.() ?? {},
-      languages: this.languages,
+      languages: this.languages || [],
       dataType,
 
       loadFileHandler: async () => {
@@ -156,5 +163,13 @@ export class BaseGridPlugin extends GridPlugin {
     currentRow[cellName] = result.itemID;
     currentRow[`${cellName}@aras.keyed_name`] = result.keyed_name;
     this.grid.rows!.set(rowId, currentRow);
+  }
+
+  getListOptions(listId: string, isFilter = false) {
+    if (this.listMap.has(listId)) return this.listMap.get(listId) || [];
+    const listValues = getListsValuesJson(isFilter ? [] : [listId], isFilter ? [listId] : []);
+    const listOptions = listValues.get(listId) || [];
+    this.listMap.set(listId, listOptions);
+    return listOptions;
   }
 }

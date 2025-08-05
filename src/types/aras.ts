@@ -13,6 +13,12 @@ export interface Aras {
   vault: any;
   itemsCache: Record<string, DefaultHandler>;
 
+  getListValues: (listId: string) => Array<XmlNode>;
+  getListFilterValues: (listId: string) => Array<XmlNode>;
+  getSeveralListsValues: (listsArray: Array<{ id: string; relType: "Value" | "Filter Value" }>) => {
+    [key: string]: XmlNode[];
+  };
+
   getCurrentUserID: () => string;
   logout: () => void;
   lockItemAsync: (itemID: string, itemTypeName: string) => Promise<XmlNode>;
