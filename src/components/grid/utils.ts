@@ -18,7 +18,7 @@ export const generateRowsMap = (
   const defaultValues = new Map<string, any>();
   const dateFields = new Set<string>();
 
-  headStore.forEach((head: any, key: string) => {
+  headStore.forEach((head: any) => {
     if (head.defaultValue) defaultValues.set(head.name, head.defaultValue);
     if (head.dataType === "date") dateFields.add(head.name);
   });

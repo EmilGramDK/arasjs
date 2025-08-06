@@ -1,14 +1,6 @@
-import type {
-  menuItemT,
-  ToolbarControl,
-  ToolbarControlOptions,
-  ToolbarItem,
-} from "../../types/toolbar";
+import type { menuItemT, ToolbarControl, ToolbarItem } from "../../types/toolbar";
 
-export const createToolbar = function (
-  container: string | HTMLElement,
-  options: ToolbarControlOptions = {},
-): ToolbarControl {
+export const createToolbar = function (container: string | HTMLElement): ToolbarControl {
   const tbContainer =
     typeof container === "string" ? document.getElementById(container) : container;
   if (!tbContainer) throw new Error(`Toolbar Container with ID: ${container} not found`);

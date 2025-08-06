@@ -1,4 +1,4 @@
-import type { menuItemT, ToolbarControl, ToolbarItem } from "../../types/toolbar";
+import type { ToolbarItem } from "../../types/toolbar";
 import { generateItemsMap, onClickItem } from "./utils";
 
 /**

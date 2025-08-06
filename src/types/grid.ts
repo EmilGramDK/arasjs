@@ -195,8 +195,6 @@ export interface GridFocusCell {
   isPasted?: boolean;
 }
 
-type focus = GridFocusCell | null;
-
 export const SelectionRangeStates = {
   InProgress: "inprogress",
   Default: "default",
@@ -210,7 +208,7 @@ export interface GridSelectionRange {
   state: (typeof SelectionRangeStates)[RangeStateKeys];
 }
 
-type GridCopiedArea = Pick<GridFocusCell, "headId" | "rowId">;
+export type GridCopiedArea = Pick<GridFocusCell, "headId" | "rowId">;
 
 interface EventListenerDescriptor {
   target: HTMLElement;
@@ -227,13 +225,13 @@ interface FilldownSessionData {
   pointerId: number;
 }
 
-interface FilldownData {
+export interface FilldownData {
   session: FilldownSessionData | null;
   eventHandlers: Array<EventListenerDescriptor>;
   control: HTMLElement;
 }
 
-interface SelectionData {
+export interface SelectionData {
   range: GridSelectionRange;
   control: HTMLElement;
 }

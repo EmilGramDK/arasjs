@@ -46,9 +46,8 @@ export class BaseGridPlugin extends GridPlugin {
       scale,
       precision,
       maxLength,
-      layoutIndex,
       name,
-      field
+      field,
     } = headInfo;
 
     const isItem = dataType === "item";
@@ -56,7 +55,7 @@ export class BaseGridPlugin extends GridPlugin {
     const defaultPattern = dataType === "date" ? "short_date" : "";
     const pattern = customPattern || defaultPattern;
     const cellName = name || field || headId;
-    
+
     const itemType =
       isItem && dataSourceName ? aras.getItemTypeNodeForClient(dataSourceName, "name") : {};
 
