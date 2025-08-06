@@ -37,8 +37,7 @@ export class BaseGridPlugin extends GridPlugin {
     if (!headInfo) return result || {};
 
     const {
-      dataType: rawDataType,
-      type,
+      dataType = "string",
       pattern: customPattern,
       list = [],
       lifeCycleStates = [],
@@ -51,7 +50,6 @@ export class BaseGridPlugin extends GridPlugin {
       name: cellName,
     } = headInfo;
 
-    const dataType = rawDataType || type || "string";
     const isItem = dataType === "item";
     const isList = dataType === "list" || dataType === "filter list";
     const defaultPattern = dataType === "date" ? "short_date" : "";
@@ -112,13 +110,13 @@ export class BaseGridPlugin extends GridPlugin {
 
       editorClickHandler: () => {
         this.grid.cancelEdit();
-        if (type != "item") return;
+        if (dataType != "item") return;
         this.pickItem(cellName, dataSourceName, rowId);
       },
 
       handler: () => {
         this.grid.cancelEdit();
-        if (type != "item") return;
+        if (dataType != "item") return;
         this.pickItem(cellName, dataSourceName, rowId);
       },
     };
