@@ -47,14 +47,16 @@ export class BaseGridPlugin extends GridPlugin {
       precision,
       maxLength,
       layoutIndex,
-      name: cellName,
+      name,
+      field
     } = headInfo;
 
     const isItem = dataType === "item";
     const isList = dataType === "list" || dataType === "filter list";
     const defaultPattern = dataType === "date" ? "short_date" : "";
     const pattern = customPattern || defaultPattern;
-
+    const cellName = name || field || headId;
+    
     const itemType =
       isItem && dataSourceName ? aras.getItemTypeNodeForClient(dataSourceName, "name") : {};
 
@@ -147,6 +149,7 @@ export class BaseGridPlugin extends GridPlugin {
 
   //pick item in grid via search dialog
   async pickItem(cellName: string, itemTypeName: string, rowId: string) {
+    if (!cellName) throw new Error("Field is missing in headInfo");
     const currentRow = this.grid.rows.store!.get(rowId);
     if (!currentRow) return;
 
