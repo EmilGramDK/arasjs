@@ -4,12 +4,14 @@ export interface GridControl extends Grid {
   new (): GridControl;
   new (container: HTMLElement, options?: GridOptions): GridControl;
   setColumns: (columns: Array<GridColumn>, merge?: boolean) => void;
-  setRows: (items: Item | Array<Record<string, unknown>>, merge?: boolean) => void;
+  setRows: (items: Item | Array<unknown>, merge?: boolean) => void;
 
   // event handlers
   setCellOnDoubleClick: (callback: (head: string, row: string) => void) => void;
-  setOnHeadContextMenu: (callback: (head: string, event: Event) => void) => void;
-  setOnCellContextMenu: (callback: (head: string, rowId: string, event: Event) => void) => void;
+  setOnHeadContextMenu: (callback: (head: string, event: MouseEvent) => void) => void;
+  setOnCellContextMenu: (
+    callback: (head: string, rowId: string, event: MouseEvent) => void,
+  ) => void;
   setRowOnDoubleClick: (callback: (row: string) => void) => void;
   setOnSelectRow: (callback: (index: number, rowId: string, type: string) => void) => void;
 
