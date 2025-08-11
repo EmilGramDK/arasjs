@@ -1,11 +1,11 @@
 export async function InitAras() {
-  globalThis.aras = globalThis.aras || top?.aras || parent.aras;
-  globalThis.ArasModules = top?.ArasModules || parent?.ArasModules;
-  globalThis.store = globalThis.store || parent.store || top?.store;
-  globalThis.DOMParser = top?.DOMParser || parent.DOMParser;
-  globalThis.Item = top?.Item || parent.Item;
+  window.aras = window.aras || top?.aras || parent.aras;
+  window.ArasModules = top?.ArasModules || parent?.ArasModules;
+  window.store = window.store || parent.store || top?.store;
+  window.DOMParser = top?.DOMParser || parent.DOMParser;
+  window.Item = top?.Item || parent.Item;
 
-  if (!globalThis.aras)
+  if (!window.aras)
     throwError(
       "Aras object not initialized\n\nThis Application needs to be run inside Aras Innovator",
     );
@@ -14,19 +14,23 @@ export async function InitAras() {
   injectArasSpinner();
   setBaseUrl();
   await Promise.all([injectStylesAndScripts(), waitForDomReady()]);
+
+  window.addEventListener("unhandledrejection", (e) => {
+    ArasModules.Dialog.alert(e.reason.message, { type: "error" });
+  });
 }
 
 export async function WaitForArasReady(): Promise<void> {
   if (window.isArasReady) return;
   await new Promise((resolve) => {
-    globalThis.addEventListener("ArasReady", resolve, { once: true });
+    window.addEventListener("ArasReady", resolve, { once: true });
   });
 }
 
 export function SetArasReady() {
-  globalThis.isArasReady = true;
+  window.isArasReady = true;
   const event = new Event("ArasReady");
-  globalThis.dispatchEvent(event);
+  window.dispatchEvent(event);
 }
 
 function setBaseUrl() {
@@ -60,7 +64,7 @@ function waitForDomReady(): Promise<void> {
     if (document.readyState === "complete") {
       resolve();
     } else {
-      globalThis.addEventListener("DOMContentLoaded", () => {
+      window.addEventListener("DOMContentLoaded", () => {
         resolve();
       });
     }

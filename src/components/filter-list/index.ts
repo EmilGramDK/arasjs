@@ -5,7 +5,7 @@ import type { FilterListOption } from "./types";
  *
  */
 customElements.whenDefined("aras-filter-list").then(async () => {
-  globalThis.FilterList.prototype.onSelectValue = function (
+  window.FilterList.prototype.onSelectValue = function (
     callback: (item: FilterListOption | undefined) => void,
   ) {
     this.addEventListener("change", () => {

@@ -30,8 +30,8 @@ export async function odataFetch(
     };
 
     // Ensure URL is properly encoded
-    const baseUrl = new URL(globalThis.aras.getServerBaseURL());
-    const url = new URL(`odata/${encodeURIComponent(requestURL)}`, baseUrl);
+    const baseUrl = new URL(window.aras.getServerBaseURL());
+    const url = new URL(`odata/${requestURL}`, baseUrl);
 
     const response = await fetch(url.href, fetchOptions);
 

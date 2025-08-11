@@ -35,7 +35,7 @@ export async function showSearchDialog(
     sourceItemTypeName: options.sourceItemTypeName,
     sourcePropertyName: options.sourcePropertyName,
     multiselect: false,
-    aras: globalThis.aras,
+    aras: window.aras,
     dialogWidth: options.dialogWidth || 800,
     dialogHeight: options.dialogHeight || 600,
   };
@@ -60,7 +60,7 @@ export async function showMultiSelectSearchDialog(
     sourceItemTypeName: options.sourceItemTypeName,
     sourcePropertyName: options.sourcePropertyName,
     multiselect: true,
-    aras: globalThis.aras,
+    aras: window.aras,
     dialogWidth: options.dialogWidth || 800,
     dialogHeight: options.dialogHeight || 600,
     fullMultiResponse: options.fullMultiResponse || false,

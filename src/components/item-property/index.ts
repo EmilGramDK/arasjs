@@ -7,7 +7,7 @@ import type { ItemPropertyListOption } from "./types";
  *
  */
 customElements.whenDefined("aras-filter-list").then(async () => {
-  globalThis.ItemProperty.prototype.request = async function () {
+  window.ItemProperty.prototype.request = async function () {
     const { label, itemType, maxItemsCount } = this.state;
 
     const aml = `<AML><Item type="${itemType}" action="get" maxRecords="${maxItemsCount}"><keyed_name condition="like">${label}*</keyed_name></Item></AML>`;
@@ -22,7 +22,7 @@ customElements.whenDefined("aras-filter-list").then(async () => {
     return convertItemToXML(data, true);
   };
 
-  globalThis.ItemProperty.prototype.onSelectValue = function (
+  window.ItemProperty.prototype.onSelectValue = function (
     callback: (item: ItemPropertyListOption | undefined) => void,
   ) {
     this.addEventListener("change", () => {
@@ -32,7 +32,7 @@ customElements.whenDefined("aras-filter-list").then(async () => {
     });
   };
 
-  globalThis.ItemProperty.prototype.showDialogHandler = async function () {
+  window.ItemProperty.prototype.showDialogHandler = async function () {
     const { itemType } = this.state;
 
     const item = await showSearchDialog({

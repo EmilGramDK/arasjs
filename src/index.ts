@@ -5,7 +5,7 @@ import type { XmlDocument } from "./types/xml-node";
 import { InitAras, SetArasReady } from "./utils/providerUtils";
 import { toggleSpinner } from "./utils/toggleSpinner";
 
-globalThis.isArasReady = false;
+window.isArasReady = false;
 
 /**
  * @description Initializes the Aras environment, injecting necessary styles and scripts.

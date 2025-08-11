@@ -31,7 +31,7 @@ export async function applyAML(
   };
 
   // Ensure URL is properly encoded
-  const baseUrl = new URL(globalThis.aras.getServerBaseURL());
+  const baseUrl = new URL(window.aras.getServerBaseURL());
   const url = new URL("InnovatorServer.aspx", baseUrl);
 
   const response = await fetch(url.href, fetchOptions);
