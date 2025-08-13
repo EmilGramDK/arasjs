@@ -9,6 +9,8 @@ export class BaseGridPlugin extends GridPlugin {
 
   events = basePluginEvents;
 
+  //TODO: extend this.grid with helper methods.
+
   async init() {
     this.grid.rows = new Map();
     this.grid.head = new Map();

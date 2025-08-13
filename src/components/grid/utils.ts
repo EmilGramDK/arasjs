@@ -4,6 +4,84 @@ import type { Item } from "../../types/item";
 import { getLocalISODate } from "../../utils/formatDate";
 import { BaseGridPlugin } from "./plugin";
 
+export const deleteSelectedRows = (grid: GridControl) => {
+  if (!grid.rows) return;
+  const rows = grid.rows.store!;
+  grid.settings.selectedRows.forEach((id: string) => {
+    rows.delete(id);
+  });
+  grid.settings.selectedRows = [];
+  grid.rows = rows;
+};
+
+export const exportToExcel = async (grid: GridControl, name: string): Promise<void> => {
+  const worksheets = [];
+  const gridWorksheet = excelConverterApi.convertGrid(grid);
+  worksheets.push({
+    ...gridWorksheet,
+    title: name,
+  });
+
+  const fileBlob = await excelConverterApi.convertJsonToExcel(worksheets);
+  await ArasModules.vault.saveBlob(fileBlob, `${name}.xlsx`);
+};
+
+export const setColumns = (grid: GridControl, columns: GridColumns, merge?: boolean) => {
+  const columnsMap = generateColumnsMap(grid, columns, merge);
+  grid.head = columnsMap;
+};
+
+export const setRows = (
+  grid: GridControl,
+  rows: Item | Array<Record<string, unknown>>,
+  merge?: boolean,
+) => {
+  if (!grid.head) throw new Error("Columns must be set before rows");
+  const rowsMap = generateRowsMap(grid, rows, merge);
+  grid.rows = rowsMap;
+};
+
+export const newGrid = function (
+  id: string,
+  options: GridOptions = {},
+  cuiOptions: CuiGridOptions = {},
+): GridControl {
+  const gridControl = new Grid();
+  gridControl.id = id;
+  initCuiGrid(gridControl, options, cuiOptions);
+  return gridControl;
+};
+
+export const renderGrid = function (
+  container: string | HTMLElement,
+  options: GridOptions = {},
+  cuiOptions: CuiGridOptions = {},
+): GridControl {
+  const gridContainer =
+    typeof container === "string" ? document.getElementById(container) : container;
+  if (!gridContainer) throw new Error(`Grid Container with ID: ${container} not found`);
+
+  const gridControl = new Grid(gridContainer, options) as GridControl;
+  initCuiGrid(gridControl, options, cuiOptions);
+  return gridControl;
+};
+
+const initCuiGrid = (
+  grid: GridControl,
+  options: GridOptions = {},
+  cuiOptions: CuiGridOptions = {},
+) => {
+  cuiGrid(grid, {
+    ...cuiOptions,
+    plugins: [BaseGridPlugin, ...(cuiOptions.plugins || [])],
+  }).then(() => {
+    grid.view.defaultSettings = {
+      ...grid.view.defaultSettings,
+      ...options,
+    };
+  });
+};
+
 export const generateRowsMap = (
   gridControl: GridControl,
   rows: Item | Array<Record<string, unknown>>,
@@ -91,57 +169,4 @@ export const generateColumnsMap = (
     columnsMap.set(name, data);
   });
   return columnsMap;
-};
-
-export const exportToExcel = async (grid: GridControl, name: string): Promise<void> => {
-  const worksheets = [];
-  const gridWorksheet = excelConverterApi.convertGrid(grid);
-  worksheets.push({
-    ...gridWorksheet,
-    title: name,
-  });
-
-  const fileBlob = await excelConverterApi.convertJsonToExcel(worksheets);
-  ArasModules.vault.saveBlob(fileBlob, `${name}.xlsx`);
-};
-
-export const newGrid = function (
-  id: string,
-  options: GridOptions = {},
-  cuiOptions: CuiGridOptions = {},
-): GridControl {
-  const gridControl = new Grid();
-  gridControl.id = id;
-  initCuiGrid(gridControl, options, cuiOptions);
-  return gridControl;
-};
-
-export const renderGrid = function (
-  container: string | HTMLElement,
-  options: GridOptions = {},
-  cuiOptions: CuiGridOptions = {},
-): GridControl {
-  const gridContainer =
-    typeof container === "string" ? document.getElementById(container) : container;
-  if (!gridContainer) throw new Error(`Grid Container with ID: ${container} not found`);
-
-  const gridControl = new Grid(gridContainer, options) as GridControl;
-  initCuiGrid(gridControl, options, cuiOptions);
-  return gridControl;
-};
-
-const initCuiGrid = (
-  grid: GridControl,
-  options: GridOptions = {},
-  cuiOptions: CuiGridOptions = {},
-) => {
-  cuiGrid(grid, {
-    ...cuiOptions,
-    plugins: [BaseGridPlugin, ...(cuiOptions.plugins || [])],
-  }).then(() => {
-    grid.view.defaultSettings = {
-      ...grid.view.defaultSettings,
-      ...options,
-    };
-  });
 };

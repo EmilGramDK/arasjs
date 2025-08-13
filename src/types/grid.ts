@@ -6,7 +6,6 @@ export interface GridControl extends Grid {
 
   setColumns: (columns: Array<GridColumn>, merge?: boolean) => void;
   setRows: (items: Item | Array<unknown>, merge?: boolean) => void;
-  getSelectedRows: () => Array<string>;
   deleteSelectedRows: () => void;
 }
 
