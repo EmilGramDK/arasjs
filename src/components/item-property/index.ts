@@ -2,10 +2,6 @@ import { tryCatch } from "@emilgramdk/web/core";
 import { applyAML, convertItemToXML, showSearchDialog } from "../../utils";
 import type { ItemPropertyListOption } from "./types";
 
-/**
- * Extends the Aras FilterList component
- *
- */
 customElements.whenDefined("aras-filter-list").then(async () => {
   window.ItemProperty.prototype.request = async function () {
     const { label, itemType, maxItemsCount } = this.state;
