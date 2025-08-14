@@ -65,4 +65,5 @@ export interface Property {
   is_keyed: "1" | "0";
   is_multi_valued: "1" | "0";
   range_inclusive: "1" | "0";
+  [key: string]: any;
 }
