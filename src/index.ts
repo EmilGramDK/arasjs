@@ -1,4 +1,6 @@
 import "./assets/arasjs.css";
+import { extendFilterList } from "./components/filter-list/extend";
+import { extendItemProperty } from "./components/item-property/extend";
 import type { TopWindowHelper } from "./types/aras";
 import type { ExcelConverterAPI } from "./types/excel-converter";
 import type { XmlDocument } from "./types/xml-node";
@@ -15,6 +17,8 @@ window.isArasReady = false;
 export const useArasJS = async (keepSpinner = false): Promise<void> => {
   await InitAras()
     .then(() => {
+      extendFilterList();
+      extendItemProperty();
       SetArasReady();
     })
     .finally(() => {
@@ -25,7 +29,7 @@ export const useArasJS = async (keepSpinner = false): Promise<void> => {
 export const useArasProvider = useArasJS;
 
 export * from "./components/grid";
-export * from "./components/toolbar";
+// export * from "./components/toolbar";
 export * from "./components/filter-list";
 export * from "./components/item-property";
 

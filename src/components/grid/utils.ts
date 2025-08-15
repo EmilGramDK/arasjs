@@ -31,11 +31,7 @@ export const setColumns = (grid: GridControl, columns: GridColumns, merge?: bool
   grid.head = columnsMap;
 };
 
-export const setRows = (
-  grid: GridControl,
-  rows: Item | Array<Record<string, unknown>>,
-  merge?: boolean,
-) => {
+export const setRows = (grid: GridControl, rows: Item | Array<unknown>, merge?: boolean) => {
   if (!grid.head) throw new Error("Columns must be set before rows");
   const rowsMap = generateRowsMap(grid, rows, merge);
   grid.rows = rowsMap;
@@ -84,7 +80,7 @@ const initCuiGrid = (
 
 export const generateRowsMap = (
   gridControl: GridControl,
-  rows: Item | Array<Record<string, unknown>>,
+  rows: Item | Array<unknown>,
   merge?: boolean,
 ): Map<string, any> => {
   const headStore = gridControl.head?.store || new Map<string, any>();

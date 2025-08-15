@@ -2,6 +2,7 @@ import type { CellValidationResult } from "../../types/grid";
 import { GridPlugin } from "../../types/grid-plugin";
 import { getListsValuesJson, showSearchDialog, type ListOption } from "../../utils";
 import { basePluginEvents } from "./plugin-events";
+import { deleteSelectedRows, setColumns, setRows } from "./utils";
 
 export class BaseGridPlugin extends GridPlugin {
   private readonly dialogTypes = ["text", "color", "image", "formatted text"];
@@ -20,6 +21,10 @@ export class BaseGridPlugin extends GridPlugin {
 
     this.options.getState ??= () => ({});
     this.options.getProps ??= () => ({});
+
+    this.grid.setRows = (rows, merge) => setRows(this.grid, rows, merge);
+    this.grid.setColumns = (columns, merge) => setColumns(this.grid, columns, merge);
+    this.grid.deleteSelectedRows = () => deleteSelectedRows(this.grid);
   }
 
   getCellType(result: any, headId: string) {

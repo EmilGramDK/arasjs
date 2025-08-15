@@ -11,6 +11,8 @@
 export default function ArasVitePlugin(options) {
   const { server, port = 3456, openAras = true, useSSL = true, disableProxy = false } = options;
 
+  // TODO: const { serverPath, serverUrl } = formatURL(server, useSSL);
+
   return {
     name: "vite-plugin-arasjs",
     config: (config, { command }) => {
@@ -31,6 +33,7 @@ export default function ArasVitePlugin(options) {
         };
 
         return {
+          base: "",
           server: {
             ...config.server,
             ...viteServerConfig,
@@ -48,3 +51,20 @@ function formatServerUrl(url, useSSL = false) {
   }
   return normalizedUrl;
 }
+
+// TODO: Make it work for Innovator servers with custom paths
+// function formatURL(url, useSSL) {
+
+//   url = url.toLowerCase().replace(/\/+$/, "");
+
+//   if (useSSL && !/^https:\/\//.test(url)) {
+//     url = url.replace(/^http:/, "https:");
+//   }
+
+//   // remove all after /Client
+//   const clientIndex = url.indexOf("/client");
+//   if (clientIndex !== -1) {
+//     url = url.substring(0, clientIndex);
+//   }
+
+// }
