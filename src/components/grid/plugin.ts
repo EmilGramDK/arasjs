@@ -153,23 +153,20 @@ export class BaseGridPlugin extends GridPlugin {
     };
   }
 
-  //pick item in grid via search dialog
-  async pickItem(cellName: string, itemTypeName: string, rowId: string) {
-    if (!cellName) throw new Error("Field is missing in headInfo");
-    const currentRow = this.grid.rows.store!.get(rowId);
-    if (!currentRow) return;
+  async pickItem(headId: string, itemTypeName: string, rowId: string) {
+    if (!headId) throw new Error("Field is missing in headInfo");
+    if (!itemTypeName) throw new Error("Item type name is missing in headInfo");
 
     const result = await showSearchDialog({
       title: "Select an Item",
       itemtypeName: itemTypeName,
     });
-
     if (!result) return;
 
-    //Update row with selected item
-    currentRow[cellName] = result.itemID;
-    currentRow[`${cellName}@aras.keyed_name`] = result.keyed_name;
-    this.grid.rows!.set(rowId, currentRow);
+    const eventData = { headId, rowId, value: result.keyed_name, propName: headId, dataId: rowId };
+
+    this.grid.settings.focusedCell = { headId, rowId };
+    this.grid.dispatchEvent(new CustomEvent("applyEdit", { detail: eventData }));
   }
 
   getListOptions(listId: string, isFilter = false) {
