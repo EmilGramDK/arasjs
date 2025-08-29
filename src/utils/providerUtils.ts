@@ -14,10 +14,6 @@ export async function InitAras() {
   injectArasSpinner();
   setBaseUrl();
   await Promise.all([injectStylesAndScripts(), waitForDomReady()]);
-
-  window.addEventListener("unhandledrejection", (e) => {
-    ArasModules.Dialog.alert(e.reason.message, { type: "error" });
-  });
 }
 
 export async function WaitForArasReady(): Promise<void> {

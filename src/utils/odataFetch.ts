@@ -9,7 +9,7 @@
 export async function odataFetch(
   requestURL = "",
   options: RequestInit = {},
-  signal?: AbortController["signal"],
+  signal?: RequestInit["signal"],
 ): Promise<any> {
   try {
     const oAuthClient = aras.OAuthClient;
