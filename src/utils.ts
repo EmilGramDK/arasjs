@@ -12,3 +12,4 @@ export * from "./utils/lists";
 export * from "./utils/itemType";
 export * from "./utils/user";
 export * from "./utils/forEach";
+export * from "./utils/wildcard-match";

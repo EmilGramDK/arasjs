@@ -2,7 +2,7 @@ import type { GridColumn, GridColumns, GridControl, GridOptions } from "../../ty
 import type { CuiGridOptions } from "../../types/grid-plugin";
 import type { Item } from "../../types/item";
 import { getLocalISODate } from "../../utils/formatDate";
-import { BaseGridPlugin } from "./plugin";
+import { BaseGridPlugin } from "./plugins/base";
 
 export const deleteSelectedRows = (grid: GridControl) => {
   if (!grid.rows) return;

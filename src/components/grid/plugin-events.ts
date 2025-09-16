@@ -1,4 +1,4 @@
-import type { BaseGridPlugin } from "./plugin";
+import type { BaseGridPlugin } from "./plugins/base";
 import type {
   GridCellEventPayloadPlugin,
   GridEventPayloadPlugin,

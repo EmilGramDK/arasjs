@@ -1,16 +1,14 @@
-import type { CellValidationResult } from "../../types/grid";
-import { GridPlugin } from "../../types/grid-plugin";
-import { getListsValuesJson, showSearchDialog, type ListOption } from "../../utils";
-import { basePluginEvents } from "./plugin-events";
-import { deleteSelectedRows, setColumns, setRows } from "./utils";
+import type { CellValidationResult } from "@/types/grid";
+import { GridPlugin } from "@/types/grid-plugin";
+import { getListsValuesJson, showSearchDialog, type ListOption } from "@/utils";
+import { basePluginEvents } from "../plugin-events";
+import { deleteSelectedRows, setColumns, setRows } from "../utils";
 
 export class BaseGridPlugin extends GridPlugin {
   private readonly dialogTypes = ["text", "color", "image", "formatted text"];
   private listMap: Map<string, Array<ListOption>> = new Map();
 
   events = basePluginEvents;
-
-  //TODO: extend this.grid with helper methods.
 
   async init() {
     this.grid.rows = new Map();

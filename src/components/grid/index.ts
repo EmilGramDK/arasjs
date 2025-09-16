@@ -1,2 +1,3 @@
 export * from "./utils";
-export { BaseGridPlugin } from "./plugin";
+export * from "./plugins/base";
+export * from "./plugins/search";
