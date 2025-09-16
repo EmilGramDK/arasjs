@@ -1,8 +1,5 @@
 {
   "compilerOptions": {
-    "paths": {
-      "@*": ["./src/*"]
-    },
     "target": "es2023",
     "module": "ESNext",
     "moduleResolution": "bundler",

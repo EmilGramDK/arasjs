@@ -1,6 +1,6 @@
-import type { CellValidationResult } from "@/types/grid";
-import { GridPlugin } from "@/types/grid-plugin";
-import { getListsValuesJson, showSearchDialog, type ListOption } from "@/utils";
+import type { CellValidationResult } from "../../../types/grid";
+import { GridPlugin } from "../../../types/grid-plugin";
+import { getListsValuesJson, showSearchDialog, type ListOption } from "../../../utils";
 import { basePluginEvents } from "../plugin-events";
 import { deleteSelectedRows, setColumns, setRows } from "../utils";
 

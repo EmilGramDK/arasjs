@@ -1,5 +1,5 @@
 import type { GridPluginEvent, GridEventPayloadPlugin } from "arasjs";
-import { wildcardMatcher } from "@/utils/wildcard-match";
+import { wildcardMatcher } from "../../../utils/wildcard-match";
 import { GridPlugin } from "arasjs";
 
 declare module "arasjs" {
