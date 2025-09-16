@@ -56,7 +56,9 @@ export class SearchGridPlugin extends GridPlugin {
         const row = this.grid.rows.get(id);
         if (!row) return false;
         const isMatch = filters.every(([property, matcher]) => {
-          const cellValue = this.grid.rows.get(id, property);
+          const cellValue =
+            this.grid.rows.get(id, `${property}@aras.keyed_name`) ||
+            this.grid.rows.get(id, property);
           if (cellValue === undefined || cellValue === null) return false;
           return matcher(cellValue.toString().toLowerCase());
         });
