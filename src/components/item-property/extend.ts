@@ -1,23 +1,13 @@
-import { tryCatch } from "@emilgramdk/web/core";
-import { applyAML, convertItemToXML, showSearchDialog } from "../../utils";
+import { showSearchDialog } from "../../utils";
 import type { ItemPropertyListOption } from "./types";
 
 export const extendItemProperty = () => {
   if (!window.ItemProperty) return;
 
-  window.ItemProperty.prototype.request = async function () {
+  window.ItemProperty.prototype.request = function () {
     const { label, itemType, maxItemsCount } = this.state;
-
-    const aml = `<AML><Item type="${itemType}" action="get" maxRecords="${maxItemsCount}"><keyed_name condition="like">${label}*</keyed_name></Item></AML>`;
-    const { data } = await tryCatch(applyAML(aml, true));
-    if (!data) return null;
-
-    for (let i = 0; i < data.getItemCount(); i++) {
-      const item = data.getItemByIndex(i).node;
-      aras.itemsCache.addItem(item);
-    }
-
-    return convertItemToXML(data, true);
+    const req = `<Item type="${itemType}" action="get" maxRecords="${maxItemsCount}"><keyed_name condition="like">${label}*</keyed_name></Item>`;
+    return ArasModules.soap(req, { async: true });
   };
 
   window.ItemProperty.prototype.onSelectValue = function (

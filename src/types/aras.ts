@@ -331,7 +331,7 @@ export interface ArasModules {
   };
   vault: any;
   jsonToXml: (data: string | Record<string, unknown>) => XmlNode;
-  soap: (data: Record<string, unknown>, options: Record<string, unknown>) => Promise<unknown>;
+  soap: (data: string, options: Record<string, unknown>) => Promise<unknown>;
 }
 
 export interface ArasCore {

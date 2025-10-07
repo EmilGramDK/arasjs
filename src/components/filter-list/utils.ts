@@ -1,8 +1,8 @@
-import type { FilterList, FilterListOption } from "./types";
+import type { FilterList, FilterListState } from "./types";
 
-export const newFilterList = function (list: Array<FilterListOption> = []): FilterList {
+export const newFilterList = function (initialState: Partial<FilterListState>): FilterList {
   const control = new FilterList();
   control.setAttribute("mode", "input-a");
-  control.setState({ list });
+  control.setState({ ...initialState });
   return control;
 };

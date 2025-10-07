@@ -1,8 +1,8 @@
-import type { ItemProperty } from "./types";
+import type { ItemProperty, ItemPropertyState } from "./types";
 
-export const newItemProperty = function (itemTypeName: string): ItemProperty {
+export const newItemProperty = function (initialState: Partial<ItemPropertyState>): ItemProperty {
   const control = new ItemProperty();
   control.setAttribute("mode", "input-a");
-  control.setAttribute("itemtype", itemTypeName);
+  control.setState({ ...initialState });
   return control;
 };

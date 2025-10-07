@@ -124,7 +124,7 @@ export interface GridColumn extends GridHeadData {
   editable?: boolean;
   isReadOnly?: boolean;
   isForeign?: boolean;
-  textAlign?: "left" | "right";
+  textAlign?: "left" | "right" | "center";
   locale?: string;
   helpText?: string;
   helpTooltip?: string;
