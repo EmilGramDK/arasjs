@@ -8,29 +8,24 @@ declare module "arasjs" {
   }
 }
 
-type Matchers = Record<string, (filter: string, value: string) => boolean>;
+type Matchers = Record<string, (filter: string, value: string, rowId: string) => boolean>;
 
 const pluginEvents: Array<GridPluginEvent> = [
   {
-    type: "filter",
-    name: "filter",
-    method(this: SearchGridPlugin) {
-      if (!this.grid.settings.focusedCell) return;
-      const { headId, rowId } = this.grid.settings.focusedCell;
-      if (rowId !== "searchRow") return;
-      const val = this.grid.head.get(headId, "searchValue");
-      if (!val) return this.searchFilters.delete(headId);
-      this.searchFilters.set(headId, val.toLowerCase().trim());
+    type: "search",
+    name: "search",
+    method(this: SearchGridPlugin, { data: [event] }: GridEventPayloadPlugin<KeyboardEvent>) {
+      console.log("search event", event);
+      this.handleSearch();
     },
   },
   {
-    type: "keydown",
-    name: "keydown",
-    method(this: SearchGridPlugin, { data: [event] }: GridEventPayloadPlugin<KeyboardEvent>) {
-      if (event.key !== "Enter") return;
+    type: "click",
+    name: "click",
+    method(this: SearchGridPlugin, { data: [event] }: GridEventPayloadPlugin<MouseEvent>) {
       const target = event.target as HTMLElement;
-      if (!this.grid.contains(target)) return;
-      if (!target.parentElement?.classList.contains("aras-grid-search-row-cell")) return;
+      const listItem = target?.closest(".aras-grid-search-row-cell .aras-list-item") as HTMLElement;
+      if (!listItem) return;
       this.handleSearch();
     },
   },
@@ -38,39 +33,37 @@ const pluginEvents: Array<GridPluginEvent> = [
 
 /**
  * Grid plugin to add client search functionality to grid columns.
- * @searchFilters Map of headId to search string
  * @matchers Map of column dataTypes to matcher functions
  */
 export class SearchGridPlugin extends GridPlugin {
   events = pluginEvents;
-  searchFilters = new Map<string, string>();
   matchers: Matchers = {};
 
   async init() {
     this.grid.clearFilters = this.clearFilters;
   }
 
+  getCellValue = (rowId: string, headId: string) => {
+    const row = this.grid.rows.get(rowId) || {};
+    return row[`${headId}@aras.keyed_name`] || row[headId];
+  };
+
   handleSearch = () => {
-    const filters: Array<[string, (value: string) => boolean]> = [...this.searchFilters].map(
-      ([headId, filter]) => {
-        const headType = this.grid.head.get(headId, "dataType");
-        const headMatcher = this.matchers[headType];
-        const matcher = headMatcher ? headMatcher.bind(null, filter) : wildcardMatcher(filter);
-        return [headId, matcher];
-      },
-    );
+    const filters = this.getFilters().map(([headId, filter]) => {
+      const headType = this.grid.head.get(headId, "dataType");
+      const headMatcher = this.matchers[headType];
+      const matcher = headMatcher ? headMatcher.bind(null, filter) : wildcardMatcher(filter);
+      return [headId, matcher] as [string, (value: string, rowId: string) => boolean];
+    });
     if (filters.length === 0) return this.clearFilters();
 
     const filteredRows = [...this.grid.rows.store!.keys()]
       .map((id) => {
         const row = this.grid.rows.get(id);
         if (!row) return false;
-        const isMatch = filters.every(([property, matcher]) => {
-          const cellValue =
-            this.grid.rows.get(id, `${property}@aras.keyed_name`) ||
-            this.grid.rows.get(id, property);
-          // if (cellValue === undefined || cellValue === null) return false;
-          return matcher(cellValue?.toString()?.toLowerCase());
+        const isMatch = filters.every(([headId, matcher]) => {
+          const cellValue = this.getCellValue(id, headId);
+          return matcher(cellValue?.toString()?.toLowerCase() || "", id);
         });
         if (isMatch) return id;
         return false;
@@ -81,11 +74,16 @@ export class SearchGridPlugin extends GridPlugin {
     this.grid.settings.orderBy = [];
   };
 
+  getFilters = () => {
+    return [...this.grid.head.store!.values()]
+      .filter((h) => h.searchValue)
+      .map((h) => [h.id, h.searchValue] as [string, string]);
+  };
+
   clearFilters = () => {
     this.grid.head.store!.forEach((head) => {
       head.searchValue = "";
     });
-    this.searchFilters.clear();
     this.grid.settings.indexRows = [...this.grid.rows.store!.keys()];
     this.grid.settings.orderBy = [];
   };

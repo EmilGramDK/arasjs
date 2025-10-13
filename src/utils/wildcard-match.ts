@@ -47,6 +47,7 @@ export function wildcardMatcher(
   const caseSensitive = opts?.caseSensitive ?? false;
   const compiled = compile(pattern, caseSensitive);
   return (input: string) => {
+    if (!input) return false;
     const hay = caseSensitive ? input : input.toLowerCase();
     for (const element of compiled) {
       if (matchCompiled(hay, element)) return true;
