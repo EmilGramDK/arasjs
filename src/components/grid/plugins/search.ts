@@ -8,6 +8,8 @@ declare module "arasjs" {
   }
 }
 
+type Matchers = Record<string, (value: string) => boolean>;
+
 const pluginEvents: Array<GridPluginEvent> = [
   {
     type: "filter",
@@ -34,9 +36,15 @@ const pluginEvents: Array<GridPluginEvent> = [
   },
 ];
 
+/**
+ * Grid plugin to add client search functionality to grid columns.
+ * @searchFilters Map of headId to search string
+ * @matchers Map of column dataTypes to matcher functions
+ */
 export class SearchGridPlugin extends GridPlugin {
   events = pluginEvents;
   searchFilters = new Map<string, string>();
+  matchers: Matchers = {};
 
   async init() {
     this.grid.clearFilters = this.clearFilters;
@@ -44,9 +52,10 @@ export class SearchGridPlugin extends GridPlugin {
 
   handleSearch = () => {
     const filters: Array<[string, (value: string) => boolean]> = [...this.searchFilters].map(
-      ([property, value]) => {
-        const matcher = wildcardMatcher(value);
-        return [property, matcher];
+      ([headId, value]) => {
+        const headType = this.grid.head.get(headId, "dataType");
+        const headMatcher = this.matchers[headType] || wildcardMatcher(value);
+        return [headId, headMatcher];
       },
     );
     if (filters.length === 0) return this.clearFilters();

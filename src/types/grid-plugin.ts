@@ -83,6 +83,6 @@ export abstract class GridPlugin {
 }
 
 export interface CuiGridOptions {
-  plugins?: Array<Omit<GridPlugin, "grid" | "options">>;
+  plugins?: Array<Omit<typeof GridPlugin, "grid" | "options">>;
   [key: string]: unknown;
 }

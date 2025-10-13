@@ -15,7 +15,6 @@ export class BaseGridPlugin extends GridPlugin {
     this.grid.head = new Map();
     this.grid.settings.indexRows = [];
     this.grid.settings.selectedRows = [];
-    this.currentUserId = aras.getCurrentUserID();
 
     this.options.getState ??= () => ({});
     this.options.getProps ??= () => ({});
@@ -55,15 +54,10 @@ export class BaseGridPlugin extends GridPlugin {
       field,
     } = headInfo;
 
-    const isItem = dataType === "item";
     const isList = dataType === "list" || dataType === "filter list";
     const defaultPattern = dataType === "date" ? "short_date" : "";
     const pattern = customPattern || defaultPattern;
     const cellName = name || field || headId;
-
-    const itemType =
-      isItem && dataSourceName ? aras.getItemTypeNodeForClient(dataSourceName, "name") : {};
-
     const focusedCell = settings?.focusedCell;
 
     let listOptions = list;
@@ -74,16 +68,16 @@ export class BaseGridPlugin extends GridPlugin {
     return {
       list: listOptions,
       lifeCycleStates,
-      currentUserId: this.currentUserId,
+      currentUserId: aras.getCurrentUserID(),
       format: rowId === "searchRow" ? defaultPattern : pattern,
       sourceItemTypeName: dataSourceName,
-      itemType,
+      itemType: {},
       scale,
       precision,
       maxLength,
       propsOfLayout: getProps?.() ?? {},
       stateOfLayout: getState?.() ?? {},
-      languages: this.languages || [],
+      languages: [],
       dataType,
 
       loadFileHandler: async () => {
