@@ -8,11 +8,13 @@ export default defineConfig({
         index: "src/index.ts",
         utils: "src/utils.ts",
       },
-      name: "ArasLib",
+      name: "ArasJS",
+      formats: ["cjs", "es"],
       // formats: ["es", "umd"],
       // fileName: (format) => `arasjs.${format}.js`,
     },
-    target: "es2020",
+    target: "es2022",
+    minify: "esbuild",
     rollupOptions: {
       output: {
         assetFileNames: (assetInfo) => {

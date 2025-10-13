@@ -7,7 +7,7 @@ export const extendItemProperty = () => {
   window.ItemProperty.prototype.request = function () {
     const { label, itemType, maxItemsCount } = this.state;
     const req = `<Item type="${itemType}" action="get" maxRecords="${maxItemsCount}"><keyed_name condition="like">${label}*</keyed_name></Item>`;
-    return ArasModules.soap(req, { async: true });
+    return ArasModules.soap(req, { async: true }).catch();
   };
 
   window.ItemProperty.prototype.onSelectValue = function (
