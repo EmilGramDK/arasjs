@@ -35,7 +35,9 @@ async function gridLinkClick(
 ) {
   const { rows, head, view } = plugin.grid;
 
-  if (view.defaultSettings.editable) return;
+  const target = event.target as HTMLElement;
+  const activeCell = view.activeCell;
+  if (activeCell?.classList.contains("aras-grid-active-cell_editing")) return;
 
   const headInfo = head.get(headId);
   const initialRowInfo = rows.get(rowId);
@@ -49,8 +51,6 @@ async function gridLinkClick(
   const propertyName = headInfo.name || headId;
   const currentValue = rowInfo[propertyName];
   const sourceItemTypeName = rowInfo[`${propertyName}@aras.type`] || metadata.sourceItemTypeName;
-
-  const target = event.target as HTMLElement;
 
   if (target.classList?.contains("aras-grid-link")) {
     aras.uiShowItem(sourceItemTypeName, currentValue);

@@ -8,7 +8,7 @@ declare module "arasjs" {
   }
 }
 
-type Matchers = Record<string, (value: string) => boolean>;
+type Matchers = Record<string, (filter: string, value: string) => boolean>;
 
 const pluginEvents: Array<GridPluginEvent> = [
   {
@@ -52,10 +52,11 @@ export class SearchGridPlugin extends GridPlugin {
 
   handleSearch = () => {
     const filters: Array<[string, (value: string) => boolean]> = [...this.searchFilters].map(
-      ([headId, value]) => {
+      ([headId, filter]) => {
         const headType = this.grid.head.get(headId, "dataType");
-        const headMatcher = this.matchers[headType] || wildcardMatcher(value);
-        return [headId, headMatcher];
+        const headMatcher = this.matchers[headType];
+        const matcher = headMatcher ? headMatcher.bind(null, filter) : wildcardMatcher(filter);
+        return [headId, matcher];
       },
     );
     if (filters.length === 0) return this.clearFilters();
@@ -68,8 +69,8 @@ export class SearchGridPlugin extends GridPlugin {
           const cellValue =
             this.grid.rows.get(id, `${property}@aras.keyed_name`) ||
             this.grid.rows.get(id, property);
-          if (cellValue === undefined || cellValue === null) return false;
-          return matcher(cellValue.toString().toLowerCase());
+          // if (cellValue === undefined || cellValue === null) return false;
+          return matcher(cellValue?.toString()?.toLowerCase());
         });
         if (isMatch) return id;
         return false;

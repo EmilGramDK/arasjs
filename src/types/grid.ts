@@ -71,6 +71,7 @@ export interface GridSettings {
 }
 
 export interface GridView {
+  activeCell: HTMLDivElement;
   delayForDragDetection: number;
   defaultSettings: GridSettings;
   scrollableElement: HTMLElement;
