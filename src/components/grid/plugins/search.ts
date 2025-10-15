@@ -14,8 +14,7 @@ const pluginEvents: Array<GridPluginEvent> = [
   {
     type: "search",
     name: "search",
-    method(this: SearchGridPlugin, { data: [event] }: GridEventPayloadPlugin<KeyboardEvent>) {
-      console.log("search event", event);
+    method(this: SearchGridPlugin) {
       this.handleSearch();
     },
   },
