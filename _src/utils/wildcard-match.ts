@@ -39,7 +39,10 @@ export function wildcardSearch(input: string, pattern: string, opts?: WildcardOp
  * @param opts optional settings for matching
  * @returns a function that matches input strings against the pattern
  */
-export function wildcardMatcher(pattern: string, opts?: WildcardOptions): (input: string) => boolean {
+export function wildcardMatcher(
+  pattern: string,
+  opts?: WildcardOptions,
+): (input: string) => boolean {
   if (!pattern) return () => false;
   const caseSensitive = opts?.caseSensitive ?? false;
   const compiled = compile(pattern, caseSensitive);
@@ -98,7 +101,11 @@ function matchUnanchoredStart(hay: string, first: string, from: number): number 
   return idx === -1 ? -1 : idx + first.length;
 }
 
-function advanceThroughMiddleSegments(hay: string, segs: Array<string>, startIndex: number): number {
+function advanceThroughMiddleSegments(
+  hay: string,
+  segs: Array<string>,
+  startIndex: number,
+): number {
   let pos = startIndex;
   // middle means segs[1]..segs[n-2]
   for (let i = 1; i < segs.length - 1; i++) {

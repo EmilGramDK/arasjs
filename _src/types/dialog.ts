@@ -28,7 +28,7 @@ export interface ArasDialogParameters {
   sourcePropertyName?: string;
   multiselect?: boolean;
   fullMultiResponse?: boolean;
-  aras?: Aras;
+  aras: Aras;
   dialogWidth?: number;
   dialogHeight?: number;
   classList?: string;

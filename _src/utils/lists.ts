@@ -42,31 +42,35 @@ export async function getListFilterValues(listId: string): Promise<Array<ListOpt
   });
 }
 
-export async function getListsValuesMap(listIds: Array<string>): Promise<Map<string, Array<ListOption>>> {
+export async function getListsValuesMap(
+  listIds: string[],
+): Promise<Map<string, Array<ListOption>>> {
   return getListOptions(listIds, false);
 }
 
-export async function getListsFilterValuesMap(listIds: Array<string>): Promise<Map<string, Array<ListOption>>> {
+export async function getListsFilterValuesMap(
+  listIds: string[],
+): Promise<Map<string, Array<ListOption>>> {
   return getListOptions(listIds, true);
 }
 
 export function getListsValuesJson(
-  listIds: Array<string>,
-  filterListIds: Array<string> = [],
+  listIds: string[],
+  filterListIds: string[] = [],
 ): Map<string, Array<ListOption>> {
   return getListsValues(listIds, filterListIds, "json") as Map<string, Array<ListOption>>;
 }
 
 export function getListsValuesXml(
-  listIds: Array<string>,
-  filterListIds: Array<string> = [],
+  listIds: string[],
+  filterListIds: string[] = [],
 ): Map<string, Array<XmlNode>> {
   return getListsValues(listIds, filterListIds, "xml") as Map<string, Array<XmlNode>>;
 }
 
 function getListsValues(
-  listIds: Array<string>,
-  filterListIds: Array<string> = [],
+  listIds: string[],
+  filterListIds: string[] = [],
   responseMode: "json" | "xml" = "json",
 ): Map<string, Array<ListOption>> | Map<string, Array<XmlNode>> {
   const combinedListIds = [
@@ -98,7 +102,7 @@ function getListsValues(
 }
 
 async function getListOptions(
-  listIds: Array<string>,
+  listIds: string[],
   useFilterValue: boolean,
 ): Promise<Map<string, Array<ListOption>>> {
   const result = (await aras.MetadataCacheJson.GetList(
@@ -115,13 +119,15 @@ async function getListOptions(
     const values = useFilterValue ? list["Filter Value"] : list.Value;
     if (!values) continue;
 
-    const options: Array<ListOption> = values.map(({ inactive, label, value, sort_order, filter }) => ({
-      inactive: inactive === "1",
-      label: label || value,
-      sortOrder: sort_order,
-      value,
-      ...(useFilterValue && { filter }),
-    }));
+    const options: Array<ListOption> = values.map(
+      ({ inactive, label, value, sort_order, filter }) => ({
+        inactive: inactive === "1",
+        label: label || value,
+        sortOrder: sort_order,
+        value,
+        ...(useFilterValue && { filter }),
+      }),
+    );
 
     map.set(list.id, options);
   }

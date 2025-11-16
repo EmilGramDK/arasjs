@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import type { ArasObjectUser } from "./aras-user";
 import type { ArasDialogParameters } from "./dialog";
 import type { Innovator } from "./innovator";
@@ -10,17 +9,14 @@ import type { XmlDocument, XmlNode } from "./xml-node";
  *
  */
 export interface Aras {
-  [index: string]: unknown;
-  vault: {
-    selectFile: () => Promise<unknown>;
-    [index: string]: unknown;
-  };
+  [index: string]: any;
+  vault: any;
   itemsCache: Record<string, DefaultHandler>;
 
   getListValues: (listId: string) => Array<XmlNode>;
   getListFilterValues: (listId: string) => Array<XmlNode>;
   getSeveralListsValues: (listsArray: Array<{ id: string; relType: "Value" | "Filter Value" }>) => {
-    [key: string]: Array<XmlNode>;
+    [key: string]: XmlNode[];
   };
 
   getCurrentUserID: () => string;
@@ -40,7 +36,13 @@ export interface Aras {
   createXMLDocument: () => XmlDocument;
   uiDrawFieldEx: (field: XmlNode, type: unknown, mode: string) => string;
   getItemProperty: (item: XmlNode, property: string, defaultValue?: string | number) => string;
-  getItemByName: (type: string, name: string, levels?: number, configPath?: string, select?: string) => XmlNode;
+  getItemByName: (
+    type: string,
+    name: string,
+    levels?: number,
+    configPath?: string,
+    select?: string,
+  ) => XmlNode;
   getItemByKeyedName: (
     type: string,
     keyedName: string,
@@ -66,10 +68,20 @@ export interface Aras {
   getPermissions: (type: string, itemid: string, itemtype?: string) => boolean;
   setItemProperty: (item: XmlNode, property: string, value: string | XmlNode) => void;
   evalItemMethod: (methodName: string, itemNode: XmlNode, contextParameters: unknown) => void;
-  setItemPropertyAttribute: (item: XmlNode, property: string, attribute: string, value: string | boolean) => void;
+  setItemPropertyAttribute: (
+    item: XmlNode,
+    property: string,
+    attribute: string,
+    value: string | boolean,
+  ) => void;
   convertFromNeutral: (value: unknown, datatype: string, format: string) => unknown;
   getItemFromServer: (type: string, id: string, properties: string) => Item;
-  getItemTranslation: (item: XmlNode, property: string, language: string, defaultValue?: string) => string;
+  getItemTranslation: (
+    item: XmlNode,
+    property: string,
+    language: string,
+    defaultValue?: string,
+  ) => string;
   uiShowItem: (
     itemTypeName: string,
     itemID: string,
@@ -123,9 +135,9 @@ export interface Aras {
     };
   };
   OAuthClient: {
-    login: (options: unknown) => Promise<void>;
-    relogin: (options: unknown) => Promise<void>;
-    logout: (options: unknown) => Promise<void>;
+    login: (options: any) => Promise<void>;
+    relogin: (options: any) => Promise<void>;
+    logout: (options: any) => Promise<void>;
     getToken: () => string;
     isLogged: () => boolean;
     getAuthorizationHeader: () => Record<string, unknown>;
@@ -162,8 +174,8 @@ export interface Aras {
     relatedTypeName?: string,
   ) => XmlNode;
 
-  registerEventHandler: (eventName: string, win: Window, handler: unknown) => void;
-  unregisterEventHandler: (eventName: string, win: Window, handler: unknown) => void;
+  registerEventHandler: (eventName: string, win: Window, handler: any) => void;
+  unregisterEventHandler: (eventName: string, win: Window, handler: any) => void;
 }
 
 interface Browser {
@@ -181,7 +193,11 @@ interface ShortcutsHelperFactoryInstance {
 
 export interface GlobalStore {
   boundActionCreators: {
-    createItemLocalChangesRecord: (itemtype: string, id: string, properties: Record<string, unknown>) => void;
+    createItemLocalChangesRecord: (
+      itemtype: string,
+      id: string,
+      properties: Record<string, unknown>,
+    ) => void;
     deleteItemLocalChangesRecord: (itemtype: string, id: string) => void;
   };
   getState: () => {
@@ -248,15 +264,15 @@ export interface ComponentFormFieldFormat {
   children: Array<HTMLElement>;
 }
 
-export type SearchDialogResult = {
+export interface DialogShowResult {
+  dialogNode: HTMLElement;
+  promise: Promise<SearchDialogResult | Array<string> | any>;
+}
+
+export interface SearchDialogResult {
   itemID: string;
   keyed_name: string;
   item: XmlNode;
-};
-
-export interface DialogShowResult {
-  dialogNode: HTMLElement;
-  promise: Promise<SearchDialogResult | Array<SearchDialogResult> | Array<string> | undefined>;
 }
 
 export interface SvgManager {
@@ -304,7 +320,7 @@ export interface ArasModules {
   xmlToODataJsonAsCollection: <T extends ODataItem>(xml: string) => Array<T>;
   xmlToODataJsonByItemType: <T extends ODataItem>(
     itemNode: XmlNode,
-    itemType: unknown,
+    itemType: any,
     options: Record<string, unknown>,
   ) => T;
   metadata: {
@@ -313,7 +329,7 @@ export interface ArasModules {
     addToPackage: unknown;
     propertyEvents: unknown;
   };
-  vault: unknown;
+  vault: any;
   jsonToXml: (data: string | Record<string, unknown>) => XmlNode;
   soap: (data: string, options: Record<string, unknown>) => Promise<unknown>;
 }

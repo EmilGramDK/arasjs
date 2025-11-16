@@ -22,8 +22,8 @@ export interface GridPluginEvent {
 export abstract class GridPlugin {
   grid!: GridControl;
   options!: {
-    getState: () => unknown;
-    getProps: () => unknown;
+    getState: () => any;
+    getProps: () => any;
     [key: string]: unknown;
   };
 
@@ -36,9 +36,21 @@ export abstract class GridPlugin {
 
   getCellType?(result: string, headId: string, rowId: string, value: unknown): string;
 
-  getCellStyles?(result: Record<string, string>, headId: string, itemId: string, rowId: string): Record<string, string>;
+  getCellStyles?(
+    result: Record<string, string>,
+    headId: string,
+    itemId: string,
+    rowId: string,
+  ): Record<string, string>;
 
-  getEditorType?(result: string, headId: string, itemId: string, value: unknown, type: string, rowId: string): string;
+  getEditorType?(
+    result: string,
+    headId: string,
+    itemId: string,
+    value: unknown,
+    type: string,
+    rowId: string,
+  ): string;
 
   getRowClasses?(result: string, rowId: string): string;
 
@@ -49,7 +61,12 @@ export abstract class GridPlugin {
     type: string,
   ): Record<string, unknown>;
 
-  checkEditAvailability?(result: boolean, headId: string, itemId: string, grid: GridControl): boolean;
+  checkEditAvailability?(
+    result: boolean,
+    headId: string,
+    itemId: string,
+    grid: GridControl,
+  ): boolean;
 
   validateCell?(
     result: CellValidationResult,
@@ -62,7 +79,7 @@ export abstract class GridPlugin {
   sort?(): Promise<void>;
 
   // Allow arbitrary additional properties or methods
-  [key: string]: unknown;
+  [key: string]: any;
 }
 
 export interface CuiGridOptions {

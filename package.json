@@ -2,37 +2,41 @@
   "type": "module",
   "sideEffects": false,
   "name": "arasjs",
-  "version": "0.0.86",
+  "version": "0.1.0",
   "description": "A JavaScript Library for building Aras Innovator Client Extensions",
   "types": "src/index.d.ts",
   "files": [
     "src"
   ],
   "exports": {
-    ".": "./src/index.ts",
-    "./types": "./src/index.d.ts",
-    "./utils": "./src/utils.ts",
-    "./vite": "./src/vite/plugin.js",
-    "./css": "./src/assets/arasjs.css",
-    "./package.json": "./package.json"
+    "./types": "./src/types/index.d.ts"
   },
   "scripts": {
-    "build": "tsc -b && vite build",
-    "release": "bumpp && pnpm publish",
+    "build": "tsdown",
+    "lint": "eslint 'src/**/*.{ts,mts,tsx}' --fix",
     "format": "prettier --write 'src/**/*.{ts,mts,tsx,js,json,md}'",
-    "check": "bun run format && tsc --noEmit"
+    "check": "bun run format && bun run lint"
   },
   "devDependencies": {
+    "@emilgramdk/web": "^0.0.33",
+    "@stylistic/eslint-plugin": "^5.5.0",
     "@types/react": "^19.1.13",
+    "eslint": "^9.39.1",
+    "eslint-plugin-import-x": "^4.16.1",
+    "eslint-plugin-perfectionist": "^4.15.1",
+    "eslint-plugin-solid": "^0.14.5",
+    "eslint-plugin-sonarjs": "^3.0.5",
+    "eslint-plugin-unicorn": "^62.0.0",
+    "globals": "^16.5.0",
     "prettier": "^3.6.2",
+    "tsdown": "^0.16.4",
     "tslib": "^2.8.1",
-    "typescript": "^5.9.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.4",
     "vite": "^6.3.6",
     "vite-plugin-dts": "^4.5.4"
   },
-  "peerDependencies": {
-    "@emilgramdk/web": "^0.0.5"
-  },
+  "peerDependencies": {},
   "author": "EmilGramDK <hi@emilgram.dk>",
   "license": "MIT",
   "repository": {
@@ -54,5 +58,6 @@
   ],
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "prettier": "@emilgramdk/web/prettier"
 }

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-new */
-import type { GridPlugin } from "./grid-plugin";
 import type { Item } from "./item";
 
 export interface GridControl extends Grid {
@@ -12,26 +10,26 @@ export interface GridControl extends Grid {
 }
 
 export interface Grid extends HTMLElement {
-  new (container: HTMLElement, options?: unknown): Grid;
-  eventCallbacks: WeakMap<Record<string, unknown>, unknown>;
+  new (container: HTMLElement, options?: any): Grid;
+  eventCallbacks: WeakMap<Record<string, unknown>, any>;
   settings: GridSettings;
-  keyboard: unknown;
+  keyboard: any;
   view: GridView;
   head: HeadWrap;
   rows: RowsWrap;
-  getCellType: (headId: string, itemId?: string, value?: unknown, type?: string) => string;
+  getCellType: (headId: string, itemId?: string, value?: any, type?: string) => string;
   getCellSpan: (_headId: string, _itemId: string, _rowId: string) => GridCellSpan | null;
   getCellStyles: () => Record<string, string>;
   getItemId: (headId: string, rowId: string) => string;
-  validateCell: (headId: string, rowId: string, value: unknown, _grid: Grid) => CellValidationResult;
-  getEditorType: (headId: unknown, itemId: unknown, value: unknown, type: unknown) => unknown;
+  validateCell: (headId: string, rowId: string, value: any, _grid: Grid) => CellValidationResult;
+  getEditorType: (headId: any, itemId: any, value: any, type: any) => any;
   checkEditAvailability: (_headId: string, _itemId: string, _grid: Grid) => boolean;
   getCellMetadata: (
     headId: string,
     itemId: string,
     type?: string,
   ) => {
-    [key: string]: unknown;
+    [key: string]: any;
   };
   clientSort: (sortableArray: Array<string>) => void;
   sort: () => Promise<void>;
@@ -39,9 +37,9 @@ export interface Grid extends HTMLElement {
   resetData: () => void;
   getRowClasses: () => string;
   render: () => Promise<void>;
-  on: (type: string, callback: unknown, element?: "cell" | "head" | "row") => void;
-  off: (type: string, callback: unknown) => void;
-  [key: string]: unknown;
+  on: (type: string, callback: any, element?: "cell" | "head" | "row") => void;
+  off: (type: string, callback: any) => void;
+  [key: string]: any;
 }
 
 export interface GridOptions {
@@ -78,7 +76,7 @@ export interface GridView {
   defaultSettings: GridSettings;
   scrollableElement: HTMLElement;
   autofill: boolean;
-  cache: unknown;
+  cache: any;
   destroyEventHandlers: () => void;
   initialization: () => void;
   render: () => Promise<void>;
@@ -132,17 +130,17 @@ export interface GridColumn extends GridHeadData {
   helpText?: string;
   helpTooltip?: string;
   pattern?: string;
-  columnCssStyles?: Record<string, string>;
-  cssStyle?: Record<string, string>;
+  columnCssStyles?: {};
+  cssStyle?: {};
   cssClass?: string;
   icon?: string;
-  defaultValue?: unknown;
+  defaultValue?: any;
 }
 
 export interface GridCellViewMode {
   headId: string;
   rowId: string;
-  value: unknown;
+  value: any;
   type: string;
   editing: boolean;
 }
@@ -150,7 +148,7 @@ export interface GridCellViewMode {
 export interface GridCellApplyEditParameters {
   headId: string;
   rowId: string;
-  value: unknown;
+  value: any;
 }
 
 export interface GridCellSpan {
@@ -169,13 +167,13 @@ export interface GridCellMetadata {
   }>;
   scale?: number;
   format?: "short_date" | "short_date_time" | "long_date" | "long_date_time";
-  [property: string]: unknown;
+  [property: string]: any;
 }
 
 export interface CellValidationResult {
   valid: boolean;
   validationMessage?: string;
-  value?: unknown;
+  value?: any;
 }
 
 export interface GridFocusCell {
@@ -235,19 +233,19 @@ export interface GridHeadData {
   searchType?: string;
   linkProperty?: string;
   questionMark?: boolean;
-  [key: string]: unknown;
+  [key: string]: any;
 }
 
-export interface HeadWrap {
-  store?: Map<string, GridColumn>;
-  get: (key: string, prop?: string) => GridColumn | string | undefined;
-  set: (key: string, value: unknown, prop?: string) => unknown;
+export interface HeadWrap extends Map<string, any> {
+  store?: Map<string, any>;
+  get: (key: string, prop?: string) => any;
+  set: (key: string, value: any, prop?: string) => any;
 }
 
-export interface RowsWrap {
-  store?: Map<string, unknown>;
-  get: (key: string, prop?: string) => Record<string, unknown> | string | undefined;
-  set: (key: string, value: unknown, prop?: string) => unknown;
+export interface RowsWrap extends Map<string, any> {
+  store?: Map<string, any>;
+  get: (key: string, prop?: string) => any;
+  set: (key: string, value: any, prop?: string) => any;
 }
 
 export const DEFAULT_SETTINGS = {
@@ -265,8 +263,3 @@ export const DEFAULT_SETTINGS = {
   copyPaste: true,
   selectable: true,
 } as const;
-
-export interface CuiGridOptions {
-  plugins?: Array<Omit<typeof GridPlugin, "grid" | "options">>;
-  [key: string]: unknown;
-}
