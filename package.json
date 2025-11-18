@@ -20,7 +20,7 @@
     "build": "tsc -b && vite build",
     "release": "bumpp && pnpm publish",
     "format": "prettier --write 'src/**/*.{ts,mts,tsx,js,json,md}'",
-    "check": "bun run format && tsc --noEmit"
+    "lint": "bun run format"
   },
   "devDependencies": {
     "@types/react": "^19.1.13",
