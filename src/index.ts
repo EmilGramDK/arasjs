@@ -33,6 +33,7 @@ export * from "./components/filter-list";
 export * from "./components/item-property";
 export * from "./types/aras";
 export * from "./types/item";
+export * from "./types/base-item";
 export * from "./types/itemtype";
 export * from "./types/grid";
 export * from "./types/toolbar";

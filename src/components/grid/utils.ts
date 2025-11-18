@@ -14,16 +14,20 @@ export const deleteSelectedRows = (grid: GridControl) => {
   grid.rows = rows;
 };
 
-export const exportToExcel = async (grid: GridControl, name: string): Promise<void> => {
+export const exportToExcel = async (
+  grid: GridControl,
+  fileName: string,
+  sheetName?: string,
+): Promise<void> => {
   const worksheets = [];
   const gridWorksheet = excelConverterApi.convertGrid(grid);
   worksheets.push({
     ...gridWorksheet,
-    title: name,
+    title: sheetName || fileName,
   });
 
   const fileBlob = await excelConverterApi.convertJsonToExcel(worksheets);
-  await ArasModules.vault.saveBlob(fileBlob, `${name}.xlsx`);
+  await ArasModules.vault.saveBlob(fileBlob, `${fileName}.xlsx`);
 };
 
 export const setColumns = (grid: GridControl, columns: GridColumns, merge?: boolean) => {

@@ -1,5 +1,6 @@
-export interface ItemType {
-  id: string;
+import type { BaseItem } from "./base-item";
+
+export interface ItemType extends BaseItem {
   name: string;
   label: string;
   label_plural: string;
@@ -38,8 +39,7 @@ export interface ItemType {
   };
 }
 
-export interface Property {
-  id: string;
+export interface Property extends BaseItem {
   name: string;
   label: string;
   data_type: string;

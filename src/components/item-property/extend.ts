@@ -7,9 +7,13 @@ export const extendItemProperty = () => {
   window.ItemProperty.prototype.request = function () {
     const { label, itemType, maxItemsCount } = this.state;
     const req = `<Item type="${itemType}" action="get" maxRecords="${maxItemsCount}"><keyed_name condition="like">${label}*</keyed_name></Item>`;
-    return ArasModules.soap(req, { async: true }).catch(() => {
+    const request = ArasModules.soap(req, { async: true });
+    const result = request.catch(() => {
       this.setState({ abortRequest: null, requestTimeoutID: null, list: [] });
     });
+    //@ts-expect-error -- extend request
+    result.abort = request.abort;
+    return result;
   };
 
   window.ItemProperty.prototype.onSelectValue = function (

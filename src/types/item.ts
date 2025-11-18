@@ -1,58 +1,68 @@
+import type { BaseItem } from "./base-item";
 import type { XmlNode } from "./xml-node";
 
 export interface ItemClass extends Item {
-  new (): Item;
-  new (itemTypeName: string): Item;
-  new (itemTypeName: string, action: string): Item;
+  new <T = BaseItem>(): Item<T>;
+  new <T = BaseItem>(itemTypeName: string): Item<T>;
+  new <T = BaseItem>(itemTypeName: string, action: string): Item<T>;
 }
 
-export interface Item {
+export type ItemAttributes =
+  | "id"
+  | "idList"
+  | "type"
+  | "action"
+  | "maxRecords"
+  | "select"
+  | (string & {});
+
+export interface Item<T = BaseItem, P = keyof T | (string & {})> {
   [index: string]: any;
   ToString(): string;
   loadAML: (aml: string) => void;
-  apply: () => Item;
-  applyAsync: () => Promise<Item>;
-  getProperty: (name: string, defaultValue?: string) => string;
-  getPropertyItem: (name: string) => Item;
-  getRelationships: (name: string) => Item;
+  apply: <T = BaseItem>() => Item<T>;
+  applyAsync: <T = BaseItem>() => Promise<Item<T>>;
+  getProperty: (name: P, defaultValue?: string) => string;
+  getPropertyItem: <I = BaseItem>(name: string) => Item<I>;
+  getRelationships: <I = BaseItem>(name: string) => Item<I>;
   setAction: (action: string) => void;
-  setProperty: (name: string, value: string | number | boolean, defaultValue?: string) => void;
-  setPropertyCondition(propertyName: string, condition: string, lang?: string): void;
-  setAttribute: (name: string, value: string) => void;
-  setPropertyAttribute: (name: string, attribute: string, value: string) => void;
+  setProperty: (name: P, value: string | number | boolean, defaultValue?: string) => void;
+  setPropertyCondition(propertyName: P, condition: string, lang?: string): void;
+  setAttribute: (name: ItemAttributes, value: string) => void;
+  setPropertyAttribute: (name: string, attribute: ItemAttributes, value: string) => void;
   setID: (id: string) => void;
   getID: () => string;
-  getAttribute: (name: string) => string;
+  getAttribute: (name: ItemAttributes) => string;
   getErrorString: () => string;
   getResult: () => string;
   isError: () => boolean;
   isNew: () => boolean;
   getType: () => string;
   getItemCount: () => number;
-  getItemByIndex: (index: number) => Item;
-  getItemsByXPath: (xpath: string) => Item;
-  getPropertyAttribute: (propery: string, attribute: string) => string;
+  getItemByIndex: <I = BaseItem>(index: number) => Item<I>;
+  getItemsByXPath: <I = BaseItem>(xpath: string) => Item<I>;
+  getPropertyAttribute: (propery: string, attribute: ItemAttributes) => string;
   removeAttribute: (name: string) => void;
   removeProperty: (name: string) => void;
-  removePropertyAttribute: (propery: string, attribute: string) => void;
+  removePropertyAttribute: (propery: string, attribute: ItemAttributes) => void;
   node?: XmlNode;
   nodeList?: Array<XmlNode>;
   getErrorDetail: () => string;
-  getRelatedItem(): Item | null;
+  getRelatedItem<I = BaseItem>(): Item<I> | null;
   getRelatedItemID(): string | null;
 
   /**
    * Creates a new empty Item.
    * @returns A new empty Item.
    */
-  newItem(): Item;
+  newItem<T = BaseItem>(): Item<T>;
 
   /**
    * Creates a new Item with the specified type.
    * @param itemTypeName - Name of the ItemType.
    * @returns A new Item with the specified type.
    */
-  newItem(itemTypeName: string): Item;
+  newItem<T = BaseItem>(itemTypeName: string): Item<T>;
 
   /**
    * Creates a new Item with the specified type and action.
@@ -60,7 +70,7 @@ export interface Item {
    * @param action - Name of the action to be set on the Item.
    * @returns A new Item with the specified type and action.
    */
-  newItem(itemTypeName: string, action: string): Item;
+  newItem<T = BaseItem>(itemTypeName: string, action: string): Item<T>;
 
   /* No Descriptions */
   // Methods for manipulating relationships
@@ -69,7 +79,7 @@ export interface Item {
   removeItem(item: Item): void;
 
   // Cloning
-  clone(cloneRelationships: boolean): Item;
+  clone<T = BaseItem>(cloneRelationships: boolean): Item<T>;
 
   // Property item creation
   createPropertyItem(propName: string, type: string, action: string): Item;
@@ -96,10 +106,10 @@ export interface Item {
 
   getLockStatus(): number;
   getNewID(): string;
-  getParentItem(): Item | null;
+  getParentItem<T = BaseItem>(): Item<T> | null;
 
   getPropertyCondition(propertyName: string, lang?: string): string | null;
-  getRelatedItem(): Item | null;
+  getRelatedItem<T = BaseItem>(): Item<T> | null;
   getRelatedItemID(): string | null;
 
   setPropertyCondition(propertyName: string, condition: string, lang?: string): void;
@@ -108,11 +118,11 @@ export interface Item {
   setType(itemTypeName: string): void;
 
   // Locking and unlocking
-  lockItem(): Item;
-  unlockItem(): Item;
+  lockItem(): Item<T>;
+  unlockItem(): Item<T>;
 
   // Enumerator for collections
-  [Symbol.iterator](): Iterator<Item>;
+  [Symbol.iterator](): Iterator<Item<T>>;
 
   // Checks
   isCollection(): boolean;
