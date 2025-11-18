@@ -2,7 +2,7 @@
   "type": "module",
   "sideEffects": false,
   "name": "arasjs",
-  "version": "0.0.86",
+  "version": "0.0.87",
   "description": "A JavaScript Library for building Aras Innovator Client Extensions",
   "types": "src/index.d.ts",
   "files": [
