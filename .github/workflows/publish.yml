@@ -13,6 +13,8 @@ jobs:
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -21,7 +23,7 @@ jobs:
           registry-url: "https://registry.npmjs.org/"
 
       - name: Install dependencies
-        run: bun install
+        run: bun install --no-save
 
       - name: Configure Git
         run: |
@@ -32,6 +34,12 @@ jobs:
         run: npm version patch -m "Bump version to %s" --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Format Code
+        run: bun run format
+
+      - name: Lint Code
+        run: bun run lint
 
       - name: Publish to npm
         run: npm publish

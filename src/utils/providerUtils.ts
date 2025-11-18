@@ -1,50 +1,34 @@
-export async function InitAras() {
+export async function initAras() {
   window.aras = window.aras || top?.aras || parent.aras;
   window.ArasModules = top?.ArasModules || parent?.ArasModules;
   window.store = window.store || parent.store || top?.store;
   window.DOMParser = top?.DOMParser || parent.DOMParser;
   window.Item = top?.Item || parent.Item;
 
-  if (!window.aras)
-    throwError(
-      "Aras object not initialized\n\nThis Application needs to be run inside Aras Innovator",
-    );
+  if (!window.aras) throw new Error("Aras object not initialized, run inside Aras Innovator");
 
-  injectCSSToParent();
   injectArasSpinner();
   setBaseUrl();
   await Promise.all([injectStylesAndScripts(), waitForDomReady()]);
 }
 
-export async function WaitForArasReady(): Promise<void> {
+export async function waitForArasReady(): Promise<void> {
   if (window.isArasReady) return;
   await new Promise((resolve) => {
     window.addEventListener("ArasReady", resolve, { once: true });
   });
 }
 
-export function SetArasReady() {
+export function setArasReady() {
   window.isArasReady = true;
   const event = new Event("ArasReady");
   window.dispatchEvent(event);
 }
 
 function setBaseUrl() {
-  if (document.querySelector("base")) return;
-  const base = document.createElement("base");
+  const base = document.querySelector("base") || document.createElement("base");
   base.setAttribute("href", aras.getScriptsURL());
   document.head.prepend(base);
-}
-
-function injectCSSToParent() {
-  if (top?.document.querySelector("#arasjs_parrent_css")) return;
-  const css = `<style id="arasjs_parrent_css">
-    .content-block__iframe_page { padding:0;width:100%;height:100%; }
-    .aras-notification__message { white-space: break-spaces; line-height: 20px; padding: 8px 0px; }
-    .aras-notify_bottom-left, .aras-notify_top-left { left: 50px; }
-    .aras-notify_bottom-left, .aras-notify_bottom-right { bottom: 50px; }
-    </style>`;
-  top?.document.head.insertAdjacentHTML("beforeend", css);
 }
 
 function injectArasSpinner() {
@@ -68,9 +52,7 @@ function waitForDomReady(): Promise<void> {
 }
 
 async function injectStylesAndScripts() {
-  const resources = [];
-
-  resources.push(
+  const resources = [
     {
       type: "stylesheet",
       url: "../javascript/include.aspx?classes=common.min.css,cuiLayout.css",
@@ -86,15 +68,13 @@ async function injectStylesAndScripts() {
       url: "../jsBundles/cui.es.js",
       id: "script-cui",
     },
+  ].map((res) =>
+    res.type === "stylesheet"
+      ? loadStylesheet(res.url, res.id)
+      : loadScript(res.type, res.url, res.id),
   );
 
-  await Promise.all(
-    resources.map((resource) =>
-      resource.type === "stylesheet"
-        ? loadStylesheet(resource.url, resource.id)
-        : loadScript(resource.type, resource.url, resource.id),
-    ),
-  );
+  await Promise.all(resources);
 }
 
 export async function loadScript(type: string, src: string, id: string): Promise<void> {
@@ -129,16 +109,4 @@ export async function loadStylesheet(href: string, id: string): Promise<void> {
     const head = document.querySelectorAll("head")[0];
     head.insertBefore(link, head.firstChild);
   });
-}
-
-export function throwError(message: string): never {
-  showFullScreenError("Error Occurred", message);
-  throw new Error(message);
-}
-
-function showFullScreenError(title: string, message: string) {
-  const html = `
-        <div class="fullscreen-error"><div class="error-content"><h1>${title}</h1><p>${message}</p></div></div>
-        <style>body{margin:0}.fullscreen-error{display:flex;justify-content:center;align-items:center;height:100vh;width:100vw;background-color:#f8f9fa}.error-content{text-align:center}.error-content h1{font-size:24px}.error-content p{font-size:16px;white-space:break-spaces;line-height:20px;padding:8px 0}</style>`;
-  document.body.innerHTML = html;
 }

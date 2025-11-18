@@ -14,8 +14,7 @@ const pluginEvents: Array<GridPluginEvent> = [
   {
     type: "search",
     name: "search",
-    method(this: SearchGridPlugin, { data: [event] }: GridEventPayloadPlugin<KeyboardEvent>) {
-      console.log("search event", event);
+    method(this: SearchGridPlugin) {
       this.handleSearch();
     },
   },
@@ -40,7 +39,7 @@ export class SearchGridPlugin extends GridPlugin {
   matchers: Matchers = {};
 
   async init() {
-    this.grid.clearFilters = this.clearFilters;
+    this.grid.clearFilters = this.clearFilters.bind(this);
   }
 
   getCellValue = (rowId: string, headId: string) => {
@@ -48,7 +47,7 @@ export class SearchGridPlugin extends GridPlugin {
     return row[`${headId}@aras.keyed_name`] || row[headId];
   };
 
-  handleSearch = () => {
+  handleSearch() {
     const filters = this.getFilters().map(([headId, filter]) => {
       const headType = this.grid.head.get(headId, "dataType");
       const headMatcher = this.matchers[headType];
@@ -72,19 +71,20 @@ export class SearchGridPlugin extends GridPlugin {
 
     this.grid.settings.indexRows = filteredRows as Array<string>;
     this.grid.settings.orderBy = [];
-  };
+    return filters;
+  }
 
-  getFilters = () => {
+  getFilters() {
     return [...this.grid.head.store!.values()]
       .filter((h) => h.searchValue)
       .map((h) => [h.id, h.searchValue] as [string, string]);
-  };
+  }
 
-  clearFilters = () => {
+  clearFilters() {
     this.grid.head.store!.forEach((head) => {
       head.searchValue = "";
     });
     this.grid.settings.indexRows = [...this.grid.rows.store!.keys()];
     this.grid.settings.orderBy = [];
-  };
+  }
 }

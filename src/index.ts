@@ -1,11 +1,11 @@
-import "./assets/arasjs.css";
-import { extendFilterList } from "./components/filter-list/extend";
-import { extendItemProperty } from "./components/item-property/extend";
 import type { TopWindowHelper } from "./types/aras";
 import type { ExcelConverterAPI } from "./types/excel-converter";
 import type { XmlDocument } from "./types/xml-node";
-import { InitAras, SetArasReady } from "./utils/providerUtils";
+import { extendFilterList } from "./components/filter-list/extend";
+import { extendItemProperty } from "./components/item-property/extend";
+import { initAras, setArasReady } from "./utils/providerUtils";
 import { toggleSpinner } from "./utils/toggleSpinner";
+import "./assets/arasjs.css";
 
 window.isArasReady = false;
 
@@ -15,11 +15,11 @@ window.isArasReady = false;
  * @returns {Promise<void>} A promise that resolves when the initialization is complete.
  */
 export const useArasJS = async (keepSpinner = false): Promise<void> => {
-  await InitAras()
+  await initAras()
     .then(() => {
       extendFilterList();
       extendItemProperty();
-      SetArasReady();
+      setArasReady();
     })
     .finally(() => {
       if (keepSpinner) return;
@@ -29,12 +29,11 @@ export const useArasJS = async (keepSpinner = false): Promise<void> => {
 export const useArasProvider = useArasJS;
 
 export * from "./components/grid";
-// export * from "./components/toolbar";
 export * from "./components/filter-list";
 export * from "./components/item-property";
-
 export * from "./types/aras";
 export * from "./types/item";
+export * from "./types/base-item";
 export * from "./types/itemtype";
 export * from "./types/grid";
 export * from "./types/toolbar";
